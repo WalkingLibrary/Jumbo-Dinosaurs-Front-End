@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfOEJYUAAAAABCgQ7XysiWy9SpLd_4FyuX2SErc"></script>
+    <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="./credentials.css">
+
+<body>
+
+
+    <div id="top" class="nav-bar">
+
+        <nav>
+
+            <div class="nav-links">
+
+                <a class="nav-btn icon" href="#top"><img height="50px" src="./eggs.png"></a>
+                <h1><a href="#top">Jumbo Dinosaurs</a></h1>
+                <h1><a href="#cavemanPhotos">CaveMan Drawings</a></h1>
+                <h1><a href="#goodlinks">Good Links</a></h1>
+
+            </div>
+
+        </nav>
+
+    </div>
+    </a>
+
+
+    <div class="formBox">
+        <img src="./signuprexicon.png" alt="Mean Dino" class="formPhoto"></img>
+        <div class="formBackground">
+
+            <form class="form">
+                <h1>Sign Up</h1>
+                <p id="errormessagetop" class="error"></p>
+                <label for="username">Enter Username: </label>
+                <input type="username" id="username" class="input" required />
+                <p class="tooltiptext">Usernames may only contain characters A-Z, a-z, 0-9, and _</p>
+                <p id="errormessageusername" class="error"></p><br />
+
+                <label for="password">Enter password: </label>
+                <input type="password" id="password" class="input" required />
+                <label for="password">Re-Enter Password:</label>
+                <input type="password" id="passwordconfirm" class="input" required />
+                <p id="errormessagepassword" class="error"></p><br />
+
+                <label for="email">Enter Email: </label>
+                <input type="email" id="email" required class="input" />
+                <p id="errormessageemail" class="error"></p><br />
+
+                <label for="button" class="label">
+                    <p>By clicking Sign Up you agree to our </p>
+                    <p><a href="termsofservice.html">Terms of Service</a> and <a href="privacypolicy.html"> Privacy Policy</a> .</p>
+                </label>
+                <input type="button" value="Sign Up" onclick="onSignUp();" class="input" />
+            </form>
+        </div>
+    </div>
+
+
+
+    <script>
+        var captchaCode = "default";
+
+        grecaptcha.ready(
+            function()
+            {
+                grecaptcha.execute('6LfOEJYUAAAAABCgQ7XysiWy9SpLd_4FyuX2SErc',
+                {
+                    action: 'signup'
+                }).then(function(token)
+                {
+                    captchaCode = token;
+                });
+            });
+
+
+
+        function onSignUp()
+        {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var passwordconfirm = document.getElementById("passwordconfirm").value;
+            var email = document.getElementById("email").value;
+            var command = "createAccount";
+
+            if (password == passwordconfirm)
+            {
+                var emailConfirmMessage = {
+                    "command": "confirmMailServer",
+                    "email": email
+                };
+
+                var usernameCheckMessage = {
+                    "command": "usernameCheck",
+                    "username": username
+                };
+
+                var emailCheckMessage = {
+                    "command": "emailCheck",
+                    "email": email
+                };
+
+                var form = {
+                    "username": username,
+                    "password": password,
+                    "email": email,
+                    "captchaCode": captchaCode,
+                    "command": command
+                };
+
+                var host = "localhost";
+
+                var emailExists = sendMessageToHost(emailConfirmMessage);
+                if (emailExists)
+                {
+                    var emailTaken = !(sendMessageToHost(emailCheckMessage));
+                    if (!emailTaken)
+                    {
+                        var usernameTaken = !(sendMessageToHost(usernameCheckMessage));
+                        if (!usernameTaken)
+                        {
+                          var formAccepted = sendMessageToHost(form);
+                          if(formAccepted)
+                          {
+                            console.log("Account Made");
+                          }
+                          else
+                          {
+                            document.getElementById("errormessagetop").innerHTML = "Error Try refreshing the page and try again.";
+                            document.getElementById("errormessageusername").innerHTML = "";
+                            document.getElementById("errormessageemail").innerHTML = "";
+                            document.getElementById("errormessagepassword").innerHTML = "";
+                          }
+                        }
+                        else
+                        {
+                          document.getElementById("username").value = "";
+                          document.getElementById("errormessagetop").innerHTML = "";
+                          document.getElementById("errormessageusername").innerHTML = "Username in use";
+                          document.getElementById("errormessageemail").innerHTML = "";
+                          document.getElementById("errormessagepassword").innerHTML = "";
+                        }
+                    }
+                    else
+                    {
+                      document.getElementById("email").value = "";
+                      document.getElementById("errormessagetop").innerHTML = "";
+                      document.getElementById("errormessageusername").innerHTML = "";
+                      document.getElementById("errormessageemail").innerHTML = "Email in Use";
+                      document.getElementById("errormessagepassword").innerHTML = "";
+                    }
+                }
+                else
+                {
+                    document.getElementById("email").value = "";
+                    document.getElementById("errormessagetop").innerHTML = "";
+                    document.getElementById("errormessageusername").innerHTML = "";
+                    document.getElementById("errormessageemail").innerHTML = "Invaild Email";
+                    document.getElementById("errormessagepassword").innerHTML = "";
+                }
+            }
+            else
+            {
+              document.getElementById("password").value = "";
+              document.getElementById("errormessagetop").innerHTML = "";
+              document.getElementById("passwordconfirm").value = "";
+              document.getElementById("errormessageusername").innerHTML = "";
+              document.getElementById("errormessageemail").innerHTML = "";
+              document.getElementById("errormessagepassword").innerHTML = "Passwords did not match.";
+            }
+
+            function sendMessageToHost(message)
+            {
+                var connection = new XMLHttpRequest();
+                var requestResponse;
+                connection.onreadystatechange = function()
+                {
+                    if (connection.readyState == 4)
+                    {
+                        var status = connection.status;
+                        if (status == 200)
+                        {
+                            requestResponse = true;
+                        }
+                        else
+                        {
+                          requestResponse = false;
+                        }
+                    }
+                };
+                connection.open("POST", JSON.stringify(message), false);
+                connection.send();
+                return requestResponse;
+            };
+        };
+
+    </script>
+
+
+</body>
+
+</html>
