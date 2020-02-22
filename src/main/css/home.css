@@ -55,7 +55,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content:space-around;
-  background: linear-gradient(rgba(44, 62, 80, .6), rgba(44, 62, 80, .6)), url("https://www.jumbodinosaurs.com/rexcoloredfull.png");
+  background: linear-gradient(rgba(44, 62, 80, .6), rgba(44, 62, 80, .6)), url("https://jumbodinosaurs.com/rexcoloredfull.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
