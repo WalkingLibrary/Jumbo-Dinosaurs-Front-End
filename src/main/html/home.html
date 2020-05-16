@@ -1,324 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lc_QpcUAAAAAD57tK2_u3anNnSoKM0FmvZF3QdO"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link rel="stylesheet" href="./home.css">
-    <link rel="stylesheet" href="./navbar.css">
-    <title id="title">Jumbo Dinosaurs</title>
+    <title>Jumbo Dinosaurs</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <script></script>
 </head>
 
 <body>
+    <div id="container">
 
-<div class="nav-bar">
-    <nav>
-        <div class="nav-links">
-            <h1><a class="nav-btn icon" href="#top"><img height="50px"
-                                                         src="https://jumbodinosaurs.com/eggs.png"></a></h1>
-            <h1><a href="#top">Jumbo Dinosaurs</a></h1>
-            <h1><a href="#cavemanPhotos">CaveMan Drawings</a></h1>
-            <h1><a href="#goodlinks">Good Links</a></h1>
-            <h1><a href="#downloads">Downloads</a></h1>
-            <h2><a href="./login.html" id="login">
-                <p class="loaderUsername" id="loader"></p>
-            </a></h2>
-        </div>
-    </nav>
-</div>
-</a>
-
-
-<div class="inscribingText" id="top">
-    <div class="tabs">
-        <h1>Latest Inscribings</h1>
-    </div>
-    <div class="row">
-        <div class="tabsbackground">
-
-            <h1>GitHub</h1>
-            <a href="https://github.com/WalkingLibrary">
-                <img height="50%" src="https://jumbodinosaurs.com/rexcolored.png" width="100%"></a>
-        </div>
-
-
-        <div class="tabsbackground">
-            <a>
-                <img height="50%" src="https://img.icons8.com/ios/1600/discord-logo.png" width="100%"></a>
-            <div class="column">
-                <h1>Discord</h1>
-                <h2>Jumbo_Warrior#5046</h2>
+        <!--Navigation Bar-->
+        <div onmouseover="makeNavBarVisible();" onmouseout="hideNavBar();" id="navbar">
+            <div class="navbarIcon">
+                <a href="/home.html"> <img src="/carno100x100.png"></a>
+                <h5>Home</h5>
             </div>
-        </div>
-    </div>
-
-    <div>
-        <p id="cavemanPhotos"></p>
-    </div>
-
-</div>
-
-<div class="cavemanPhotos">
-    <div class="cavemanPhoto">
-        <h1>CaveMan Drawings</h1>
-    </div>
-    <div class="rowCaveman">
-
-
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/rexcoloredfull.png">
-                <h1>My Fav</h1>
-                <img height="200px" src="https://jumbodinosaurs.com/rexcoloredfull.png">
-            </a>
-        </div>
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/rexwide.png">
-                <h1>Rex Map</h1>
-                <img height="200px" src="https://jumbodinosaurs.com/rexwide.png">
-            </a>
-        </div>
-
-
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/rexcoloredfullmapanddistortnoisepostableSMALL.png">
-                <h1>Rex With Much Detail</h1>
-                <img height="200px"
-                     src="https://jumbodinosaurs.com/rexcoloredfullmapanddistortnoisepostableSMALL.png">
-            </a>
-        </div>
-
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/rexcolored.png">
-                <h1>Prefinish</h1>
-                <img height="200px" src="https://jumbodinosaurs.com/rexcolored.png">
-            </a>
-        </div>
-
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/rexpatch.png">
-                <h1>Rex with a Eye Patch</h1>
-                <img height="200px" src="https://jumbodinosaurs.com/rexpatch.png">
-            </a>
-        </div>
-
-
-        <div class="cavemanPhoto">
-
-            <a href="https://jumbodinosaurs.com/bluerex.png">
-                <h1>Christmas Raptor</h1>
-                <img height="200px" src="https://jumbodinosaurs.com/bluerex.png">
-            </a>
-        </div>
-    </div>
-    <div>
-        <p id="goodlinks"></p>
-    </div>
-    <div class="cavemanPhoto">
-        <h1>Photos Draw by Yours Truly</h1>
-    </div>
-
-
-</div>
-
-
-<div class="goodlinks">
-
-
-    <h1>Other Good Sites</h1>
-
-
-    <div class="cutrow">
-        <div class="jungalolink">
-            <h1 class="goodwill">Goodwill Trading</h1>
-            <a href="https://www.goodwilltrading.org/"><img height="100px"
-                                                            src="https://www.goodwilltrading.org/images/goodwilllogo.png"></a>
-        </div>
-        <div class="jungalolink">
-            <a href="http://www.howmanygoats.com/"><img height="100px"
-                                                        src="https://cdn2.iconfinder.com/data/icons/animals-63/100/goat-512.png"></a>
-            <h1 class="goatworth">Goats Worth</h1>
-        </div>
-        <div class="jungalolink">
-            <h1 class="ILEFTTHEMASONS">Spawn Masons</h1>
-            <a href="http://www.spawnmasons.com/"><img height="100px"
-                                                       src="https://static.thenounproject.com/png/1220625-200.png"></a>
-        </div>
-
-
-        <div class="jungalolink">
-            <a href="http://jumbodinosaurs.com/xented.html"><img height="100px"
-                                                                     src="https://cdn1.iconfinder.com/data/icons/dinosaur/154/small-dino-dinosaur-dragon-walk-512.png"></a>
-            <h1 class="xented">Xented</h1>
-        </div>
-
-        <div class="jungalolink">
-            <h1 class="textscrambler">Text Scrambler</h1>
-            <a href="http://www.eeemo.net/"><img height="100px"
-                                                 src="https://cdn4.iconfinder.com/data/icons/business-bold-line-5/48/219-512.png"></a>
-        </div>
-
-        <div class="jungalolink">
-            <h1 class="goodwill">Pink Trombone</h1> <a href="https://dood.al/pinktrombone/"><img height="100px"
-                                                                                                 src="https://cdn1.iconfinder.com/data/icons/christmas-2-26/48/64-512.png"></a>
-        </div>
-
-
-        <div class="jungalolink"><a href="https://libraryofbabel.info/"><img height="100px"
-                                                                             src="https://gamepedia.cursecdn.com/minecraft_gamepedia/b/ba/Book_and_Quill.png"></a>
-            <h1 class="goatworth">Library Of Babel</h1>
-        </div>
-        <div class="jungalolink"><a href="https://2b2tcollection.com"><img height="100px"
-                                                                           src="https://cdn3.iconfinder.com/data/icons/halloween-lines/64/eyeball-512.png"></a>
-            <h1 class="textscrambler">Torogadude's Site</h1>
-        </div>
-    </div>
-
-</div>
-
-<div class="downloadbox" id="downloads">
-    <div class="downloadhead">
-        <h1>Downloads</h1>
-    </div>
-    <div class="download">
-        <div class="column">
-            <div class="rowDownload">
-                <h1>Book and Sign Saver Mod</h1>
-                <div class="downloadPhoto"><img height="100px"
-                                                src="https://gamepedia.cursecdn.com/minecraft_gamepedia/5/58/Oak_Standing_Sign.png">
-                    <div class="downloadPhoto"><img height="100px"
-                                                    src="https://gamepedia.cursecdn.com/minecraft_gamepedia/1/1d/Written_Book.png?version=a50d7748d4b68653bf5095f75e617bcd">
-                    </div>
-                </div>
-
-                <ul>
-                    <p>Features:<br/>
-                        <li>
-                    <p>Allows the player to save sign and book data to a json and txt file</p>
-                    </li>
-                    <li>
-                        <p>Allows the player to send their sign and book data to Jumbo Dinosaurs</p>
-                    </li>
-                    <li>
-                        <p>Notifies the player when a Book list or a Sign is saved with either Green or Orange
-                            message</br><br/>
-                            (Orange is to notify the Player that it was sent to Jumbo Dinosaurs and Saved)</br><br/>
-                            (Green is to notify the Player that it was only Saved and not sent To Jumbo Dinosaurs)
-                        </p>
-                    </li>
-                </ul>
-                <p>
-                    Made by yours truly, the code is open source and can be found
-                    <a href="https://github.com/WalkingLibrary/Book-and-Sign-Saver-Mod">here</a>.<br/><br/><br/>
-                </p>
-                <div>
-
-                    <h2><br/>How to Use</h2>
-                    <p> Once installed and in game press the default Minus key to open the mod's menu. Here you can log
-                        into your Jumbo Dinosaurs Account and also change mod settings.</br /> <br/>
-
-                        By default the mod does not allow itself to send data to Jumbo Dinosaurs. To change this open
-                        the mod menu and toggle the mod's ability to do so.</br></br>
-
-                        When walking around the mod will automatically check for signs and save them to
-                        ./.minecraft/Jumbo's Mods/Saved Signs/. This can be turn off in the mod's menu.<br/><br/>
-                        To save books simply open a chest, enderchest, or shulker box In game and there should be a
-                        button in the top right corner to save the contents of that container.<br/><br/>
-                        The contents is saved to ./.minecraft/Jumbo's Mods/Book Lists/(the file name you
-                        set)(.json/.txt).<br/><br/>
-                        You will also have the option to change the name of the file that the book list contents is
-                        saved to. If you enter an exsisting file name, the mod will append the contents to the file name
-                        set
-                        by you and will also check for duplicates and adjust their count accordingly before saving.<br/>
-                    </p>
-                    </p>
-                </div>
-                <h2>To Install</h2>
-                <p>
-                    To install the mod: Download a version,
-                    unzip it, then place the jar inside of ./.minecraft/mods, then Run Minecraft with forge.
-
-                </p>
-                <h2>Versions</h2>
-                <ul><br/><br/>
-                    <li>
-                        <a href="./bookandsignsavermod-1.0.1_1.13.2.zip">1.0.1 For Minecraft 1.13.2</a><br/>
-                    </li>
-                    <li><a href="./bookandsignsavermod-1.0.3_1.12.2.zip">1.0.3 For Minecraft 1.12.2</a></li>
-                </ul>
-                <div>
-                    <h2>P.S.</h2>
-                    <p>In the future I plan to add a forums type page to this site and allow people to browse the sign
-                        and book info sent. Don't send your info if you don't want others looking at it.</p>
-                </div>
+            <div class="navbarIcon">
+                <a href="/home.html"> <img src="/pteranodon100x100.png"></a>
+                <h5>Art</h5>
             </div>
-        </div>
-        <div class="download" id="booklistutilityprogram">
-
-            <div class="rowDownload">
-                <h1>Book List Utility Program</h1>
-                <div class="downloadPhoto"><img height="100px"
-                                                src="https://images.vexels.com/media/users/3/151870/isolated/preview/8b1a89d3f271913146d4cd63f3920464-medical-checklist-stroke-icon-by-vexels.png">
-                    <ul>
-                        <p>Features: </p>
-                        <li>
-                            <p>Allows The user to combine, compare, and detail book lists outputed via the Book and Sign
-                                Saver Mod</p>
-                        </li>
-                    </ul>
-                    <div>
-                        <h2>How To</h2>
-
-                        <p>
-                            <a href="./Book-List-Utility-0.1.1-all.zip">Download</a> the program. Unzip it, then open a
-                            Terminal and navigate to where the jar file is.<br/><br/><br/>
-                            Type the comand:<br/><br/> java -jar [Name of the Jar] [command] [1st Book List Path] [2nd
-                            Book List Path]<br/><br/><br/>
-
-                            Commands:<br/><br/>
-                            -compare : use this command to compare two lists<br/>
-                            -combine : use this command to combine two lists together<br/>
-                            -stats : use this command to get a general detailing of a list<br/>
-
-
-                        </p>
-                        <p>
-                            Made by yours truly, the code is open source and can be found
-                            <a href="https://github.com/WalkingLibrary/Book-List-Utility">here</a>.<br/><br/><br/>
-                        </p>
-                    </div>
-                </div>
+            <div class="navbarIcon">
+                <a href="/home.html"> <img src="/carno100x100.png"></a>
+                <h5>Downloads</h5>
             </div>
+            <div class="navbarIcon">
+                <a href="/home.html"> <img src="/carno100x100.png"></a>
+                <h5>User Page</h5>
+            </div>
+
         </div>
 
     </div>
 
-    <div class=footerbox>
-
-        <div class="columnFooter">
-            <h1>Contact Info</h1>
-            <h1><a>jumbodinosaurs@gmail.com</a></h1>
-        </div>
-
-
-        <div class="columnFooter">
-            <h1>Info Links</h1>
-            <h1><a href="./termsofservice.html">Terms of Service</a></h1>
-            <h1><a href="./privacypolicy.html">Privacy Policy</a></h1>
-        </div>
-    </div>
-
-    <script src="home.js"></script>
-    <script src="captcha.js"></script>
-    <script src="loginbuttonchange.js"></script>
+    <div id="content"></div>
+    <script src="/navbar.js"></script>
 </body>
 
 </html>

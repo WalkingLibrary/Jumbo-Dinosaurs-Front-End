@@ -1,0 +1,24 @@
+body {
+    font-family: 'ZCOOL KuaiLe';
+    background-color: grey;
+    padding: 0;
+    margin: 0;
+}
+
+/* The Container That Holds Every Thing
+ * Max Width is 1080px
+ * Displays Flex in Direction Column
+ */
+
+#container {
+    background-color: olivedrab;
+    max-width: 1080px;
+    width: 100vw;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border: 60px, solid, black;
+}
