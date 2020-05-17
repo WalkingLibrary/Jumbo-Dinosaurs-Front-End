@@ -58,26 +58,37 @@ img {
     justify-content: space-around;
     flex-flow: row;
     flex-wrap: wrap;
+    min-height: 100vh;
+    height: auto;
 }
 
 #inscribingHeader {
     width: 100%;
-    height: 150px;
-
+    height: 10%;
 }
 
 #inscribingHeader h1 {
-    background-color: rgba(255, 0, 0, .7);
+    background-color: rgba(55, 0, 255, 0.7);
     border-radius: 40px;
-
 }
-
 
 #discordInfo {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: space-around;
     flex-flow: column;
+
+
+}
+
+#discordInfo h1 {
+    margin: 0;
+    padding: 0;
+
+}
+
+#discordInfo h5 {
+    font-size: 80%;
 }
 
 
@@ -86,25 +97,84 @@ img {
 /*GOOD LINKS Style*/
 
 
-#goodLinks {}
+#goodLinks {
+    background-color: seagreen;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-flow: row;
+    flex-wrap: wrap;
+    min-height: 130vh;
+    height: auto;
+}
+
+#goodLinksHeader {
+    width: 100%;
+    height: 10%;
+}
+
+#goodLinksFooter {
+    width: 100%;
+    height: 50px;
+}
+
+#goodLinksHeader h1 {
+    background-color: rgba(47, 0, 255, 0.7);
+    border-radius: 40px;
+}
+
+
+
+/* Style For the Footer
+ */
+
+#footer {
+    display: flex;
+    flex-direction: column;
+    flex-flow: row;
+    justify-content: space-evenly;
+    font-family: "Roboto+Condensed";
+    font-size: 80%;
+    color: black;
+}
+
+#footer a {
+
+    color: inherit;
+}
+
 
 
 /* TABS */
 
+
 /*Style For Tabs for Latest Inscribings and Goodlinks*/
 .tab {
+    max-height: 350px;
+    min-width: 300px;
+    height: 100px;
+    width: 30%;
+    padding: 30px;
+}
+
+
+.tabBackGround {
     background-color: rgba(255, 0, 0, .7);
     border-radius: 40px;
-    justify-content: space-around;
+    justify-content: space-evenly;
     display: flex;
     flex-direction: row;
-    height: 200px;
 }
 
 .tab a img {
-    width: auto;
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    max-width: 150px;
     border: none;
 }
+
 
 
 
@@ -122,8 +192,8 @@ img {
 
 
 .tab h1 {
-    background-color: gray;
     border-radius: 20px;
     margin: auto;
     padding: 10px;
+    font-size: 90%;
 }
