@@ -151,8 +151,8 @@ img {
 /*Canvas*/
 
 #mapCanvas {
-    border: 3px solid black;
-    background-color: whitesmoke;
+    border: 3px solid whitesmoke;
+    background-color: black;
     margin: auto;
 }
 
