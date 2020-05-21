@@ -145,6 +145,25 @@ img {
 }
 
 
+/*Style For Map Page*/
+
+
+/*Canvas*/
+
+#mapCanvas {
+    border: 3px solid black;
+    background-color: whitesmoke;
+    margin: auto;
+}
+
+#mapDiv {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+
+}
 
 /* TABS */
 
