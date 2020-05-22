@@ -6,7 +6,6 @@ body {
 }
 
 
-
 /*Remove Padding from h1, h2, h3, h4, h5*/
 
 h1,
@@ -22,7 +21,6 @@ h5 {
  * Max Width is 1080px
  * Displays Flex in Direction Column
  */
-
 
 
 #container {
@@ -46,7 +44,6 @@ img {
     width: 100vw;
 
 }
-
 
 
 /* Style for Tabs and Latest Inscribings*/
@@ -91,8 +88,6 @@ img {
 }
 
 
-
-
 /*GOOD LINKS Style*/
 
 
@@ -124,7 +119,6 @@ img {
 }
 
 
-
 /* Style For the Footer
  */
 
@@ -137,7 +131,6 @@ img {
     font-size: 80%;
     color: black;
 }
-
 
 
 #footer a {
@@ -163,6 +156,10 @@ img {
     justify-content: space-around;
 
 
+}
+
+#draggable {
+    cursor: move;
 }
 
 /* TABS */
