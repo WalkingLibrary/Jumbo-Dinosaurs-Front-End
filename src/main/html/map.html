@@ -11,36 +11,43 @@
 </head>
 
 <body>
-    <div id="container">
-        <!--Navigation Bar-->
-        <div onmouseover="makeNavBarVisible();" onmouseout="hideNavBar();" id="navbar">
-            <div class="navbarIcon">
-                <a href="/home.html"> <img src="/rex100x100.png" /></a>
-                <h5>Home</h5>
-            </div>
-            <div class="navbarIcon">
-                <a href="/home.html"> <img src="/pteranodon100x100.png" /></a>
-                <h5>Art</h5>
-            </div>
-            <div class="navbarIcon">
-                <a href="/home.html"> <img src="/carno100x100.png" /></a>
-                <h5>Downloads</h5>
-            </div>
-            <div class="navbarIcon">
-                <a href="/home.html"> <img src="/compys100x100.png" /></a>
-                <h5>User Page</h5>
-            </div>
-
-
-
+<div id="container">
+    <!--Navigation Bar-->
+    <div id="navbar" onmouseout="hideNavBar();" onmouseover="makeNavBarVisible();">
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/rex100x100.png"/></a>
+            <h5>Home</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/pteranodon100x100.png"/></a>
+            <h5>Art</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/carno100x100.png"/></a>
+            <h5>Downloads</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/compys100x100.png"/></a>
+            <h5>User Page</h5>
         </div>
 
-        <div id="mapDiv">
-            <canvas id="mapCanvas"></canvas>
+
+    </div>
+
+    <div id="mapDiv">
+        <canvas id="mapCanvas"></canvas>
+    </div>
+    <div id="mapControls">
+        <div id="mapCoordinateInput">
+            <form onsubmit="jumpToCoordinate()">
+                <label for="x">X:</label>
+                <input type="text">
+            </form>
         </div>
     </div>
-    <script src="/navbar.js"></script>
-    <script src="/map.js"></script>
+</div>
+<script src="/navbar.js"></script>
+<script src="/map.js"></script>
 </body>
 
 </html>

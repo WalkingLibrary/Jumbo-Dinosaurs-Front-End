@@ -17,8 +17,8 @@ let dragStartCameraY = cameraY;
  * 
  * 
  */
-let canvasWidth = 500;
-let canvasHeight = 500;
+let canvasWidth = 750;
+let canvasHeight = 750;
 
 mapCanvas.width = canvasWidth;
 mapCanvas.height = canvasHeight;
@@ -46,33 +46,150 @@ let view = 0;
 
 draw();
 
+
 function draw()
 {
+
+
+    /* Draw Loop Process
+     * Clear Screen
+     * Draw Grid With Coordinates
+     * Request Animation Frame
+     *  */
+
+    //Clear Screen
     canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-    requestAnimationFrame(draw);
+
+
+    //Draw Grid With Coordinates
+    /* Process for Drawing the Grid
+     * Calculate the Width and Height of each Square
+     * Calculate The Relative Unit X and Y with The Camera X and Y
+     * Draw Each Square of the Grid
+     * Draw Square Coordinates
+     *  */
+
+
+    /* Minecraft
+     * +X East
+     * -z North
+     * -X West
+     * +Z south
+     *
+     * OUR Grid
+     * -x is West
+     * +x is east
+     * -y is north
+     * +y is south
+     * */
+
+    let rectangleWidth = canvasWidth / getSquareCount();
+    let rectangleHeight = canvasHeight / getSquareCount();
+
+    //Calculate The Relative Unit X and Y with The Camera X and Y
+    let topLeftSquareX = Math.trunc(cameraX / rectangleWidth);
+    let topLeftSquareY = Math.trunc(cameraY / rectangleHeight);
+
+
+    //Draw Each Square of the Grid
     for (c = -1; c < (getSquareCount() + 1); c++)
     {
         for (r = -1; r < (getSquareCount() + 1); r++)
         {
-            rectangleWidth = canvasWidth / getSquareCount();
-            rectangleHeight = canvasHeight / getSquareCount();
-            let x = (rectangleWidth * c) - (cameraX % rectangleWidth);
-            let y = rectangleHeight * r - (cameraY % rectangleHeight);
+
+            /* Process for Drawing Each Square of the Grid
+             * Calculate the X and Y Coordinate for the Canvas
+             * Draw a Square There
+             *
+             *  */
+
+            //Calculate the X and Y Coordinate for the Canvas
+            let rectangleXIndex = (rectangleWidth * c);
+            let rectangleYIndex = (rectangleHeight * r);
+            let canvasX = rectangleXIndex - (cameraX % rectangleWidth);
+            let canvasY = rectangleYIndex - (cameraY % rectangleHeight);
+
+            //Draw a Square There
+            drawGridSquare(canvasX, canvasY, rectangleWidth, rectangleHeight);
 
 
-            drawGridSquare(x, y, rectangleWidth, rectangleHeight);
+            //Draw Square Coordinates
+            /* Process For Drawing Coordinates on the Grid
+             *
+             * Get The Unit Coordinate For This Loops C and R Values
+             * Distinguish The Diagonal, Vertical, Horizontal and Zero Zero Unit
+             * Draw The Coordinates on The Corresponding Grid Square
+             *
+             *  */
+
+            //Get The Unit Coordinate For This Loops C and R Values
+            // Unit Corresponding to the View that the Map is in
+            //Example Chunk, Region, or Sector
+            let unitX = topLeftSquareX + c;
+            let unitY = topLeftSquareY + r;
+
+
+            /* Distinguish The Diagonal, Vertical, Horizontal and Zero Zero Unit Squares
+             * Distinguish Diagonal With Green
+             * Distinguish Vertical with red
+             * Distinguish Horizontal With blue
+             * Distinguish Zero Zero with Purple
+             *  */
+            if (unitX === 0 || unitY === 0)
+            {
+                if (unitX === 0)
+                {
+                    //Distinguish Vertical with red
+                    canvasContext.fillStyle = "red";
+                }
+
+                if (unitY === 0)
+                {
+                    //Distinguish Horizontal With blue
+                    canvasContext.fillStyle = "blue";
+                }
+
+                if (unitX === unitY)
+                {
+                    //Distinguish Zero Zero with Purple
+                    canvasContext.fillStyle = "purple";
+                }
+
+            }
+            else if (unitX === unitY || unitX === -unitY || -unitX === unitY)
+            {
+                //Distinguish Diagonal With Green
+                canvasContext.fillStyle = "green";
+            }
+            else
+            {
+                //Everything else is black
+                canvasContext.fillStyle = "black";
+            }
+
+            //Draw The Coordinates on The Corresponding Grid Square
+            drawSquareCoordinate(canvasX, canvasY, -2, -15, unitX, unitY);
+
         }
     }
-
-
+    //Request Animation Frame
+    requestAnimationFrame(draw);
 }
 
 
+function drawSquareCoordinate(x, y, offSetX, offSetY, displayX, displayY)
+{
+    canvasContext.font = "11px serif";
+    let displayString = "(" + displayX + ", " + displayY + ")";
+
+    canvasContext.fillText(displayString, (x - offSetX), (y - offSetY));
+}
+
 function drawGridSquare(x, y, width, height)
 {
-    lineWidth = 2;
-    canvasContext.fillStyle = "white";
-    canvasContext.fillRect(x, y, width - lineWidth, height - lineWidth);
+    let lineWidth = 2;
+    canvasContext.strokeStyle = "black";
+    canvasContext.strokeRect(x, y, width, height);
 }
 
 function getSquareCount()
@@ -120,11 +237,11 @@ function onDragOver(event)
     event.preventDefault();
 
     /*Get the new Position of the cursor on the page */
-    currentPageX = event.pageX;
-    currentPageY = event.pageY;
+    let currentPageX = event.pageX;
+    let currentPageY = event.pageY;
     /*Get the difference between where you started draging and your mouses current position */
-    xDifference = dragStartX - currentPageX;
-    yDifference = dragStartY - currentPageY;
+    let xDifference = dragStartX - currentPageX;
+    let yDifference = dragStartY - currentPageY;
 
     /*change the camera according to where your camera started to how much your mouse's position has changed */
     cameraX = dragStartCameraX + xDifference;

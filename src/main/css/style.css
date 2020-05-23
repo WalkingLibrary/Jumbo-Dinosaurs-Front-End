@@ -145,7 +145,7 @@ img {
 
 #mapCanvas {
     border: 3px solid whitesmoke;
-    background-color: black;
+    background-color: white;
     margin: auto;
 }
 
@@ -161,6 +161,23 @@ img {
 #draggable {
     cursor: move;
 }
+
+/*Controls Style*/
+
+#mapControls {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+}
+
+#mapCoordinateInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-flow: wrap;
+}
+
 
 /* TABS */
 
