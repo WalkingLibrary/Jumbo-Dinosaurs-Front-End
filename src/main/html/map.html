@@ -38,7 +38,8 @@
         <canvas id="mapCanvas"></canvas>
         <div id="mapControls">
             <div id="mapCoordinateInput">
-                <form onsubmit="jumpToCoordinate()">
+                <form action="">
+                    <h5>Coordinate Input</h5><br>
                     <label for="X">X:</label>
                     <input id="X" type="text"><br><br>
                     <label for="Z">Z:</label>
@@ -47,8 +48,21 @@
                 </form>
             </div>
             <div id="viewToggles">
-                <label for="gridCoordinatesToggle">Grid Coordinates:</label>
-                <input id="gridCoordinatesToggle" type="checkbox">
+                <form action="">
+                    <h5>View</h5><br>
+
+                    <!--View Mode Input-->
+                    <label for="chunkView">Chunk View:</label>
+                    <input id="chunkView" type="checkbox"><br>
+                    <label for="regionView">Region View:</label>
+                    <input id="regionView" type="checkbox"><br>
+                    <label for="sectorView">Sector View:</label>
+                    <input id="sectorView" type="checkbox"><br><br>
+                    <!--Coordinate Mode Input-->
+                    <label for="gridCoordinatesToggle">Grid Coordinates:</label>
+                    <input id="gridCoordinatesToggle" type="checkbox"><br>
+
+                </form>
             </div>
         </div>
 

@@ -1,51 +1,34 @@
+/*Get the Canvas and Set it up*/
 let mapCanvas = document.getElementById("mapCanvas");
+let canvasWidth = 600;
+let canvasHeight = 600;
+let canvasContext = mapCanvas.getContext('2d');
 
-console.log(mapCanvas);
+mapCanvas.width = canvasWidth;
+mapCanvas.height = canvasHeight;
 
 
-/*Camera Variables for Drawing/Moving*/
-//negative Canvas Width for default camera x and y
-
-let cameraX = -300;
-let cameraY = -300;
-let dragStartCameraX = cameraX;
-let dragStartCameraY = cameraY;
-X.value = cameraX;
-Z.value = cameraY;
-
+/* Function that handles changing the camera x and camera y
+ * when the go button is clicked
+ *  */
 goButton.onclick = function ()
 {
     cameraX = parseInt(X.value, 10);
     cameraY = parseInt(Z.value, 10);
-    dragStartCameraX = cameraX;
-    dragStartCameraY = cameraY;
-
 }
-
-/* The Canvs Width is 576 to allow the Blocks i Chunk view to be 4 x 4 Pixels with a 2 Pixel Border
- *
- *
- * 
- * 
- * 
- */
-let canvasWidth = 600;
-let canvasHeight = 600;
-
-mapCanvas.width = canvasWidth;
-mapCanvas.height = canvasHeight;
-let canvasContext = mapCanvas.getContext('2d');
 
 
 /* View Settings
  *
- * There Are Currently Three Views Sector View, Region View, Chunk View 
+ * There Are Currently Three Views
+ * Sector View, Region View, Chunk View
+ *
  * Sector = 8 x 8 Regions
  * Region = 32 x 32 Chunks
  * Chunk = 16 x 16 Blocks
+ *
  * 
- * 
- * Chunk View is 6 x 6 Chunks
+ * Chunk View is 8 x 8 Chunks
  * Region View is 2 x 2 Regions
  * Sector View is 2 x 2 Sectors
  * 
@@ -65,14 +48,73 @@ function getSquareCount()
         return 8;
     }
 
+    /*Region View*/
+    if (view === 1)
+    {
+        return 2;
+    }
+
+    if (view === 2)
+    {
+        return 2;
+    }
+
 }
 
+let changeView = function (newView)
+{
+    return function ()
+    {
+        console.log("Change View Called");
+        /* Process for setting the view
+         * Set the View Variable to the value given
+         * Set all the Check mark inputs according to the view
+         *
+         * */
 
-/*Toggle grid Coordinates*/
+        //Set the View Variable to the value given
+        view = newView;
 
 
+        //Set all the Check mark inputs according to the view
+        if (view === 0)
+        {
+            chunkView.checked = true;
+            regionView.checked = false;
+            sectorView.checked = false;
+        }
+
+        if (view === 1)
+        {
+            chunkView.checked = false;
+            regionView.checked = true;
+            sectorView.checked = false;
+        }
+
+        if (view === 2)
+        {
+            chunkView.checked = false;
+            regionView.checked = false;
+            sectorView.checked = true;
+        }
+    }
+}
+
+chunkView.checked = true;
+regionView.checked = false;
+sectorView.checked = false;
+chunkView.onclick = changeView(0);
+regionView.onclick = changeView(1);
+sectorView.onclick = changeView(2);
+
+/* Toggle grid Coordinates */
 let showGridCoordinates = true;
 
+
+gridCoordinatesToggle.checked = true;
+/* Function that handles toggling the coordinates on the grid
+ * when the Grid coordinate check box is clicked
+ *  */
 gridCoordinatesToggle.onclick = function ()
 {
     showGridCoordinates = !showGridCoordinates;
@@ -88,15 +130,37 @@ function drawSquareCoordinate(x, y, offSetX, offSetY, displayX, displayY)
     canvasContext.fillText(displayString, (x - offSetX), (y - offSetY));
 }
 
-/*Drawing Grid Squares Function*/
-function drawGridSquare(x, y, width, height)
-{
-    let lineWidth = 2;
-    canvasContext.strokeStyle = "black";
-    canvasContext.strokeRect(x, y, width, height);
-}
+
+/* Camera Variables for Moving around on the Grid
+ *
+ *
+ *
+ *
+ *
+ *  */
+
+/* To Center the map on load you need to set the camera x and y
+ * to the negative of the canvas width and height
+ * */
+let cameraX = -1 * (canvasWidth / 2);
+let cameraY = -1 * (canvasHeight / 2);
 
 
+/* To Show the user their current coordinates we set the
+ * Values in the x and z input boxes respectively
+ *
+ */
+
+X.value = cameraX;
+Z.value = cameraY;
+
+
+/* DragStart are used to calculate the difference in the draw motion on the canvas
+ *
+ *
+ * */
+let dragStartCameraX = cameraX;
+let dragStartCameraY = cameraY;
 
 
 /*Dealing With Dragging on the Canvas */
@@ -125,14 +189,8 @@ function onDragStart(event)
     /*Start Place of the camera*/
     dragStartCameraX = cameraX;
     dragStartCameraY = cameraY;
-    console.log(dragStartCameraX);
-    console.log(dragStartCameraY);
-    console.log(dragStartX);
-    console.log(dragStartY);
-    console.log(cameraX);
-    console.log(cameraY);
-
 }
+
 
 function onDragOver(event)
 {
@@ -148,13 +206,13 @@ function onDragOver(event)
     /*change the camera according to where your camera started to how much your mouse's position has changed */
     cameraX = dragStartCameraX + xDifference;
     cameraY = dragStartCameraY + yDifference;
+}
 
-    console.log(dragStartCameraX);
-    console.log(dragStartCameraY);
-    console.log(dragStartX);
-    console.log(dragStartY);
-    console.log(cameraX);
-    console.log(cameraY);
+/*Drawing Grid Squares Function*/
+function drawGridSquare(x, y, width, height)
+{
+    canvasContext.strokeStyle = "black";
+    canvasContext.strokeRect(x, y, width, height);
 }
 
 
