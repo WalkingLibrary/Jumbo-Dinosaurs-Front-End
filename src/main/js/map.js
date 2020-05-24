@@ -4,11 +4,23 @@ console.log(mapCanvas);
 
 
 /*Camera Variables for Drawing/Moving*/
-let cameraX = 0;
-let cameraY = 0;
+//negative Canvas Width for default camera x and y
+
+let cameraX = -300;
+let cameraY = -300;
 let dragStartCameraX = cameraX;
 let dragStartCameraY = cameraY;
+X.value = cameraX;
+Z.value = cameraY;
 
+goButton.onclick = function ()
+{
+    cameraX = parseInt(X.value, 10);
+    cameraY = parseInt(Z.value, 10);
+    dragStartCameraX = cameraX;
+    dragStartCameraY = cameraY;
+
+}
 
 /* The Canvs Width is 576 to allow the Blocks i Chunk view to be 4 x 4 Pixels with a 2 Pixel Border
  *
@@ -17,8 +29,8 @@ let dragStartCameraY = cameraY;
  * 
  * 
  */
-let canvasWidth = 750;
-let canvasHeight = 750;
+let canvasWidth = 600;
+let canvasHeight = 600;
 
 mapCanvas.width = canvasWidth;
 mapCanvas.height = canvasHeight;
@@ -44,13 +56,113 @@ let canvasContext = mapCanvas.getContext('2d');
  */
 let view = 0;
 
-draw();
+/* Function To To Help Toggle the View */
+function getSquareCount()
+{
+    /*Chunk View*/
+    if (view === 0)
+    {
+        return 8;
+    }
 
+}
+
+
+/*Toggle grid Coordinates*/
+
+
+let showGridCoordinates = true;
+
+gridCoordinatesToggle.onclick = function ()
+{
+    showGridCoordinates = !showGridCoordinates;
+}
+
+
+/*Drawing Grid Coordinates Function*/
+function drawSquareCoordinate(x, y, offSetX, offSetY, displayX, displayY)
+{
+    canvasContext.font = "9px serif";
+    let displayString = "(" + displayX + ", " + displayY + ")";
+
+    canvasContext.fillText(displayString, (x - offSetX), (y - offSetY));
+}
+
+/*Drawing Grid Squares Function*/
+function drawGridSquare(x, y, width, height)
+{
+    let lineWidth = 2;
+    canvasContext.strokeStyle = "black";
+    canvasContext.strokeRect(x, y, width, height);
+}
+
+
+
+
+/*Dealing With Dragging on the Canvas */
+let dragStartX, dragStartY;
+
+/*Event Listener Set up for the map Canvas */
+mapCanvas.draggable = true;
+mapCanvas.addEventListener('dragstart', onDragStart);
+mapCanvas.addEventListener('dragover', onDragOver);
+
+
+function onDragStart(event)
+{
+    /*Help the user Notice The Map Is Draggable*/
+    mapCanvas.style.cursor = "grab";
+
+
+    /*Removing the Default Picture For Dragging*/
+    let dragImage = document.createElement("img");
+    event.dataTransfer.setDragImage(dragImage, 0, 0);
+
+    dragStartX = event.pageX;
+    dragStartY = event.pageY;
+
+
+    /*Start Place of the camera*/
+    dragStartCameraX = cameraX;
+    dragStartCameraY = cameraY;
+    console.log(dragStartCameraX);
+    console.log(dragStartCameraY);
+    console.log(dragStartX);
+    console.log(dragStartY);
+    console.log(cameraX);
+    console.log(cameraY);
+
+}
+
+function onDragOver(event)
+{
+    /*Preventing the Default here allows the cursor to not be a No Drop Symbol*/
+    event.preventDefault();
+    /*Get the new Position of the cursor on the page */
+    let currentPageX = event.pageX;
+    let currentPageY = event.pageY;
+    /*Get the difference between where you started draging and your mouses current position */
+    let xDifference = dragStartX - currentPageX;
+    let yDifference = dragStartY - currentPageY;
+
+    /*change the camera according to where your camera started to how much your mouse's position has changed */
+    cameraX = dragStartCameraX + xDifference;
+    cameraY = dragStartCameraY + yDifference;
+
+    console.log(dragStartCameraX);
+    console.log(dragStartCameraY);
+    console.log(dragStartX);
+    console.log(dragStartY);
+    console.log(cameraX);
+    console.log(cameraY);
+}
+
+
+//Tell The Page to Draw When Loaded
+draw();
 
 function draw()
 {
-
-
     /* Draw Loop Process
      * Clear Screen
      * Draw Grid With Coordinates
@@ -121,129 +233,61 @@ function draw()
              * Draw The Coordinates on The Corresponding Grid Square
              *
              *  */
-
-            //Get The Unit Coordinate For This Loops C and R Values
-            // Unit Corresponding to the View that the Map is in
-            //Example Chunk, Region, or Sector
-            let unitX = topLeftSquareX + c;
-            let unitY = topLeftSquareY + r;
-
-
-            /* Distinguish The Diagonal, Vertical, Horizontal and Zero Zero Unit Squares
-             * Distinguish Diagonal With Green
-             * Distinguish Vertical with red
-             * Distinguish Horizontal With blue
-             * Distinguish Zero Zero with Purple
-             *  */
-            if (unitX === 0 || unitY === 0)
+            if (showGridCoordinates)
             {
-                if (unitX === 0)
+
+                //Get The Unit Coordinate For This Loops C and R Values
+                // Unit Corresponding to the View that the Map is in
+                //Example Chunk, Region, or Sector
+                let unitX = topLeftSquareX + c;
+                let unitY = topLeftSquareY + r;
+
+
+                /* Distinguish The Diagonal, Vertical, Horizontal and Zero Zero Unit Squares
+                 * Distinguish Diagonal With Green
+                 * Distinguish Vertical with red
+                 * Distinguish Horizontal With blue
+                 * Distinguish Zero Zero with Purple
+                 *  */
+                if (unitX === 0 || unitY === 0)
                 {
-                    //Distinguish Vertical with red
-                    canvasContext.fillStyle = "red";
+                    if (unitX === 0)
+                    {
+                        //Distinguish Vertical with red
+                        canvasContext.fillStyle = "red";
+                    }
+
+                    if (unitY === 0)
+                    {
+                        //Distinguish Horizontal With blue
+                        canvasContext.fillStyle = "blue";
+                    }
+
+                    if (unitX === unitY)
+                    {
+                        //Distinguish Zero Zero with Purple
+                        canvasContext.fillStyle = "purple";
+                    }
+
+                }
+                else if (unitX === unitY || unitX === -unitY || -unitX === unitY)
+                {
+                    //Distinguish Diagonal With Green
+                    canvasContext.fillStyle = "green";
+                }
+                else
+                {
+                    //Everything else is black
+                    canvasContext.fillStyle = "black";
                 }
 
-                if (unitY === 0)
-                {
-                    //Distinguish Horizontal With blue
-                    canvasContext.fillStyle = "blue";
-                }
-
-                if (unitX === unitY)
-                {
-                    //Distinguish Zero Zero with Purple
-                    canvasContext.fillStyle = "purple";
-                }
-
+                //Draw The Coordinates on The Corresponding Grid Square
+                drawSquareCoordinate(canvasX, canvasY, -2, -15, unitX, unitY);
             }
-            else if (unitX === unitY || unitX === -unitY || -unitX === unitY)
-            {
-                //Distinguish Diagonal With Green
-                canvasContext.fillStyle = "green";
-            }
-            else
-            {
-                //Everything else is black
-                canvasContext.fillStyle = "black";
-            }
-
-            //Draw The Coordinates on The Corresponding Grid Square
-            drawSquareCoordinate(canvasX, canvasY, -2, -15, unitX, unitY);
 
         }
     }
+
     //Request Animation Frame
     requestAnimationFrame(draw);
-}
-
-
-function drawSquareCoordinate(x, y, offSetX, offSetY, displayX, displayY)
-{
-    canvasContext.font = "11px serif";
-    let displayString = "(" + displayX + ", " + displayY + ")";
-
-    canvasContext.fillText(displayString, (x - offSetX), (y - offSetY));
-}
-
-function drawGridSquare(x, y, width, height)
-{
-    let lineWidth = 2;
-    canvasContext.strokeStyle = "black";
-    canvasContext.strokeRect(x, y, width, height);
-}
-
-function getSquareCount()
-{
-    /*Chunk View*/
-    if (view === 0)
-    {
-        return 8;
-    }
-
-}
-
-
-/*Dealing With Dragging on the Canvas */
-
-let dragStartX, dragStartY;
-
-/*Event Listener Set up for the map Canvas */
-mapCanvas.draggable = true;
-mapCanvas.addEventListener('dragstart', onDragStart);
-mapCanvas.addEventListener('dragover', onDragOver);
-
-
-function onDragStart(event)
-{
-    /*Help the user Notice The Map Is Draggable*/
-    mapCanvas.style.cursor = "grab";
-
-
-    /*Removing the Default Picture For Dragging*/
-    let dragImage = document.createElement("img");
-    event.dataTransfer.setDragImage(dragImage, 0, 0);
-
-    dragStartX = event.pageX;
-    dragStartY = event.pageY;
-
-    /*Start Place of the camera*/
-    dragStartCameraX = cameraX;
-    dragStartCameraY = cameraY;
-
-}
-
-function onDragOver(event)
-{
-    event.preventDefault();
-
-    /*Get the new Position of the cursor on the page */
-    let currentPageX = event.pageX;
-    let currentPageY = event.pageY;
-    /*Get the difference between where you started draging and your mouses current position */
-    let xDifference = dragStartX - currentPageX;
-    let yDifference = dragStartY - currentPageY;
-
-    /*change the camera according to where your camera started to how much your mouse's position has changed */
-    cameraX = dragStartCameraX + xDifference;
-    cameraY = dragStartCameraY + yDifference;
 }

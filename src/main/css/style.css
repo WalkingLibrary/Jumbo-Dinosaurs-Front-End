@@ -169,6 +169,7 @@ img {
     flex-direction: row;
     flex-flow: wrap;
     justify-content: space-evenly;
+    padding-bottom: 10px;
 }
 
 #mapCoordinateInput {
@@ -178,6 +179,9 @@ img {
     flex-flow: wrap;
 }
 
+#goButton {
+    background: greenyellow;
+}
 
 /* TABS */
 
