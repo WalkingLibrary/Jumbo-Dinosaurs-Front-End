@@ -111,6 +111,46 @@ sectorView.onclick = changeView(2);
 let showGridCoordinates = true;
 
 
+/* Get The Multiple for block change according to the view
+ * */
+
+function getViewMultiplier()
+{
+    /*
+     * There Are Currently Three Views
+     * Sector View, Region View, Chunk View
+     *
+     * Sector = 8 x 8 Regions
+     * Region = 32 x 32 Chunks
+     * Chunk = 16 x 16 Blocks
+     *
+     *
+     *  */
+
+
+    //The Default View is set for chunks
+    //Chunk View
+    if (view === 0)
+    {
+        return 1;
+    }
+
+    //Region = 32 x 32 Chunks
+    //Region View
+    if (view === 1)
+    {
+        return 32;
+    }
+
+    //Sector = 8 x 8 Regions
+    //Sector View
+    if (view === 2)
+    {
+        return 32 * 8;
+    }
+}
+
+
 gridCoordinatesToggle.checked = true;
 /* Function that handles toggling the coordinates on the grid
  * when the Grid coordinate check box is clicked
@@ -216,6 +256,48 @@ function drawGridSquare(x, y, width, height)
 }
 
 
+/* Converting camera Coords to Block Coords
+ * Converting Block Coords To Camera Coords
+ *
+ *   */
+
+function getBlockPos(x, y, rectangleWidth, rectangleHeight)
+{
+    let xCentered = ((x * getViewMultiplier()) + ((canvasWidth / 2) * getViewMultiplier()));
+    let yCentered = ((y * getViewMultiplier()) + ((canvasHeight / 2) * getViewMultiplier()));
+    let blockPos = {};
+    blockPos[0] = xCentered * ((canvasWidth / (rectangleWidth * getSquareCount())) * (16 / rectangleWidth));
+    blockPos[1] = yCentered * ((canvasHeight / (rectangleHeight * getSquareCount())) * (16 / rectangleHeight));
+    return blockPos;
+}
+
+
+function getCameraPos(x, y, rectangleWidth, rectangleHeight)
+{
+    let xCentered = ((x * getViewMultiplier()) + ((canvasWidth / 2) * getViewMultiplier()));
+    let yCentered = ((y * getViewMultiplier()) + ((canvasHeight / 2) * getViewMultiplier()));
+    let blockPos = {};
+    blockPos[0] = xCentered * ((canvasWidth / (rectangleWidth * getSquareCount())) * (16 / rectangleWidth));
+    blockPos[1] = yCentered * ((canvasHeight / (rectangleHeight * getSquareCount())) * (16 / rectangleHeight));
+    return blockPos;
+}
+
+
+/* Function to update X and Z to the respective coordinates
+ *
+ *
+ *  */
+
+function updateXAndZCoords()
+{
+    let rectangleWidth = canvasWidth / getSquareCount();
+    let rectangleHeight = canvasHeight / getSquareCount();
+    let currentPosition = getBlockPos(cameraX, cameraY, rectangleWidth, rectangleHeight);
+    X.value = Math.trunc(parseInt(currentPosition[0]), 10);
+    Z.value = Math.trunc(parseInt(currentPosition[1]), 10);
+}
+
+
 //Tell The Page to Draw When Loaded
 draw();
 
@@ -255,6 +337,8 @@ function draw()
 
     let rectangleWidth = canvasWidth / getSquareCount();
     let rectangleHeight = canvasHeight / getSquareCount();
+
+    updateXAndZCoords();
 
     //Calculate The Relative Unit X and Y with The Camera X and Y
     let topLeftSquareX = Math.trunc(cameraX / rectangleWidth);
