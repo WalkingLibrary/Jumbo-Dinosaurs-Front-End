@@ -13,14 +13,7 @@ mapCanvas.height = canvasHeight;
  *  */
 goButton.onclick = function ()
 {
-
-    let rectangleWidth = canvasWidth / getSquareCount();
-    let rectangleHeight = canvasHeight / getSquareCount();
-    let blockX = parseInt(X.value, 10);
-    let blockZ = parseInt(Z.value, 10);
-    let newCameraPos = getCameraPos(blockX, blockZ, rectangleWidth, rectangleHeight);
-    cameraX = newCameraPos[0];
-    cameraY = newCameraPos[1];
+    updateCamera();
 }
 
 
@@ -80,6 +73,7 @@ let changeView = function (newView)
 
         //Set the View Variable to the value given
         view = newView;
+        updateCamera();
 
 
         //Set all the Check mark inputs according to the view
@@ -283,6 +277,10 @@ function getBlockPos(cameraX, cameraY, rectangleWidth, rectangleHeight)
 
 function getCameraPos(blockX, blockZ, rectangleWidth, rectangleHeight)
 {
+    /* Translating blockCoord to a cameraCoord
+     *
+     *
+     *  */
     let amountOfSquaresX = (blockX * (1 / (getViewMultiplier() * 16)));
     let amountOfSquaresZ = (blockZ * (1 / (getViewMultiplier() * 16)));
     let cameraCenterX = rectangleWidth * amountOfSquaresX;
@@ -308,8 +306,24 @@ function updateXAndZCoords()
     Z.value = Math.trunc(parseInt(currentPosition[1]), 10);
 }
 
+
 //Need To Update the X and Z Coords once
 updateXAndZCoords();
+
+/* Function to update the Camera Coordinates to the values in X and Z
+ *
+ * */
+
+function updateCamera()
+{
+    let rectangleWidth = canvasWidth / getSquareCount();
+    let rectangleHeight = canvasHeight / getSquareCount();
+    let blockX = parseInt(X.value, 10);
+    let blockZ = parseInt(Z.value, 10);
+    let newCameraPos = getCameraPos(blockX, blockZ, rectangleWidth, rectangleHeight);
+    cameraX = newCameraPos[0];
+    cameraY = newCameraPos[1];
+}
 
 
 //Tell The Page to Draw When Loaded
