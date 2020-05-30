@@ -13,8 +13,14 @@ mapCanvas.height = canvasHeight;
  *  */
 goButton.onclick = function ()
 {
-    cameraX = parseInt(X.value, 10);
-    cameraY = parseInt(Z.value, 10);
+
+    let rectangleWidth = canvasWidth / getSquareCount();
+    let rectangleHeight = canvasHeight / getSquareCount();
+    let blockX = parseInt(X.value, 10);
+    let blockZ = parseInt(Z.value, 10);
+    let newCameraPos = getCameraPos(blockX, blockZ, rectangleWidth, rectangleHeight);
+    cameraX = newCameraPos[0];
+    cameraY = newCameraPos[1];
 }
 
 
@@ -246,6 +252,9 @@ function onDragOver(event)
     /*change the camera according to where your camera started to how much your mouse's position has changed */
     cameraX = dragStartCameraX + xDifference;
     cameraY = dragStartCameraY + yDifference;
+
+    /**/
+    updateXAndZCoords();
 }
 
 /*Drawing Grid Squares Function*/
@@ -261,10 +270,10 @@ function drawGridSquare(x, y, width, height)
  *
  *   */
 
-function getBlockPos(x, y, rectangleWidth, rectangleHeight)
+function getBlockPos(cameraX, cameraY, rectangleWidth, rectangleHeight)
 {
-    let xCentered = ((x * getViewMultiplier()) + ((canvasWidth / 2) * getViewMultiplier()));
-    let yCentered = ((y * getViewMultiplier()) + ((canvasHeight / 2) * getViewMultiplier()));
+    let xCentered = (cameraX + (canvasWidth / 2)) * getViewMultiplier();
+    let yCentered = (cameraY + (canvasHeight / 2)) * getViewMultiplier();
     let blockPos = {};
     blockPos[0] = xCentered * ((canvasWidth / (rectangleWidth * getSquareCount())) * (16 / rectangleWidth));
     blockPos[1] = yCentered * ((canvasHeight / (rectangleHeight * getSquareCount())) * (16 / rectangleHeight));
@@ -272,14 +281,16 @@ function getBlockPos(x, y, rectangleWidth, rectangleHeight)
 }
 
 
-function getCameraPos(x, y, rectangleWidth, rectangleHeight)
+function getCameraPos(blockX, blockZ, rectangleWidth, rectangleHeight)
 {
-    let xCentered = ((x * getViewMultiplier()) + ((canvasWidth / 2) * getViewMultiplier()));
-    let yCentered = ((y * getViewMultiplier()) + ((canvasHeight / 2) * getViewMultiplier()));
-    let blockPos = {};
-    blockPos[0] = xCentered * ((canvasWidth / (rectangleWidth * getSquareCount())) * (16 / rectangleWidth));
-    blockPos[1] = yCentered * ((canvasHeight / (rectangleHeight * getSquareCount())) * (16 / rectangleHeight));
-    return blockPos;
+    let amountOfSquaresX = (blockX * (1 / (getViewMultiplier() * 16)));
+    let amountOfSquaresZ = (blockZ * (1 / (getViewMultiplier() * 16)));
+    let cameraCenterX = rectangleWidth * amountOfSquaresX;
+    let cameraCenterY = rectangleHeight * amountOfSquaresZ;
+    let cameraPos = {};
+    cameraPos[0] = cameraCenterX - (canvasWidth / 2);
+    cameraPos[1] = cameraCenterY - (canvasHeight / 2);
+    return cameraPos;
 }
 
 
@@ -297,9 +308,13 @@ function updateXAndZCoords()
     Z.value = Math.trunc(parseInt(currentPosition[1]), 10);
 }
 
+//Need To Update the X and Z Coords once
+updateXAndZCoords();
+
 
 //Tell The Page to Draw When Loaded
 draw();
+
 
 function draw()
 {
@@ -338,7 +353,6 @@ function draw()
     let rectangleWidth = canvasWidth / getSquareCount();
     let rectangleHeight = canvasHeight / getSquareCount();
 
-    updateXAndZCoords();
 
     //Calculate The Relative Unit X and Y with The Camera X and Y
     let topLeftSquareX = Math.trunc(cameraX / rectangleWidth);
