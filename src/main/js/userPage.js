@@ -7,90 +7,36 @@ loadPage();
 
 function loadPage()
 {
-    userContentBlock.appendChild(getSignUpForm());
+    setSignUpForm();
 }
 
-class Page
+
+function setSignUpForm()
 {
-    constructor(elements)
+    let signUpFunction = function (xmlRequest)
     {
-        this.elements = elements;
-    }
-}
+        userContentBlock.innerHTML = xmlRequest.responseText;
+    };
 
-function clearUserContentBlock()
-{
-    let childNodes = userContentBlock.childNodes;
-    for (let i = 0; i < childNodes; i++)
-    {
-        childNodes[i].remove();
-    }
-}
-
-
-function getSignUpForm()
-{
-    let signUpElements = [];
-    signUpElements[0] = ["username", "text", "Username"];
-    signUpElements[1] = ["password", "text", "Password"];
-    signUpElements[2] = ["password", "text", ""];
-    signUpElements[3] = ["email", "text", "Email"];
-    signUpElements[4] = ["agreetos", "checkbox", "I have read and agree to the <a href=\"termsofservice.html\">Terms of Service</a> and the <a href=\"privacypolicy.html\">Privacy Policy</a>"];
-    signUpElements[5] = ["submit", "button", "Submit"];
-    return getForm(signUpElements);
+    getForm("signup.html", signUpFunction);
 }
 
 /*
- * Function to create a form from a double array in the following format
- * [[id, inputType, label], [id, inputType, label]]
+ *
  *
  *  */
-function getForm(formElements)
+function getForm(pageName, onReady)
 {
-    /* Process for creating/getting a form
-     * Create Form
-     * Add Each Index of formElements
-     * Return form
-     *  */
-
-    //Create Form
-    let form = document.createElement("form");
-
-    /* Adding Each Index of formElements
-     * Create a input Element
-     * Create A label for Input Element
-     * Append Both Label and Input to the form
-     * Add Breaks for Spacing
-     */
-
-    for (let i = 0; i < formElements.length; i++)
+    let xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function ()
     {
-        let currentElement = formElements[i];
-        //Create a input Element
-        let inputElement = document.createElement("input");
-        inputElement.id = currentElement[0];
-        inputElement.type = currentElement[1];
-
-        //Create A label for Input Element
-        let labelElement = document.createElement("label");
-
-        labelElement.for = currentElement[0];
-        labelElement.innerHTML = currentElement[2];
-
-        //Append Both Label and Input to the form
-        form.appendChild(labelElement);
-        form.appendChild(inputElement);
-
-
-        //Add Breaks for Spacing
-        let pageBreak = document.createElement("br");
-        form.appendChild(pageBreak);
-        form.appendChild(pageBreak);
-
-    }
-
-    //Return form
-    return form;
+        if (this.readyState === 4 && this.status === 200)
+        {
+            onReady(xmlHttpRequest);
+        }
+    };
+    xmlHttpRequest.open("GET", pageName, true);
+    xmlHttpRequest.send();
 }
 
 

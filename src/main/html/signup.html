@@ -1,0 +1,45 @@
+<div id="signUpForm">
+
+    <h1>Create An Account</h1>
+    <div class="form">
+
+        <div id="labelDiv">
+
+            <label for="username">Username:</label>
+            <label for="password">Password:</label>
+            <label for="email">Email:</label>
+            <label for="acceptTOS">I have read and agree to the
+                <a href="termsofservice.html">Terms of Service</a>
+                and the
+                <a href="privacypolicy.html">Privacy Policy</a>
+                .
+            </label>
+        </div>
+        <div id="inputDiv">
+
+            <div>
+                <input id="username" type="text">
+                <h3 id="usernameError">Username is To Long</h3>
+            </div>
+            <div>
+                <input id="password" type="password"><br>
+                <input id="passwordCheck" type="password">
+                <h3 id="passwordError">Passwords Do Not Match</h3>
+            </div>
+            <div>
+                <input id="email" type="email"><br>
+                <input id="emailCheck" type="email">
+                <h3 id="emailError">Emails Do Not Match</h3>
+            </div>
+            <div>
+                <input id="acceptTOS" type="checkbox">
+                <h3 id="tosError">You did not accept the Terms of Service and Privacy Policy</h3>
+            </div>
+        </div>
+
+
+    </div>
+
+    <input type="button" value="Sign Up">
+
+</div>

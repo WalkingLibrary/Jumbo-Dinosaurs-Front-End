@@ -137,7 +137,55 @@ img {
     color: inherit;
 }
 
-/*Style for the userpage*/
+/*Style for the userPage*/
+
+#inputDiv {
+    background-color: rgba(44, 144, 55, 0.7);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 100%;
+    justify-content: start;
+    grid-auto-rows: minmax(120px, 120px);
+}
+
+#labelDiv {
+    padding: 10px;
+    background-color: rgba(44, 144, 55, 0.7);
+    display: grid;
+    grid-template-columns: 100%;
+    justify-content: end;
+    grid-auto-rows: minmax(120px, 120px);
+}
+
+#signUpForm {
+    background-color: darkslategray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+}
+
+
+#userContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-left: 120px;
+}
+
+.form h3 {
+    color: red;
+    padding: 10px;
+}
+
+#userContent .form {
+    margin: 10px;
+    background-color: rgba(45, 0, 55, 0.7);
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
 
 
 /*Style For Map Page*/
