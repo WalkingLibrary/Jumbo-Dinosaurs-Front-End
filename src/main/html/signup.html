@@ -5,10 +5,10 @@
 
         <div id="labelDiv">
 
-            <label for="username">Username:</label>
-            <label for="password">Password:</label>
-            <label for="email">Email:</label>
-            <label for="acceptTOS">I have read and agree to the
+            <label for="usernameInput">Username:</label>
+            <label for="passwordInput">Password:</label>
+            <label for="emailInput">Email:</label>
+            <label for="acceptTOSPPInput">I have read and agree to the
                 <a href="termsofservice.html">Terms of Service</a>
                 and the
                 <a href="privacypolicy.html">Privacy Policy</a>
@@ -18,28 +18,33 @@
         <div id="inputDiv">
 
             <div>
-                <input id="username" type="text">
-                <h3 id="usernameError">Username is To Long</h3>
+                <div id="usernameInputDiv">
+                    <input id="usernameInput" onclick="onUsernameInputChange()" type="text">
+                    <h5>Username can contain A-Z, a-z, 0-9, and _ with a max length of 15 Characters</h5>
+                    <input onclick="checkAvailability(usernameInput.value)" type="button" value="Check Availability">
+                </div>
+                <h3 id="usernameError"></h3>
+                <h3 id="usernameTakenStatus"></h3>
             </div>
             <div>
-                <input id="password" type="password"><br>
-                <input id="passwordCheck" type="password">
-                <h3 id="passwordError">Passwords Do Not Match</h3>
+                <input id="passwordInput" type="password"><br>
+                <input id="passwordCheckInput" type="password">
+                <h3 id="passwordError"></h3>
             </div>
             <div>
-                <input id="email" type="email"><br>
-                <input id="emailCheck" type="email">
-                <h3 id="emailError">Emails Do Not Match</h3>
+                <input id="emailInput" type="email"><br>
+                <input id="emailCheckInput" type="email">
+                <h3 id="emailError"></h3>
             </div>
             <div>
-                <input id="acceptTOS" type="checkbox">
-                <h3 id="tosError">You did not accept the Terms of Service and Privacy Policy</h3>
+                <input id="acceptTOSPPInput" type="checkbox">
+                <h3 id="tosppError"></h3>
             </div>
         </div>
 
 
     </div>
 
-    <input type="button" value="Sign Up">
+    <input id="signUpButton" onclick="signUp()" type="button" value="Sign Up">
 
 </div>

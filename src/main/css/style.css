@@ -140,7 +140,6 @@ img {
 /*Style for the userPage*/
 
 #inputDiv {
-    background-color: rgba(44, 144, 55, 0.7);
     padding: 10px;
     display: grid;
     grid-template-columns: 100%;
@@ -150,7 +149,6 @@ img {
 
 #labelDiv {
     padding: 10px;
-    background-color: rgba(44, 144, 55, 0.7);
     display: grid;
     grid-template-columns: 100%;
     justify-content: end;
@@ -158,12 +156,40 @@ img {
 }
 
 #signUpForm {
-    background-color: darkslategray;
+    background-color: darkolivegreen;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
     min-height: 95vh;
+}
+
+
+/* h5 Style
+ * hides and shows h5
+ *
+ */
+
+#usernameInputDiv {
+    position: relative;
+}
+
+#usernameInputDiv h5 {
+    visibility: hidden;
+    z-index: 1;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
+    position: absolute;
+    top: 0%;
+    left: 75%;
+}
+
+
+/* When the navbar is hovered over it shows the h5
+ */
+#usernameInputDiv:hover h5 {
+    visibility: visible;
 }
 
 
@@ -173,6 +199,7 @@ img {
     justify-content: space-around;
     align-items: flex-start;
     margin-left: 120px;
+    min-height: 100vh;
 }
 
 .form h3 {
@@ -180,9 +207,13 @@ img {
     padding: 10px;
 }
 
+.form a {
+    color: inherit;
+}
+
 #userContent .form {
     margin: 10px;
-    background-color: rgba(45, 0, 55, 0.7);
+    background-color: darkslategray;
     display: grid;
     grid-template-columns: 20% 80%;
 }

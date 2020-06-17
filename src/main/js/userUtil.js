@@ -17,7 +17,7 @@ class PostRequest
 
 function getUser()
 {
-
+    return null;
 }
 
 function sendPostRequest(onResponseInstructions)
