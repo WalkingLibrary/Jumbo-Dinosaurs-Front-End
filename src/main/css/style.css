@@ -139,21 +139,6 @@ img {
 
 /*Style for the userPage*/
 
-#inputDiv {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 100%;
-    justify-content: start;
-    grid-auto-rows: minmax(120px, 120px);
-}
-
-#labelDiv {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 100%;
-    justify-content: end;
-    grid-auto-rows: minmax(120px, 120px);
-}
 
 #signUpForm {
     background-color: darkolivegreen;
@@ -171,7 +156,11 @@ img {
  */
 
 #usernameInputDiv {
-    position: relative;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 2fr 1fr 1fr;
+
 }
 
 #usernameInputDiv h5 {
@@ -180,9 +169,8 @@ img {
     background-color: black;
     border-radius: 10px;
     border: 3px groove red;
-    position: absolute;
-    top: 0%;
-    left: 75%;
+    max-width: 100px;
+    margin: 10px;
 }
 
 
@@ -199,12 +187,11 @@ img {
     justify-content: space-around;
     align-items: flex-start;
     margin-left: 120px;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 .form h3 {
     color: red;
-    padding: 10px;
 }
 
 .form a {
@@ -212,10 +199,21 @@ img {
 }
 
 #userContent .form {
-    margin: 10px;
     background-color: darkslategray;
+    justify-content: space-evenly;
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 1fr 2fr;
+    align-content: space-evenly;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-items: center;
+    min-height: 50vh;
+    padding-bottom: 10%;
+}
+
+
+.inputDiv {
+    padding: 10px;
 }
 
 

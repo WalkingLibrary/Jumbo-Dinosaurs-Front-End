@@ -72,19 +72,18 @@ function signUp()
     let isInputValid = true;
 
     /* Check/Validate Username
-     * Check/Validate length of Text inputs
-     * Make Sure Username is under 15 characters long and greater than 0, and only contains Characters A-Z, a-z, 0-9, and _
-     * Send a Request To Ensure The Username is available
-     *
      *  */
 
 
     let username = usernameInput.value;
-    //NOTE: checkAvailability does the isAValidUsernameCheck and updates the display accordingly
-    // Send a Request To Ensure The Username is available
-    if (!hasCheckedAvailability)
+    if (!isAValidUsername(username))
     {
-        checkAvailability(username);
+        usernameError.innerHTML = "Enter a Valid Username";
+        isInputValid = false;
+    }
+    else
+    {
+        usernameError.innerHTML = "";
     }
 
 
@@ -178,6 +177,8 @@ function signUp()
             //parse error and tell user
         }
     }
+
+    sendPostRequest(signUpPostRequest, onResponse);
 
 
 }
