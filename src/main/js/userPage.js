@@ -162,7 +162,7 @@ function signUp()
     signUpPostRequest.username = username;
     signUpPostRequest.password = password;
     signUpPostRequest.email = email;
-    signUpPostRequest.captchaCode = "getCaptchCode()";
+    signUpPostRequest.captchaCode = captchaCode;
 
 
     //Create Function to be called when the server responds
@@ -171,10 +171,12 @@ function signUp()
         if (xmlHttpRequest.status === 200)
         {
             //change to login page
+            console.log("Successfully created a account");
         }
         else
         {
             //parse error and tell user
+            console.log(xmlHttpRequest.responseText);
         }
     }
 

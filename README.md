@@ -8,6 +8,11 @@ The Home Page of Jumbo Dinosaurs
  - Cool Dinosaur Photos
 
 ### Todos
+- add get Captcha Public code Abilities
+- add login page
+- add password change page
+- add user use page
+
 
 License
 ----
