@@ -1,0 +1,33 @@
+<div id="loginForm">
+    <h1>Login</h1>
+    <div class="form">
+
+
+        <!--Username Input-->
+        <label for="usernameInput">Username:</label>
+        <div class="inputDiv">
+            <input id="usernameInput" onclick="onUsernameInputChange()" type="text">
+        </div>
+
+
+        <!--Password Input-->
+        <label for="passwordInput">Password:</label>
+        <div class="inputDiv">
+            <input id="passwordInput" type="password"><br>
+
+        </div>
+
+        <!--Remember Me Input-->
+        <label for="rememberMe">Remember Me</label>
+        <div class="inputDiv">
+            <input id="rememberMe" type="checkbox">
+            <h3 id="loginError"></h3>
+        </div>
+
+    </div>
+    <div id="createAccountDiv" onclick="setSignUpForm()">
+        <h4>Don't Have an account? <br> Click Here to create one</h4>
+    </div>
+    <input id="loginButton" onclick="login()" type="button" value="Login">
+
+</div>

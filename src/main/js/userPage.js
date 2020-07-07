@@ -44,6 +44,20 @@ function displaySignUpPage()
 }
 
 
+/*
+ * */
+function login()
+{
+    /* Login Process
+     *
+     * Clear old Login Error
+     * Validate Form Inputs and Display Errors
+     * Create and Send Login Post Request
+     * Store Users Token/Info Locally for Later Usage
+     * Display User Page
+     * */
+}
+
 /* Booleans used to make sure the user name is available before sending a sign up request
  * */
 

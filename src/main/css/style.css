@@ -149,6 +149,27 @@ img {
     min-height: 95vh;
 }
 
+#loginForm {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+}
+
+#createAccountDiv {
+    border-radius: 10px;
+    background-color: black;
+    border: 3px groove red;
+    padding: 10px;
+
+}
+
+#createAccountDiv:hover {
+    background-color: grey;
+}
+
 
 /* h5 Style
  * hides and shows h5
