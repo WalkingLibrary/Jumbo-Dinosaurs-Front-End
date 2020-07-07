@@ -8,7 +8,8 @@ loadPage();
 
 function loadPage()
 {
-    setSignUpForm();
+    //setSignUpForm();
+    setLoginForm();
 }
 
 
@@ -18,6 +19,16 @@ function setSignUpForm()
     {
         displaySignUpPage();
     }
+}
+
+function setLoginForm()
+{
+    let signUpFunction = function (xmlRequest)
+    {
+        userContentBlock.innerHTML = xmlRequest.responseText;
+    };
+
+    getForm(host + "login.html", signUpFunction);
 }
 
 
