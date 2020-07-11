@@ -4,43 +4,65 @@
 let host = "http://localhost/";
 let userContentBlock = document.getElementById("userContent");
 
+
 loadPage();
 
 function loadPage()
 {
-    //setSignUpForm();
-    setLoginForm();
+    //etSignUpForm();
+    //displayLoginForm();
+    displayActivationForm();
+}
+
+function displayActivationForm()
+{
+    displayForm("activateAccountForm.html");
+}
+
+function displayLoginForm()
+{
+    displayForm("loginForm.html");
 }
 
 
-function setSignUpForm()
+function displaySignUpForm()
 {
-    if (getUser() === null)
-    {
-        displaySignUpPage();
-    }
-}
-
-function setLoginForm()
-{
-    let signUpFunction = function (xmlRequest)
-    {
-        userContentBlock.innerHTML = xmlRequest.responseText;
-    };
-
-    getForm(host + "login.html", signUpFunction);
+    displayForm("signupFrom.html");
 }
 
 
-function displaySignUpPage()
+function displayForm(formName)
 {
-
-    let signUpFunction = function (xmlRequest)
+    let displayFormFunction = function (xmlRequest)
     {
         userContentBlock.innerHTML = xmlRequest.responseText;
     };
 
-    getForm(host + "signup.html", signUpFunction);
+    getForm(host + formName, displayFormFunction);
+}
+
+
+/**/
+function activateAccount()
+{
+    /*
+     * Process for sending an activation code
+     * Get the User
+     * Craft post Request
+     * Display requests errors if any or show a successful
+     *
+     *  */
+
+}
+
+function resendActivationCode()
+{
+    /*
+     * Process for resending an activation code
+     * Get the User
+     * Craft PostRequest
+     * Display requests errors if any or show a successful
+     *  */
 }
 
 
@@ -56,9 +78,47 @@ function login()
      * Store Users Token/Info Locally for Later Usage
      * Display User Page
      * */
+
+    loginError.innerHTML = "";
+
+
+    //Validate Form Inputs and Display Errors
+
+    let username = usernameInput.value;
+    //Check the username given
+    if (!isAValidUsername(username))
+    {
+        loginError.innerHTML = "Invalid Username";
+        return;
+    }
+
+    //Passwords only limit is it's size
+    let password = passwordInput.value;
+
+    //Create and Send Login Post Request
+    let tokenRequest = new PostRequest("GetAuthToken");
+    tokenRequest.username = username;
+    tokenRequest.password = password;
+
+    let onResponse = function (xmlHttpRequest)
+    {
+        if (xmlHttpRequest.status === 200)
+        {
+            //change to login page
+            console.log("Successfully Logged in");
+        }
+        else
+        {
+            loginError.innerHTML = "The Username or password given was invalid";
+            console.log(xmlHttpRequest.responseText);
+        }
+    }
+
+    sendPostRequest(tokenRequest, onResponse);
+
 }
 
-/* Booleans used to make sure the user name is available before sending a sign up request
+/* Booleans used to make sure the username is available before sending a sign up request
  * */
 
 let hasCheckedAvailability = false;

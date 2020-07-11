@@ -26,14 +26,12 @@ h5 {
 #container {
     background-color: olivedrab;
     max-width: 1080px;
-    width: vw;
     color: whitesmoke;
     display: flex;
     flex-direction: column;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    border: 60px, solid, black;
     text-align: center;
 }
 
@@ -149,6 +147,16 @@ img {
     min-height: 95vh;
 }
 
+#accountActivationFrom {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+    min-width: 50%;
+}
+
 #loginForm {
     background-color: darkolivegreen;
     display: flex;
@@ -156,6 +164,7 @@ img {
     align-items: center;
     justify-content: space-evenly;
     min-height: 95vh;
+    min-width: 50%;
 }
 
 #createAccountDiv {
@@ -166,7 +175,20 @@ img {
 
 }
 
+
 #createAccountDiv:hover {
+    background-color: grey;
+}
+
+#sendActivationCodeDiv {
+    border-radius: 10px;
+    background-color: black;
+    border: 3px groove red;
+    padding: 10px;
+
+}
+
+#sendActivationCodeDiv:hover {
     background-color: grey;
 }
 
@@ -230,6 +252,7 @@ img {
     justify-items: center;
     min-height: 50vh;
     padding-bottom: 10%;
+    width: 100%;
 }
 
 
