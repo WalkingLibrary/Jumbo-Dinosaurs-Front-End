@@ -5,6 +5,27 @@ let host = "http://localhost/";
 let userContentBlock = document.getElementById("userContent");
 
 
+/*
+ * Gets the loading animation html and stores it in a usable variable
+ *  */
+let loadingAnimationHTML;
+let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
+{
+    if (xmlHttpRequest.status === 200)
+    {
+        loadingAnimationHTML = xmlHttpRequest.responseText;
+    }
+    else
+    {
+        loadingAnimationHTML = "<h1>Loading...</h1>";
+    }
+}
+getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
+
+
+let user = getUser();
+
+
 loadPage();
 
 function loadPage()
@@ -38,9 +59,14 @@ function displayForm(formName)
         userContentBlock.innerHTML = xmlRequest.responseText;
     };
 
-    getForm(host + formName, displayFormFunction);
+    getForm(getFormLink(formName), displayFormFunction);
 }
 
+
+function getFormLink(formName)
+{
+    return host + formName;
+}
 
 /**/
 function activateAccount()
@@ -52,6 +78,9 @@ function activateAccount()
      * Display requests errors if any or show a successful
      *
      *  */
+    let loadingButtonDiv = document.getElementById("loadingButton");
+    let loadingButtonPreAnimation = loadingButtonDiv.innerHTML;
+    loadingButtonDiv.innerHTML = loadingAnimationHTML;
 
 }
 
@@ -73,6 +102,7 @@ function login()
     /* Login Process
      *
      * Clear old Login Error
+     * Show Loading animation on login button
      * Validate Form Inputs and Display Errors
      * Create and Send Login Post Request
      * Store Users Token/Info Locally for Later Usage
@@ -80,6 +110,10 @@ function login()
      * */
 
     loginError.innerHTML = "";
+
+    let loginLoadingButtonDiv = document.getElementById("loginLoadingButton");
+    let loginLoadingButtonPreAnimation = loginLoadingButtonDiv.innerHTML;
+    loginLoadingButtonDiv.innerHTML = loadingAnimationHTML;
 
 
     //Validate Form Inputs and Display Errors
@@ -89,6 +123,7 @@ function login()
     if (!isAValidUsername(username))
     {
         loginError.innerHTML = "Invalid Username";
+        loginLoadingButtonDiv.innerText = loginLoadingButtonPreAnimation;
         return;
     }
 
@@ -110,6 +145,7 @@ function login()
         else
         {
             loginError.innerHTML = "The Username or password given was invalid";
+            loginLoadingButtonDiv.innerText = loginLoadingButtonPreAnimation;
             console.log(xmlHttpRequest.responseText);
         }
     }

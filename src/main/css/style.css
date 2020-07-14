@@ -193,6 +193,81 @@ img {
 }
 
 
+/*Load Animation */
+
+.loadAnimationContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.twoCircles {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 2px;
+    align-items: center;
+}
+
+.redCircle {
+    border: 5px solid red;
+    background-color: red;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.blueCircle {
+    border: 5px solid blue;
+    background-color: blue;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.yellowCircle {
+    border: 5px solid yellow;
+    background-color: yellow;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.loadAnimation {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    -webkit-animation: spin 10s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 /* h5 Style
  * hides and shows h5
  *
