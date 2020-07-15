@@ -23,8 +23,6 @@ let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
 getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
 
 
-let user = getUser();
-
 
 loadPage();
 
@@ -73,14 +71,62 @@ function activateAccount()
 {
     /*
      * Process for sending an activation code
-     * Get the User
-     * Craft post Request
-     * Display requests errors if any or show a successful
+     * Display Loading Animation
+     * Clear Old Errors
+     * Validate Inputs and display errors
+     * Craft Post Request with stored user
+     * Send Post request and display Success/Error
      *
      *  */
-    let loadingButtonDiv = document.getElementById("loadingButton");
-    let loadingButtonPreAnimation = loadingButtonDiv.innerHTML;
-    loadingButtonDiv.innerHTML = loadingAnimationHTML;
+
+    //Display Loading Animation
+    let activationLoadingButton = document.getElementById("activationLoadingButton");
+    let activationLoadingButtonPreAnimation = activationLoadingButton.innerHTML;
+    activationLoadingButton.innerHTML = loadingAnimationHTML;
+
+    //Clear Old Errors
+    activationError.innerHTML = "";
+
+    //Validate Inputs and display errors
+    let activationCode = activationToken.value;
+    if (activationCode === "")
+    {
+        activationError.innerHTML = "Enter A Code";
+        activationLoadingButton.innerHTML = activationLoadingButtonPreAnimation;
+        return;
+
+    }
+
+
+    //Craft Post Request with stored user
+    let activationRequest = new PostRequest("ActivateAccount");
+
+    if (getUser() === null)
+    {
+        displayLoginForm();
+        return;
+    }
+
+    activationRequest.username = getUser().username;
+    activationRequest.token = activationCode
+    activationRequest.tokenUse = "email";
+
+
+    //Send Post request and display Success/Error
+    let onResponse = function (xmlHttpRequest)
+    {
+        if (xmlHttpRequest.status === 200)
+        {
+            activationLoadingButton.innerHTML = "Account Activated";
+            return;
+        }
+
+        activationError.innerHTML = "An Error has occurred try again";
+        activationLoadingButton.innerHTML = activationLoadingButtonPreAnimation;
+
+    }
+
+    sendPostRequest(activationRequest, onResponse);
 
 }
 
@@ -92,6 +138,49 @@ function resendActivationCode()
      * Craft PostRequest
      * Display requests errors if any or show a successful
      *  */
+
+    activationError.innerHTML = "";
+    let resendActivationRequest = new PostRequest("ReSendActivationEmail");
+
+    if (getUser() === null)
+    {
+        displayLoginForm();
+        return;
+    }
+
+    resendActivationRequest.username = getUser().username;
+    resendActivationRequest.token = getUser().token;
+    resendActivationRequest.tokenUse = getUser().tokenUse;
+    resendActivationRequest.captchaCode = captchaCode;
+
+    let onResponse = function (xmlHttpRequest)
+    {
+
+        activationError.style.color = "red";
+
+        if (xmlHttpRequest.status === 200)
+        {
+            let jsonResponse = JSON.parse(xmlHttpRequest.responseText);
+            if (jsonResponse.isActive === true)
+            {
+                activationError.innerHTML = "Account already Activated";
+                return;
+            }
+            activationError.style.color = "lawngreen";
+            activationError.innerHTML = "Another Email Has Been Sent"
+            return;
+        }
+
+        if (xmlHttpRequest.status === 500)
+        {
+            activationError.innerHTML = "There was a Server Error<br>Try again Later";
+            return;
+        }
+
+        activationError.innerHTML = "There was an Error<br>Refresh and Try Again";
+    }
+
+    sendPostRequest(resendActivationRequest, onResponse);
 }
 
 
@@ -139,13 +228,21 @@ function login()
     {
         if (xmlHttpRequest.status === 200)
         {
-            //change to login page
-            console.log("Successfully Logged in");
+            let response = xmlHttpRequest.responseText;
+            let jsonResponse = JSON.parse(response);
+            let token = jsonResponse.token;
+            let tokenUse = jsonResponse.tokenUse;
+
+            let newUser = new User(username, token, tokenUse);
+            setUser(newUser, rememberMe.value);
+            readUser();
+            //Display UserPage
+            displayActivationForm();
         }
         else
         {
             loginError.innerHTML = "The Username or password given was invalid";
-            loginLoadingButtonDiv.innerText = loginLoadingButtonPreAnimation;
+            loginLoadingButtonDiv.innerHTML = loginLoadingButtonPreAnimation;
             console.log(xmlHttpRequest.responseText);
         }
     }

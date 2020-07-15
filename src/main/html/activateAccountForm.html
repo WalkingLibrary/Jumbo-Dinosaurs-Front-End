@@ -4,19 +4,20 @@
 
 
         <!--Email Token Input-->
-        <label for="emailToken">Activation Code:</label>
+        <label for="activationToken">Activation Code:</label>
         <div class="inputDiv">
-            <input id="emailToken" type="text">
+            <input id="activationToken" type="text">
+
         </div>
 
-        <h3 id="activationError"></h3>
+
 
     </div>
 
     <div id="sendActivationCodeDiv" onclick="resendActivationCode()">
         <h4>Didn't receive an email? <br> Click Here to resend</h4>
     </div>
-
+    <h3 id="activationError"></h3>
 
     <div class="loadAnimationContainer" id="activationLoadingButton">
         <input id="activateAccount" onclick="activateAccount()" type="button" value="Activate Account">
