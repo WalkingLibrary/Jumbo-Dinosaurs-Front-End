@@ -1,0 +1,159 @@
+/*Style for the USER PAGE*/
+
+/*Style reused for each form*/
+#userContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-left: 120px;
+    min-height: 100%;
+}
+
+#userContent .form {
+    background-color: darkslategray;
+    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-content: space-evenly;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-items: center;
+    min-height: 50vh;
+    padding-bottom: 10%;
+    width: 100%;
+}
+
+.inputDiv {
+    padding: 10px;
+}
+
+.form h3 {
+    color: red;
+}
+
+.form a {
+    color: inherit;
+}
+
+
+/*Style For the SIGNUP Form*/
+
+#signUpForm {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+}
+
+/* h5 Style
+ * hides and shows h5
+ *
+ */
+
+#usernameRestraintsDiv {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 2fr 1fr 1fr;
+
+}
+
+#usernameRestraintsDiv h5 {
+    visibility: hidden;
+    z-index: 1;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
+    max-width: 100px;
+    margin: 10px;
+}
+
+
+/* When the usernameRestraintsDiv is hovered over it shows the h5
+ */
+#usernameRestraintsDiv:hover h5 {
+    visibility: visible;
+}
+
+
+/*Activation Form Style*/
+
+#accountActivationFrom {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+    min-width: 50%;
+}
+
+#sendActivationCodeDiv {
+    border-radius: 10px;
+    background-color: black;
+    border: 3px groove red;
+    padding: 10px;
+
+}
+
+#sendActivationCodeDiv:hover {
+    background-color: grey;
+}
+
+
+/*LOGIN FORM STYLE*/
+
+#loginForm {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+    min-width: 50%;
+}
+
+
+#createAccountDiv {
+    border-radius: 10px;
+    background-color: black;
+    border: 3px groove red;
+    padding: 10px;
+
+}
+
+
+#createAccountDiv:hover {
+    background-color: grey;
+}
+
+
+/* USER FROM STYLE */
+#userContentForm {
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 95vh;
+    width: 100%;
+}
+
+#tableIcon {
+    border: 3px groove red;
+    background-color: white;
+    border-radius: 20%;
+    width: 100px;
+    height: 100px;
+}
+
+#usernameHeader {
+    border-radius: 10px;
+    background-color: black;
+    border: 3px groove red;
+    width: 100%;
+
+}

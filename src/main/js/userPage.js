@@ -1,8 +1,8 @@
 /* Script to handle the User Page Interactions
  * */
 
-let host = "http://localhost/";
-let userContentBlock = document.getElementById("userContent");
+const host = "http://localhost/";
+const userContentBlock = document.getElementById("userContent");
 
 
 /*
@@ -23,14 +23,14 @@ let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
 getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
 
 
-
 loadPage();
 
 function loadPage()
 {
-    //etSignUpForm();
+    displaySignUpForm();
     //displayLoginForm();
-    displayActivationForm();
+    //displayActivationForm();
+    //displayUserContent()
 }
 
 function displayActivationForm()
@@ -49,12 +49,25 @@ function displaySignUpForm()
     displayForm("signupFrom.html");
 }
 
+function displayUserContent()
+{
+    displayForm("userContentForm.html", displayUsername);
+}
 
 function displayForm(formName)
+{
+    displayForm(formName, null);
+}
+
+function displayForm(formName, afterLoadFunction)
 {
     let displayFormFunction = function (xmlRequest)
     {
         userContentBlock.innerHTML = xmlRequest.responseText;
+        if (afterLoadFunction !== null)
+        {
+            afterLoadFunction();
+        }
     };
 
     getForm(getFormLink(formName), displayFormFunction);
@@ -64,6 +77,11 @@ function displayForm(formName)
 function getFormLink(formName)
 {
     return host + formName;
+}
+
+function displayUsername()
+{
+    usernameHeader.innerHTML = "Welcome " + getUser().username;
 }
 
 /**/
