@@ -7,6 +7,13 @@ let userKey = "user";
 
 readUser();
 
+
+function clearUserInfo()
+{
+    window.sessionStorage.setItem(userKey, null);
+    window.localStorage.setItem(userKey, null);
+}
+
 function readUser()
 {
     user = JSON.parse(window.sessionStorage.getItem(userKey));
@@ -49,10 +56,18 @@ class User
 
 class PostRequest
 {
-    constructor(command)
+    constructor(command, user)
     {
         this.command = command;
+        if (user !== undefined)
+        {
+
+            this.username = user.username;
+            this.tokenUse = user.tokenUse;
+            this.token = user.token;
+        }
     }
+
 }
 
 

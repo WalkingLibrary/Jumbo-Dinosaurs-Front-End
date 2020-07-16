@@ -12,9 +12,10 @@
             <div id="usernameRestraintsDiv">
 
                 <input id="usernameInput" onclick="onUsernameInputChange()" type="text">
-
-                <input onclick="checkAvailability(usernameInput.value)" type="button"
-                       value="Check Availability">
+                <div class="loadAnimationContainer" id="checkAvailabilityLoadingButton">
+                    <input onclick="checkAvailability(usernameInput.value)" type="button"
+                           value="Check Availability">
+                </div>
 
                 <h5>Username can contain A-Z, a-z, 0-9, and _ with a max length of 15 Characters</h5>
             </div>
@@ -54,9 +55,16 @@
         <div class="inputDiv">
             <input id="acceptTOSPPInput" type="checkbox">
             <h3 id="tosppError"></h3>
+            <h3 id="generalError"></h3>
         </div>
     </div>
 
-    <input id="signUpButton" onclick="signUp()" type="button" value="Sign Up">
+    <div id="formNavigationDiv" onclick="displayLoginForm()">
+        <h4>Have an account? <br> Click Here to Login</h4>
+    </div>
+
+    <div class="loadAnimationContainer" id="signUpLoadingButton">
+        <input id="signUpButton" onclick="signUp()" type="button" value="Sign Up">
+    </div>
 
 </div>

@@ -27,10 +27,13 @@ loadPage();
 
 function loadPage()
 {
-    displaySignUpForm();
-    //displayLoginForm();
-    //displayActivationForm();
-    //displayUserContent()
+    if (getUser() !== null)
+    {
+        displayUserContent();
+        return;
+    }
+
+    displayLoginForm();
 }
 
 function displayActivationForm()
@@ -51,13 +54,9 @@ function displaySignUpForm()
 
 function displayUserContent()
 {
-    displayForm("userContentForm.html", displayUsername);
+    displayForm("userContentForm.html", setUpUserContent);
 }
 
-function displayForm(formName)
-{
-    displayForm(formName, null);
-}
 
 function displayForm(formName, afterLoadFunction)
 {
@@ -66,7 +65,10 @@ function displayForm(formName, afterLoadFunction)
         userContentBlock.innerHTML = xmlRequest.responseText;
         if (afterLoadFunction !== null)
         {
-            afterLoadFunction();
+            if (afterLoadFunction !== undefined)
+            {
+                afterLoadFunction();
+            }
         }
     };
 
@@ -79,9 +81,53 @@ function getFormLink(formName)
     return host + formName;
 }
 
-function displayUsername()
+
+function logOut()
 {
+    /*
+     * process for logging out
+     * remove user info from local and session storage
+     * display login form
+     *
+     *  */
+
+
+    //remove user info from local and session storage
+    clearUserInfo();
+
+
+    //display login form
+    displayLoginForm();
+}
+
+function setUpUserContent()
+{
+    /* Process for setting up the user content
+     * display welcome message
+     * check accounts activity and display activation message
+     * */
+
+    //display welcome message
     usernameHeader.innerHTML = "Welcome " + getUser().username;
+
+
+    //check accounts activity and display activation message
+    let isActiveRequest = new PostRequest("CheckActive", getUser());
+    let onResponse = function (xmlHttpRequest)
+    {
+        if (xmlHttpRequest.status === 200)
+        {
+            let jsonResponse = JSON.parse(xmlHttpRequest.responseText);
+            let isActive = jsonResponse.isActive;
+            if (!isActive)
+            {
+                activationStatus.style.visibility = "visible";
+            }
+        }
+    };
+
+    sendPostRequest(isActiveRequest, onResponse);
+
 }
 
 /**/
@@ -158,7 +204,7 @@ function resendActivationCode()
      *  */
 
     activationError.innerHTML = "";
-    let resendActivationRequest = new PostRequest("ReSendActivationEmail");
+    let resendActivationRequest = new PostRequest("ReSendActivationEmail", getUser());
 
     if (getUser() === null)
     {
@@ -166,9 +212,6 @@ function resendActivationCode()
         return;
     }
 
-    resendActivationRequest.username = getUser().username;
-    resendActivationRequest.token = getUser().token;
-    resendActivationRequest.tokenUse = getUser().tokenUse;
     resendActivationRequest.captchaCode = captchaCode;
 
     let onResponse = function (xmlHttpRequest)
@@ -255,7 +298,7 @@ function login()
             setUser(newUser, rememberMe.value);
             readUser();
             //Display UserPage
-            displayActivationForm();
+            displayUserContent();
         }
         else
         {
@@ -287,6 +330,11 @@ function signUp()
      * Create and Send Post Request
      *  */
 
+
+    //Display Loading Animation
+    let signUpLoadingButton = document.getElementById("signUpLoadingButton");
+    let signUpLoadingButtonPreAnimation = signUpLoadingButton.innerHTML;
+    signUpLoadingButton.innerHTML = loadingAnimationHTML;
 
     //Clear old Errors
     usernameError.innerHTML = "";
@@ -376,6 +424,7 @@ function signUp()
 
     if (!isInputValid)
     {
+        signUpLoadingButton.innerHTML = signUpLoadingButtonPreAnimation;
         return;
     }
 
@@ -406,14 +455,22 @@ function signUp()
     {
         if (xmlHttpRequest.status === 200)
         {
-            //change to login page
-            console.log("Successfully created a account");
+            displayLoginForm();
+            return;
         }
-        else
+
+        signUpLoadingButton.innerHTML = signUpLoadingButtonPreAnimation;
+
+        if (xmlHttpRequest.status === 400)
         {
-            //parse error and tell user
-            console.log(xmlHttpRequest.responseText);
+            generalError.innerText = "There was an Error try Refreshing and trying again";
         }
+
+        if (xmlHttpRequest.status === 409)
+        {
+            generalError.innerText = JSON.parse(xmlHttpRequest.responseText).failureReason;
+        }
+
     }
 
     sendPostRequest(signUpPostRequest, onResponse);
@@ -474,11 +531,16 @@ function checkAvailability(username)
      * send a post request with the Created Request and Function
      *  */
 
+    //Display Loading Animation
+    let checkAvailabilityLoadingButton = document.getElementById("checkAvailabilityLoadingButton");
+    let checkAvailabilityLoadingButtonPreAnimation = checkAvailabilityLoadingButton.innerHTML;
+    checkAvailabilityLoadingButton.innerHTML = loadingAnimationHTML;
 
     //Check if the username is valid. Update display accordingly
     if (!isAValidUsername(username))
     {
         usernameError.innerHTML = "Enter a Valid Username";
+        checkAvailabilityLoadingButton.innerHTML = checkAvailabilityLoadingButtonPreAnimation;
         return;
     }
     else
@@ -501,6 +563,7 @@ function checkAvailability(username)
      * */
     let onResponse = function (xmlRequest)
     {
+        checkAvailabilityLoadingButton.innerHTML = checkAvailabilityLoadingButtonPreAnimation;
         //Check to make sure the username has not changed since the check
         if (usernameInput.value !== username)
         {
