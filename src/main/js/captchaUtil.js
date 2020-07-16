@@ -2,7 +2,7 @@ let captchaCode;
 grecaptcha.ready(
     function getCaptchaCode()
     {
-        grecaptcha.execute('6LfOEJYUAAAAABCgQ7XysiWy9SpLd_4FyuX2SErc',
+        grecaptcha.execute('6Lc_QpcUAAAAAD57tK2_u3anNnSoKM0FmvZF3QdO',
             {
                 action: 'captcha'
             })
