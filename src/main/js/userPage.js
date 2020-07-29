@@ -1,7 +1,7 @@
 /* Script to handle the User Page Interactions
  * */
 
-const host = "https://jumbodinosaurs.com/";
+
 const userContentBlock = document.getElementById("userContent");
 
 
