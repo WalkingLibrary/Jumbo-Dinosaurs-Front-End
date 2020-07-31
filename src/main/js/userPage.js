@@ -273,7 +273,7 @@ function login()
     if (!isAValidUsername(username))
     {
         loginError.innerHTML = "Invalid Username";
-        loginLoadingButtonDiv.innerText = loginLoadingButtonPreAnimation;
+        loginLoadingButtonDiv.innerHTML = loginLoadingButtonPreAnimation;
         return;
     }
 
