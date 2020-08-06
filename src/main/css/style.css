@@ -269,7 +269,7 @@ img {
 
 /*Style For Tabs for Latest Inscribings and Goodlinks*/
 .tab {
-    max-height: 350px;
+    min-height: 150px;
     min-width: 300px;
     height: 100px;
     width: 30%;
@@ -283,6 +283,7 @@ img {
     justify-content: space-evenly;
     display: flex;
     flex-direction: row;
+    min-height: 150px;
 }
 
 .tab a img {
