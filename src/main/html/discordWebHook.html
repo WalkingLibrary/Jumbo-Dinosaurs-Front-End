@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Discord Web Hook</title>
+    <script src="./discordWebHook.js"></script>
+    <link href="/css/discordStyle.css" rel="stylesheet">
+</head>
+<body>
+<div id="discordDiv">
+    <div class="inputDiv">
+        <label for="discordWebHookLink">Discord Web Hook Link: </label>
+        <input id="discordWebHookLink" type="text">
+    </div>
+    <div class="inputDiv">
+        <label for="username">Username:</label>
+        <input id="username" type="text">
+    </div>
+    <div class="inputDiv">
+        <label for="iconUrl">Icon Url:</label>
+        <input id="iconUrl" type="text">
+    </div>
+    <div class="inputDiv">
+        <label for="message">Message:</label>
+        <input id="message" type="text">
+    </div>
+    <div class="inputDiv">
+        <label for="times">Times:</label>
+        <input id="times" type="text">
+    </div>
+    <div class="inputDiv">
+        <input onclick="sendMessage()" type="button" value="Send">
+    </div>
+</div>
+</body>
+</html>
