@@ -254,7 +254,7 @@ function solvePath()
     let solveButtonDiv = document.getElementById("solveButtonDiv");
     let preClick = solveButtonDiv.innerHTML;
     solveButtonDiv.innerHTML = loadingAnimationHTML;
-
+    errorDisplay.innerHTML = "";
 
     //Validate the Grid
     let hasGoalNode = false;
@@ -343,7 +343,7 @@ function solvePath()
         if (xmlHttpRequest.status == 200)
         {
             let responseObject = JSON.parse(xmlHttpRequest.responseText);
-            if (responseObject.failureReason === "No Path")
+            if (responseObject.failureReason === "NoPath")
             {
                 errorDisplay.innerHTML = "There is no Path from the start node to the goal node"
             }
