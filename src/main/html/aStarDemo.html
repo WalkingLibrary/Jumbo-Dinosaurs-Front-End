@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+
+
+    <meta content="Remote AStar Demo" name="description">
+    <meta content="Jumbo, Dinosaurs, AStar, PathFinding" name="keywords">
+    <meta content="Jumbo Dinosaurs" property="og:title">
+    <meta content="Remote AStar Demo" property="og:description">
+    <meta content="/carno100x100.png" property="og:image">
+
+
+    <title>AStar Demo</title>
+
+
+    <link href="/css/navbar.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/aStarStyle.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div id="container">
+
+    <!--Navigation Bar-->
+    <div id="navbar" onmouseout="hideNavBar();" onmouseover="makeNavBarVisible();">
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/rex100x100.png"/></a>
+            <h5>Home</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/pteranodon100x100.png"/></a>
+            <h5>Art</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/home.html"> <img src="/carno100x100.png"/></a>
+            <h5>Downloads</h5>
+        </div>
+        <div class="navbarIcon">
+            <a href="/userPage.html"> <img src="/compys100x100.png"/></a>
+            <h5>User Page</h5>
+        </div>
+
+    </div>
+    <div id="aStarCanvasDiv">
+        <canvas id="aStarCanvas"></canvas>
+        <h1 id="errorDisplay"></h1>
+        <div id="controlBox">
+            <div id="howTo">
+                <h3>Left Click to place the Start Node</h3>
+
+                <h3>Right Click to place the Goal Node</h3>
+
+                <h3>Middle Click to place obstacles</h3>
+            </div>
+            <div id="solveButtonDiv">
+                <input id="solveButton" onclick="solvePath()" type="button" value="Solve">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/navbar.js"></script>
+<script src="/postUtil.js"></script>
+<script src="/captchaUtil.js"></script>
+<script src="/aStarDemo.js"></script>
+
+</body>
+
+</html>

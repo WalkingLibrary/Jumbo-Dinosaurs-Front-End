@@ -1,0 +1,45 @@
+
+#aStarCanvasDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+#aStarCanvas {
+    margin: auto;
+    border: 3px solid black;
+    background-color: white;
+    width: 50%;
+    height: 50%;
+}
+
+#controlBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: auto;
+
+}
+
+
+#solveButtonDiv {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#howTo {
+    margin: 50px;
+
+    background-color: black;
+    border: 3px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#howTo h3 {
+    padding: 10px;
+}
