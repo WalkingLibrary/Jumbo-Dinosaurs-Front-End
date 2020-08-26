@@ -334,14 +334,12 @@ function solvePath()
     }
 
     let mapHolder = new MapHolder(map);
-    console.log(JSON.stringify(mapHolder));
 
     let solveRequest = new PostRequest("SolveAStar2D");
     solveRequest.content = JSON.stringify(mapHolder);
 
     function onResponse(xmlHttpRequest)
     {
-        console.log(xmlHttpRequest.responseText);
         if (xmlHttpRequest.status == 200)
         {
             let responseObject = JSON.parse(xmlHttpRequest.responseText);
