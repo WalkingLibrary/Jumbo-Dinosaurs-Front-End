@@ -104,3 +104,14 @@ function getForm(pageName, onReadyFunction)
     xmlHttpRequest.open("GET", pageName, true);
     xmlHttpRequest.send();
 }
+
+function getFormLink(formName)
+{
+    return host + formName;
+}
+
+
+//This is defined in navbar.js but requires function in postutil to work
+// we call it here
+getForm(getFormLink("navbar.html"), loadNavBarFunction);
+

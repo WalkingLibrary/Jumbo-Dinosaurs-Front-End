@@ -76,12 +76,6 @@ function displayForm(formName, afterLoadFunction)
 }
 
 
-function getFormLink(formName)
-{
-    return host + formName;
-}
-
-
 function logOut()
 {
     /*

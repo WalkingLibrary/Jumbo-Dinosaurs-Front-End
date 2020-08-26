@@ -6,6 +6,22 @@
  *  */
 const host = window.location.protocol + "//" + window.location.hostname + "/";
 
+let navbarHTML;
+let loadNavBarFunction = function (xmlHttpRequest)
+{
+    if (xmlHttpRequest.status === 200)
+    {
+        navbarHTML = xmlHttpRequest.responseText;
+    }
+    else
+    {
+        navbarHTML = "<h1>Loading...</h1>";
+    }
+
+    let container = document.getElementById("container");
+    container.innerHTML += navbarHTML;
+}
+
 /*This Function Makes the NavBar Visible*/
 function makeNavBarVisible()
 {
