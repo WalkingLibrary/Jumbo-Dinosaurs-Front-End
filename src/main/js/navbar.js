@@ -18,8 +18,8 @@ let loadNavBarFunction = function (xmlHttpRequest)
         navbarHTML = "<h1>Loading...</h1>";
     }
 
-    let container = document.getElementById("container");
-    container.innerHTML += navbarHTML;
+    let container = document.getElementById("navBarContainer");
+    container.innerHTML = navbarHTML + container.innerHTML;
 }
 
 /*This Function Makes the NavBar Visible*/

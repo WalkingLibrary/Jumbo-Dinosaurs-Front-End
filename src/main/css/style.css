@@ -23,7 +23,19 @@ h5 {
  */
 
 
-#container {
+#contentContainer {
+    background-color: olivedrab;
+    max-width: 1080px;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    text-align: center;
+}
+
+#navBarContainer {
     background-color: olivedrab;
     max-width: 1080px;
     color: whitesmoke;
@@ -287,11 +299,12 @@ img {
 }
 
 .tab a img {
-    width: 100%;
-    height: 100%;
-    max-width: 150px;
-    max-width: 150px;
+    width: 100px;
+    height: 100px;
     border: none;
+    margin: auto;
+    padding-top: 20px;
+    padding-right: 20px;
 }
 
 
