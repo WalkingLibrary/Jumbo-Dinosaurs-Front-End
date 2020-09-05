@@ -33,6 +33,7 @@ h5 {
     margin-right: auto;
     text-align: center;
     text-align: center;
+    min-height: 100vh;
 }
 
 #navBarContainer {

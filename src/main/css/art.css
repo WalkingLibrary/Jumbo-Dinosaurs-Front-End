@@ -1,0 +1,28 @@
+#photosDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+
+.photoHolder img {
+    width: 100px;
+    height: 100px;
+}
+
+.photoHolder {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
+    margin: 10px;
+
+}
+
+.photoHolder h1 {
+    color: black;
+}

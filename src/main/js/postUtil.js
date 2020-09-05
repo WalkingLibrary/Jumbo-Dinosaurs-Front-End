@@ -68,6 +68,19 @@ class PostRequest
         }
     }
 
+    setCRUDRequest(request)
+    {
+        this.content = "";
+        this.content += JSON.stringify(request);
+    }
+
+}
+
+class CRUDRequest
+{
+    constructor()
+    {
+    }
 }
 
 
@@ -83,6 +96,7 @@ function sendPostRequest(postRequest, onReadyFunction)
     };
     xmlHttpRequest.open("POST", host, true);
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+    console.log(JSON.stringify(postRequest));
     xmlHttpRequest.send(JSON.stringify(postRequest));
 }
 
