@@ -1,0 +1,30 @@
+<div class="flexColumnSpaceAround" id="createTableDiv">
+
+    <div class="flexColumnSpaceAround widthOneHundred">
+        <div class="flexColumnSpaceAround widthOneHundred">
+            <div>
+                <label for="tableName">Table Name:</label>
+                <input id="tableName" type="text">
+            </div>
+            <h5 id="tableNameConstraints">Table Name can contain A-Z, a-z, 0-9, and _ with a max length of 15
+                Characters</h5>
+        </div>
+
+        <h1 id="tableNameError"></h1>
+    </div>
+
+    <div class="flexRowSpaceAround widthOneHundred">
+        <div>
+            <label for="objectTypeInput">Select an Object Type:</label>
+            <select id="objectTypeInput" name="objectTypes">
+            </select>
+        </div>
+    </div>
+
+    <div class="flexRowSpaceAround widthOneHundred">
+        <input onclick="removeCreateTableForm()" type="button" value="Back">
+        <div class="loadAnimationContainer" id="createTableButton">
+            <input onclick="onCaptchaButtonClick(createTable)" type="button" value="Create">
+        </div>
+    </div>
+</div>

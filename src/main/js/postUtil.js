@@ -59,12 +59,12 @@ class PostRequest
     constructor(command, user)
     {
         this.command = command;
-        if (user !== undefined)
+        if (getUser() !== undefined)
         {
 
-            this.username = user.username;
-            this.tokenUse = user.tokenUse;
-            this.token = user.token;
+            this.username = getUser().username;
+            this.tokenUse = getUser().tokenUse;
+            this.token = getUser().token;
         }
     }
 
@@ -84,6 +84,48 @@ class CRUDRequest
 }
 
 
+/*
+ * Gets the loading animation html and stores it in a usable variable
+ *  */
+let loadingAnimationHTML;
+let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
+{
+    if (xmlHttpRequest.status === 200)
+    {
+        loadingAnimationHTML = xmlHttpRequest.responseText;
+    }
+    else
+    {
+        loadingAnimationHTML = "<h1>Loading...</h1>";
+    }
+}
+getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
+
+class LoadAnimationHelper
+{
+
+    constructor(element)
+    {
+        this.element = element;
+        this.isLoading = false;
+    }
+
+    toggleLoading()
+    {
+        if (this.isLoading)
+        {
+            this.element.innerHTML = this.preHTML;
+            this.isLoading = false;
+            return;
+        }
+        this.preHTML = this.element.innerHTML;
+        this.element.innerHTML = loadingAnimationHTML;
+        this.isLoading = true;
+    }
+
+
+}
+
 function sendPostRequest(postRequest, onReadyFunction)
 {
     let xmlHttpRequest = new XMLHttpRequest();
@@ -96,7 +138,6 @@ function sendPostRequest(postRequest, onReadyFunction)
     };
     xmlHttpRequest.open("POST", host, true);
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
-    console.log(JSON.stringify(postRequest));
     xmlHttpRequest.send(JSON.stringify(postRequest));
 }
 

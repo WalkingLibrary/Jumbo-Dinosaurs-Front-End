@@ -5,22 +5,20 @@
 const userContentBlock = document.getElementById("userContent");
 
 
-/*
- * Gets the loading animation html and stores it in a usable variable
- *  */
-let loadingAnimationHTML;
-let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
+let createTableForm;
+let onResponseCreateTableForm = function (xmlHttpRequest)
 {
     if (xmlHttpRequest.status === 200)
     {
-        loadingAnimationHTML = xmlHttpRequest.responseText;
+        createTableForm = xmlHttpRequest.responseText;
     }
     else
     {
-        loadingAnimationHTML = "<h1>Loading...</h1>";
+        createTableForm = "<h1>Error Loading Form Refresh the Page</h1>";
     }
 }
-getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
+
+getForm(getFormLink("createTableForm.html"), onResponseCreateTableForm);
 
 
 loadPage();
@@ -102,6 +100,7 @@ function setUpUserContent()
      * */
 
     //display welcome message
+    let usernameHeader = document.getElementById("usernameHeader");
     usernameHeader.innerHTML = "Welcome " + getUser().username;
 
 
@@ -115,6 +114,7 @@ function setUpUserContent()
             let isActive = jsonResponse.isActive;
             if (!isActive)
             {
+                let activationStatus = document.getElementById("activationStatus");
                 activationStatus.style.visibility = "visible";
             }
         }
@@ -139,18 +139,20 @@ function activateAccount()
 
     //Display Loading Animation
     let activationLoadingButton = document.getElementById("activationLoadingButton");
-    let activationLoadingButtonPreAnimation = activationLoadingButton.innerHTML;
-    activationLoadingButton.innerHTML = loadingAnimationHTML;
+    let activationAnimationHelper = new LoadAnimationHelper(activationLoadingButton);
+    activationAnimationHelper.toggleLoading();
 
     //Clear Old Errors
+    let activationError = document.getElementById("activationError");
     activationError.innerHTML = "";
 
     //Validate Inputs and display errors
+    let activationToken = document.getElementById("activationToken");
     let activationCode = activationToken.value;
     if (activationCode === "")
     {
         activationError.innerHTML = "Enter A Code";
-        activationLoadingButton.innerHTML = activationLoadingButtonPreAnimation;
+        activationAnimationHelper.toggleLoading();
         return;
 
     }
@@ -180,7 +182,7 @@ function activateAccount()
         }
 
         activationError.innerHTML = "An Error has occurred try again";
-        activationLoadingButton.innerHTML = activationLoadingButtonPreAnimation;
+        activationAnimationHelper.toggleLoading();
 
     }
 
@@ -196,7 +198,7 @@ function resendActivationCode()
      * Craft PostRequest
      * Display requests errors if any or show a successful
      *  */
-
+    let activationError = document.getElementById("activationError");
     activationError.innerHTML = "";
     let resendActivationRequest = new PostRequest("ReSendActivationEmail", getUser());
 
@@ -253,25 +255,27 @@ function login()
      * Display User Page
      * */
 
+    let loginError = document.getElementById("loginError");
     loginError.innerHTML = "";
 
     let loginLoadingButtonDiv = document.getElementById("loginLoadingButton");
-    let loginLoadingButtonPreAnimation = loginLoadingButtonDiv.innerHTML;
-    loginLoadingButtonDiv.innerHTML = loadingAnimationHTML;
+    let loginAnimationHelper = new LoadAnimationHelper(loginLoadingButtonDiv);
+    loginAnimationHelper.toggleLoading();
 
 
     //Validate Form Inputs and Display Errors
-
+    let usernameInput = document.getElementById("usernameInput");
     let username = usernameInput.value;
     //Check the username given
     if (!isAValidUsername(username))
     {
         loginError.innerHTML = "Invalid Username";
-        loginLoadingButtonDiv.innerHTML = loginLoadingButtonPreAnimation;
+        loginAnimationHelper.toggleLoading();
         return;
     }
 
     //Passwords only limit is it's size
+    let passwordInput = document.getElementById("passwordInput");
     let password = passwordInput.value;
 
     //Create and Send Login Post Request
@@ -297,8 +301,7 @@ function login()
         else
         {
             loginError.innerHTML = "The Username or password given was invalid";
-            loginLoadingButtonDiv.innerHTML = loginLoadingButtonPreAnimation;
-            console.log(xmlHttpRequest.responseText);
+            loginAnimationHelper.toggleLoading();
         }
     }
 
@@ -327,13 +330,17 @@ function signUp()
 
     //Display Loading Animation
     let signUpLoadingButton = document.getElementById("signUpLoadingButton");
-    let signUpLoadingButtonPreAnimation = signUpLoadingButton.innerHTML;
-    signUpLoadingButton.innerHTML = loadingAnimationHTML;
+    let signUpAnimationHelper = new LoadAnimationHelper(signUpLoadingButton);
+    signUpAnimationHelper.toggleLoading();
 
     //Clear old Errors
+    let usernameError = document.getElementById("usernameError");
     usernameError.innerHTML = "";
+    let passwordError = document.getElementById("passwordError");
     passwordError.innerHTML = "";
+    let emailError = document.getElementById("emailError");
     emailError.innerHTML = "";
+    let tosppError = document.getElementById("tosppError");
     tosppError.innerHTML = "";
 
 
@@ -352,7 +359,7 @@ function signUp()
     /* Check/Validate Username
      *  */
 
-
+    let usernameInput = document.getElementById("usernameInput");
     let username = usernameInput.value;
     if (!isAValidUsername(username))
     {
@@ -367,15 +374,16 @@ function signUp()
 
     /*Password*/
     //Check That The Passwords Entered Match
-
+    let passwordInput = document.getElementById("passwordInput");
     let password = passwordInput.value;
+    let passwordCheckInput = document.getElementById("passwordCheckInput");
     let passwordCheck = passwordCheckInput.value;
 
     //* Check/Validate length of Text inputs
     if (password.length === 0)
     {
         passwordError.innerHTML = "Enter a Password";
-        isValidInput = false;
+        isInputValid = false;
     }
 
 
@@ -387,14 +395,16 @@ function signUp()
 
 
     /*Email*/
+    let emailInput = document.getElementById("emailInput");
     let email = emailInput.value;
+    let emailCheckInput = document.getElementById("emailCheckInput");
     let emailCheck = emailCheckInput.value;
 
     //* Check/Validate length of Text inputs
     if (email.length === 0)
     {
         emailError.innerHTML = "Enter a Email";
-        isValidInput = false;
+        isInputValid = false;
     }
 
     //Check that the emails entered Match
@@ -408,7 +418,7 @@ function signUp()
 
     /*TOS and PP*/
     //Check that the user Agreed To The TOS and PP
-
+    let acceptTOSPPInput = document.getElementById("acceptTOSPPInput");
     let tospp = acceptTOSPPInput.checked;
     if (!tospp)
     {
@@ -418,7 +428,7 @@ function signUp()
 
     if (!isInputValid)
     {
-        signUpLoadingButton.innerHTML = signUpLoadingButtonPreAnimation;
+        signUpAnimationHelper.toggleLoading();
         return;
     }
 
@@ -453,7 +463,7 @@ function signUp()
             return;
         }
 
-        signUpLoadingButton.innerHTML = signUpLoadingButtonPreAnimation;
+        signUpAnimationHelper.toggleLoading();
 
         if (xmlHttpRequest.status === 400)
         {
@@ -462,6 +472,7 @@ function signUp()
 
         if (xmlHttpRequest.status === 409)
         {
+            let generalError = document.getElementById("generalError");
             generalError.innerText = JSON.parse(xmlHttpRequest.responseText).failureReason;
         }
 
@@ -477,6 +488,7 @@ function onUsernameInputChange()
 {
     hasCheckedAvailability = false;
     isUsernameAvailable = false;
+    let usernameTakenStatus = document.getElementById("usernameTakenStatus");
     usernameTakenStatus.innerHTML = "";
 }
 
@@ -527,14 +539,15 @@ function checkAvailability(username)
 
     //Display Loading Animation
     let checkAvailabilityLoadingButton = document.getElementById("checkAvailabilityLoadingButton");
-    let checkAvailabilityLoadingButtonPreAnimation = checkAvailabilityLoadingButton.innerHTML;
-    checkAvailabilityLoadingButton.innerHTML = loadingAnimationHTML;
+    let checkAvailabilityLoadAnimationHelper = new LoadAnimationHelper(checkAvailabilityLoadingButton);
+    checkAvailabilityLoadAnimationHelper.toggleLoading();
 
     //Check if the username is valid. Update display accordingly
+    let usernameError = document.getElementById("usernameError");
     if (!isAValidUsername(username))
     {
         usernameError.innerHTML = "Enter a Valid Username";
-        checkAvailabilityLoadingButton.innerHTML = checkAvailabilityLoadingButtonPreAnimation;
+        checkAvailabilityLoadAnimationHelper.toggleLoading();
         return;
     }
     else
@@ -557,8 +570,9 @@ function checkAvailability(username)
      * */
     let onResponse = function (xmlRequest)
     {
-        checkAvailabilityLoadingButton.innerHTML = checkAvailabilityLoadingButtonPreAnimation;
+        checkAvailabilityLoadAnimationHelper.toggleLoading();
         //Check to make sure the username has not changed since the check
+        let usernameInput = document.getElementById("usernameInput");
         if (usernameInput.value !== username)
         {
             return;
@@ -574,7 +588,7 @@ function checkAvailability(username)
             //Check the username's status and update variables and user display
             let isUsernameAvailable = usernameAvailabilityResponse.isUserNameTaken;
 
-
+            let usernameTakenStatus = document.getElementById("usernameTakenStatus");
             if (isUsernameAvailable === true)
             {
                 usernameTakenStatus.style.color = "Red";
@@ -588,6 +602,7 @@ function checkAvailability(username)
         } catch (error)
         {
             //Whoops
+            let usernameTakenStatus = document.getElementById("usernameTakenStatus");
             usernameTakenStatus.innerHTML = "There was an error Checking The username Status";
 
         }
@@ -600,6 +615,132 @@ function checkAvailability(username)
 }
 
 
+function displayCreateTableForm()
+{
+    let userContentForm = document.getElementById("userContentForm");
+    userContentForm.innerHTML += createTableForm;
+    let selectElement = document.getElementById("objectTypeInput");
+    setObjectTypes(selectElement);
+}
+
+function removeCreateTableForm()
+{
+    let userContentForm = document.getElementById("userContentForm");
+    let createTableForm = document.getElementById("createTableDiv");
+    userContentForm.removeChild(createTableForm);
+}
+
+function setObjectTypes(selectElement)
+{
+    /*
+     * Process for getting and setting all the acceptable objects
+     * Create PostRequest and CallBack Function
+     * Set the object options in the selectElement
+     *  */
+
+    //Create PostRequest and CallBack Function
+    let getObjectTypesRequest = new PostRequest("GetObjectTypes");
+
+    //Call Back Function
+    let onResponse = function (xmlHttpRequest)
+    {
+        /*
+         * Process for dealing with the return response
+         * Go thru the returned array and add each object type to the given selectElement
+         * Note: The getObjectTypesRequest should return a arrayNamed objectTypes
+         *  */
+        if (xmlHttpRequest.status === 200)
+        {
+            // Go thru the returned array and add each object type to the given selectElement
+            let objectTypesArray = JSON.parse(xmlHttpRequest.responseText).objectTypes;
+            for (let i = 0; i < objectTypesArray.length; i++)
+            {
+                //Create Child
+                let objectType = objectTypesArray[i];
+                let newOption = document.createElement("option");
+                newOption.value = objectType;
+                newOption.innerHTML += objectType;
+
+                //Add Child
+                selectElement.innerHTML += newOption.outerHTML;
+            }
+        }
+    }
+    //send PostRequest
+    sendPostRequest(getObjectTypesRequest, onResponse);
+
+}
+
+function createTable()
+{
+    /*
+     * Process for creating a table
+     * Clear Old Errors
+     * Get/Validate the name of the table
+     * Get the object type of the table
+     * Create the post request/crud request
+     * display Loading Animation
+     * send the post request
+     *  */
+
+
+    //Clear Old Errors
+    let errorDisplay = document.getElementById("tableNameError");
+    errorDisplay.innerHTML = "";
+
+    //Get the name of the table
+    let tableNameInput = document.getElementById("tableName");
+    let tableName = tableNameInput.value;
+
+    //Note: Validation of a table name is the same as a Username
+    //Validate the table name
+    if (!isAValidUsername(tableName))
+    {
+
+        errorDisplay.innerHTML += "Enter a Valid Table Name";
+        return
+    }
+
+    //Get the object type of the table
+    let objectTypeInput = document.getElementById("objectTypeInput");
+    let objectType = objectTypeInput.value;
+
+
+    //Create the post request/ crud request
+    let createTableRequest = new PostRequest("CreateTable");
+
+    createTableRequest.captchaCode = captchaCode;
+
+    let crudRequest = new CRUDRequest();
+
+    crudRequest.tableName = tableName;
+    crudRequest.objectType = objectType;
+
+
+    createTableRequest.setCRUDRequest(crudRequest);
+
+    //display Loading Animation
+    //Note: The button animation helper is needed in the callback function
+    let createButton = document.getElementById("createTableButton");
+    let buttonLoadAnimationHelper = new LoadAnimationHelper(createButton);
+    buttonLoadAnimationHelper.toggleLoading();
+    //Call Back Method
+    let onResponse = function (xmlHttpRequest)
+    {
+        if (xmlHttpRequest.status === 200)
+        {
+            removeCreateTableForm();
+            //Refresh users tables
+            buttonLoadAnimationHelper.toggleLoading();
+        }
+    }
+
+
+    ///send the post request
+    sendPostRequest(createTableRequest, onResponse);
+
+
+}
 
 
 

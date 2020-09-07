@@ -28,30 +28,29 @@ let onResponse = function (xmlHttpRequest)
         let captchaScript = document.createElement("script");
         captchaScript.type = "text/javascript";
         captchaScript.setAttribute("src", "https://www.google.com/recaptcha/api.js?render=" + publicCaptchaCode);
-
-        //Once Googles Captcha Script is Loaded we setup the captcha code used for post requests
-        captchaScript.onload = function ()
-        {
-            grecaptcha.ready(
-                function getCaptchaCode()
-                {
-                    grecaptcha.execute(publicCaptchaCode,
-                        {
-                            action: 'captcha'
-                        })
-                        .then(function (token)
-                        {
-                            captchaCode = token;
-                            return captchaCode;
-                        });
-                });
-        }
-
         document.body.append(captchaScript);
     }
 
 
 };
+
+function onCaptchaButtonClick(functionToCall)
+{
+    grecaptcha.ready(
+        function getCaptchaCode()
+        {
+            grecaptcha.execute(publicCaptchaCode,
+                {
+                    action: 'captcha'
+                })
+                .then(function (token)
+                {
+                    captchaCode = token;
+                    functionToCall();
+                });
+        });
+}
+
 
 //Send the Captcha Request
 sendPostRequest(getCaptchaPublicCodeRequest, onResponse);

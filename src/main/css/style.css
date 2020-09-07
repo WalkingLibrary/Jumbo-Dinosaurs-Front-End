@@ -327,3 +327,33 @@ img {
     width: 100%;
     height: 50px;
 }
+
+/*
+ * Flex Outlines
+ *
+ */
+
+.flexColumnSpaceAround {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
+    justify-content: space-around;
+}
+
+.flexRowSpaceAround {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-around;
+    justify-content: space-around;
+}
+
+/*
+ * Space Outlines
+ *
+ */
+
+.widthOneHundred {
+    width: 100%;
+}

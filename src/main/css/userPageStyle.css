@@ -2,9 +2,6 @@
 
 /*Style reused for each form*/
 #userContent {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
     align-items: flex-start;
     margin-left: 120px;
     min-height: 100%;
@@ -41,10 +38,6 @@
 
 #signUpForm {
     background-color: darkolivegreen;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
     min-height: 95vh;
 }
 
@@ -83,10 +76,6 @@
 
 #accountActivationFrom {
     background-color: darkolivegreen;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
     min-height: 95vh;
     min-width: 50%;
 }
@@ -108,10 +97,6 @@
 
 #loginForm {
     background-color: darkolivegreen;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
     min-height: 95vh;
     min-width: 50%;
 }
@@ -135,10 +120,6 @@
 #userContentForm {
     position: relative;
     background-color: darkolivegreen;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
     min-height: 95vh;
     width: 100%;
 }
@@ -187,4 +168,65 @@
 
 #activationStatus:hover {
     background-color: grey;
+}
+
+#tableControls {
+    width: 100%;
+}
+
+#tableControls img {
+    width: 100px;
+    height: 100px;
+
+}
+
+#createDiv img:hover {
+    transform: scale(1.1) rotate(0deg) translateY(1px);
+}
+
+#createDiv h4 {
+    visibility: hidden;
+    z-index: 1;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
+}
+
+#createDiv:hover h4 {
+    visibility: visible;
+}
+
+
+#tablesDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: black;
+    border: 3px groove red;
+    width: 100%;
+    min-height: 50px;
+}
+
+#createTableDiv {
+    min-width: 50vw;
+    width: auto;
+    height: 75%;
+    position: absolute;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
+}
+
+#createTableDiv select {
+    width: auto;
+}
+
+#tableNameError {
+    color: red;
+}
+
+#tableNameConstraints {
+    border-radius: 10px;
+    border: 3px groove red;
+    padding: 10px;
+
 }

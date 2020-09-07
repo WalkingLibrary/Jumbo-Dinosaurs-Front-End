@@ -1,7 +1,21 @@
-<div id="userContentForm">
+<div class="flexColumnSpaceAround" id="userContentForm">
     <h1 id="usernameHeader"></h1>
-    <img alt="Table Icon Here" id="tableIcon" src="tableicon.png">
-    <h1>Table Management<br>Coming Soon</h1>
+
+    <div class="flexRowSpaceAround" id="tableControls">
+        <div class="flexColumnSpaceAround">
+            <img alt="Table Icon Here" id="tableIcon" src="tableicon.png">
+            <h1>Tables</h1>
+        </div>
+        <div class="flexColumnSpaceAround" id="createDiv">
+            <img alt="Plus Symbol" onclick="displayCreateTableForm()" src="/100x100PlusCircle.png">
+            <h4>Create Table</h4>
+        </div>
+    </div>
+    <div id="tablesDiv">
+        <img alt="Table Icon Here" id="tableIcon" src="tableicon.png">
+    </div>
+
+
     <div id="logOutDiv" onclick="logOut()">
         <h4>Log Out</h4>
     </div>
