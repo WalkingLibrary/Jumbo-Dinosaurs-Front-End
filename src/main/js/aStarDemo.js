@@ -10,7 +10,7 @@ aStarCanvas.height = canvasHeight;
 
 let maxSquareGridSize = 15;
 
-let loadingAnimationHTML;
+
 
 
 function getFormLink(formName)
@@ -19,17 +19,7 @@ function getFormLink(formName)
 }
 
 
-let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
-{
-    if (xmlHttpRequest.status === 200)
-    {
-        loadingAnimationHTML = xmlHttpRequest.responseText;
-    }
-    else
-    {
-        loadingAnimationHTML = "<h1>Loading...</h1>";
-    }
-}
+
 getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
 
 
@@ -250,10 +240,12 @@ function solvePath()
      * Send the grid to the back end
      * Display the solved Grid or display no solution
      *  */
-    //Display Loading Animation
     let solveButtonDiv = document.getElementById("solveButtonDiv");
-    let preClick = solveButtonDiv.innerHTML;
-    solveButtonDiv.innerHTML = loadingAnimationHTML;
+    //Display Loading Animation
+    let animationHelper = new LoadAnimationHelper(solveButtonDiv);
+    animationHelper.toggleLoading();
+
+
     errorDisplay.innerHTML = "";
 
     //Validate the Grid
@@ -373,7 +365,7 @@ function solvePath()
             errorDisplay.innerHTML = "There was an error finding the solution refresh and try again later."
         }
 
-        solveButtonDiv.innerHTML = preClick;
+        animationHelper.toggleLoading();
     }
 
     sendPostRequest(solveRequest, onResponse);
