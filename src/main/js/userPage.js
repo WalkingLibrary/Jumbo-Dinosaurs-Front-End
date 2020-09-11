@@ -730,8 +730,8 @@ function createTable()
         if (xmlHttpRequest.status === 200)
         {
             removeCreateTableForm();
-            //Refresh users tables
             buttonLoadAnimationHelper.toggleLoading();
+            refreshUsersTables();
         }
     }
 
@@ -739,6 +739,106 @@ function createTable()
     ///send the post request
     sendPostRequest(createTableRequest, onResponse);
 
+
+}
+
+displayUsersTables();
+
+
+function refreshUsersTables()
+{
+    /*
+     * Process for Refreshing the Users Tables
+     * Grab the Image Element
+     * Clear the tablesDiv
+     * Add the Image Element back to The Tables Div
+     * Display The Users Tables
+     *  */
+
+    let tablesDiv = document.getElementById("tablesDiv");
+    //Grab the Image Element
+    let tablesDivIcon = document.getElementById("tablesDivIcon");
+    //Clear the tablesDiv
+    tablesDiv.innerHTML = "";
+    //Add the Image Element back to The Tables Div
+    tablesDiv.appendChild(tablesDivIcon);
+    //Display The Users Tables
+    displayUsersTables();
+
+}
+
+function displayUsersTables()
+{
+    getUsersTables(function (xmlHttpRequest)
+    {
+        if (xmlHttpRequest.status === 200)
+        {
+            /*
+             * Process for Displaying the Users Tables
+             * Create the Name Tag
+             * Create the Creator Tag
+             * Create the Edit tag
+             * Create the tables Tag
+             * append Name, Creator, Edit tags to the Table Tag
+             * append the Table Tag to the tables div
+             *
+             *  */
+
+            let tablesArray = JSON.parse(xmlHttpRequest.responseText);
+            console.log(xmlHttpRequest.responseText);
+
+            let tablesDiv = document.getElementById("tablesDiv");
+            let tableList = [];
+            for (let i = 0; i < tablesArray.length; i++)
+            {
+                let currentTableJson = tablesArray[i];
+                tableList[i] = new Table(currentTableJson);
+                let currentTable = tableList[i];
+
+                //Create the Name Tag
+                let nameTag = document.createElement("h5");
+                nameTag.className = "nameTag";
+                nameTag.innerHTML = currentTable.name;
+
+                // Create the Creator Tag
+                let creatorTag = document.createElement("h5");
+                creatorTag.className = "creatorTag";
+                creatorTag.innerHTML = "Creator: " + currentTable.creator;
+
+                //Create the Edit tag
+                let editImage = document.createElement("img");
+                editImage.className = "editImg";
+                editImage.src = "/100x100cogIcon.png";
+                editImage.alt = "Edit";
+
+                //Create the tables Tag
+                let newTablesDiv = document.createElement("div");
+                newTablesDiv.className = "tableDiv";
+
+                //append Name, Creator, Edit tags to the Table Tag
+                newTablesDiv.appendChild(nameTag);
+                newTablesDiv.appendChild(creatorTag);
+                newTablesDiv.appendChild(editImage);
+
+                //append the Table Tag to the tables div
+                tablesDiv.appendChild(newTablesDiv);
+            }
+        }
+    });
+}
+
+function getUsersTables(onResponse)
+{
+    /*
+     * Process for getting the users tables
+     * Create the Post Request and Execute the request with the given onResponse Function
+     *  */
+
+    //Create the Post Request and Execute the request with the given onResponse Function
+    let getTablesRequest = new PostRequest("GetTables");
+    let getTablesCRUDRequest = new CRUDRequest();
+    getTablesRequest.setCRUDRequest(getTablesCRUDRequest);
+    sendPostRequest(getTablesRequest, onResponse);
 
 }
 

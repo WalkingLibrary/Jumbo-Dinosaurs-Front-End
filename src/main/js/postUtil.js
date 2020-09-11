@@ -84,6 +84,27 @@ class CRUDRequest
 }
 
 
+class Table
+{
+
+    constructor(tableJson)
+    {
+        this.id = tableJson.id;
+        console.log(tableJson.permissions);
+        this.permissions = tableJson.permissions;
+        this.isPublic = tableJson.isPublic;
+        this.creator = tableJson.creator;
+        this.name = tableJson.name;
+    }
+
+
+    toString()
+    {
+        return JSON.stringify(this)
+    }
+}
+
+
 /*
  * Gets the loading animation html and stores it in a usable variable
  *  */
