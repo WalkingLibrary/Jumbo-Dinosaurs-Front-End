@@ -983,7 +983,21 @@ function displayPermissions(tableToDisplay)
     let editorsUsername = getUser().username;
 
     let usersPermissions = tableToDisplay.permissions[editorsUsername];
+    let canEditAdmin = tableToDisplay.creator === editorsUsername;
+    let canEditUsage = usersPermissions.adminPerms;
 
+
+    let togglePublic = document.getElementById("publicStatus");
+    togglePublic.src = getEditPermissionsIconLink(tableToDisplay.isPublic, usersPermissions.adminPerms);
+    togglePublic.onclick = function ()
+    {
+        if (usersPermissions.adminPerms)
+        {
+            tableToDisplay.isPublic = !tableToDisplay.isPublic;
+            removeEditTableForm();
+            displayEditTableWindow(tableToDisplay);
+        }
+    }
 
     for (let i = 0; i < Object.getOwnPropertyNames(tableToDisplay.permissions).length; i++)
     {
@@ -995,9 +1009,6 @@ function displayPermissions(tableToDisplay)
         usernameHeader.innerHTML = username;
         permissionsTable.insertAdjacentHTML("beforeend", usernameHeader.outerHTML);
 
-
-        let canEditAdmin = tableToDisplay.creator === editorsUsername;
-        let canEditUsage = usersPermissions.adminPerms;
 
         let canAdminIcon = document.createElement("img");
         canAdminIcon.src = getEditPermissionsIconLink(currentUsersPermissions.adminPerms, canEditAdmin);
