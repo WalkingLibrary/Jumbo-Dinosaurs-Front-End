@@ -6,19 +6,49 @@ const userContentBlock = document.getElementById("userContent");
 
 
 let createTableForm;
+
 let onResponseCreateTableForm = function (xmlHttpRequest)
 {
-    if (xmlHttpRequest.status === 200)
-    {
-        createTableForm = xmlHttpRequest.responseText;
-    }
-    else
-    {
-        createTableForm = "<h1>Error Loading Form Refresh the Page</h1>";
-    }
+    createTableForm = xmlHttpRequest.responseText;
+}
+
+let signRequestForm;
+
+let onResponseSignRequestForm = function (xmlHttpRequest)
+{
+    signRequestForm = xmlHttpRequest.responseText;
+};
+
+let editTableForm;
+
+let onEditTableFormLoad = function (xmlHttpRequest)
+{
+    editTableForm = xmlHttpRequest.responseText;
+};
+
+let permissionsForm;
+
+let onPermissionsFormLoad = function (xmlHttpRequest)
+{
+    permissionsForm = xmlHttpRequest.responseText;
+}
+
+let permissionsTableForm;
+
+let onPermissionsTableForm = function (xmlHttpRequest)
+{
+    permissionsTableForm = xmlHttpRequest.responseText;
 }
 
 getForm(getFormLink("createTableForm.html"), onResponseCreateTableForm);
+
+getForm(getFormLink("tablePermissionsForm.html"), onPermissionsFormLoad)
+
+getForm(getFormLink("editTableForm.html"), onEditTableFormLoad);
+
+getForm(getFormLink("permissionsTableForm.html"), onPermissionsTableForm);
+
+getForm(getFormLink("signRequestForm.html"), onResponseSignRequestForm);
 
 
 loadPage();
@@ -615,21 +645,6 @@ function checkAvailability(username)
 }
 
 
-function displayCreateTableForm()
-{
-    let userContentForm = document.getElementById("userContentForm");
-    userContentForm.innerHTML += createTableForm;
-    let selectElement = document.getElementById("objectTypeInput");
-    setObjectTypes(selectElement);
-}
-
-function removeCreateTableForm()
-{
-    let userContentForm = document.getElementById("userContentForm");
-    let createTableForm = document.getElementById("createTableDiv");
-    userContentForm.removeChild(createTableForm);
-}
-
 function setObjectTypes(selectElement)
 {
     /*
@@ -767,6 +782,7 @@ function refreshUsersTables()
 
 }
 
+
 function displayUsersTables()
 {
     getUsersTables(function (xmlHttpRequest)
@@ -785,10 +801,10 @@ function displayUsersTables()
              *  */
 
             let tablesArray = JSON.parse(xmlHttpRequest.responseText);
-            console.log(xmlHttpRequest.responseText);
 
             let tablesDiv = document.getElementById("tablesDiv");
             let tableList = [];
+
             for (let i = 0; i < tablesArray.length; i++)
             {
                 let currentTableJson = tablesArray[i];
@@ -810,7 +826,11 @@ function displayUsersTables()
                 editImage.className = "editImg";
                 editImage.src = "/100x100cogIcon.png";
                 editImage.alt = "Edit";
-
+                editImage.id = currentTable.name + currentTable.id;
+                editImage.onclick = function ()
+                {
+                    displayEditTableWindow(currentTable);
+                };
                 //Create the tables Tag
                 let newTablesDiv = document.createElement("div");
                 newTablesDiv.className = "tableDiv";
@@ -825,6 +845,7 @@ function displayUsersTables()
             }
         }
     });
+
 }
 
 function getUsersTables(onResponse)
@@ -843,7 +864,255 @@ function getUsersTables(onResponse)
 }
 
 
+function displayCreateTableForm()
+{
+    let userContentForm = document.getElementById("userContentForm");
+    userContentForm.insertAdjacentHTML("beforeend", createTableForm);
+    let selectElement = document.getElementById("objectTypeInput");
+    setObjectTypes(selectElement);
+}
 
+function removeCreateTableForm()
+{
+    let createTableForm = document.getElementById("createTableDiv");
+    createTableForm.remove();
+}
+
+function removeEditTableForm()
+{
+    let editTableForm = document.getElementById("editTableForm");
+    editTableForm.remove();
+}
+
+
+//<img src="/xMark.png" alt="CheckMark">
+//"permissions":{"Jums":{"adminPerms":true,"canAdd":true,"canRemove":true,"canSearch":true}}
+function displayEditTableWindow(tableToEdit)
+{
+
+    let userContentForm = document.getElementById("userContentForm");
+    userContentForm.insertAdjacentHTML("beforeend", editTableForm);
+
+    let tableNameHeader = document.getElementById("tableNameHeader");
+    tableNameHeader.insertAdjacentHTML("beforeend", tableToEdit.name);
+
+    let backButton = document.getElementById("back");
+
+    backButton.onclick = function ()
+    {
+        removeEditTableForm();
+    };
+
+
+    let deleteTable = document.getElementById("deleteTable");
+    deleteTable.onclick = function ()
+    {
+        let deleteTableLoadingContainer = document.getElementById("deleteTableLoadingContainer");
+        let animationHelper = new LoadAnimationHelper(deleteTableLoadingContainer);
+        animationHelper.toggleLoading();
+        let deleteTableRequest = new PostRequest("DeleteTable");
+        let deleteTableCRUDRequest = new CRUDRequest();
+        deleteTableCRUDRequest.tableID = tableToEdit.id;
+        deleteTableRequest.setCRUDRequest(deleteTableCRUDRequest);
+
+        let onResponse = function (xmlHttpRequest)
+        {
+            removeEditTableForm();
+            refreshUsersTables();
+            removeSignRequestWindow();
+        };
+        let signRequestDiv = document.getElementById("signRequestDiv");
+        displaySignRequestWindow(deleteTableRequest, onResponse, signRequestDiv);
+    };
+
+    let addUserButton = document.getElementById("addUserInputButton");
+    addUserButton.onclick = function ()
+    {
+        let addUserInput = document.getElementById("addUserInput");
+        let newUser = addUserInput.value;
+        addUserInput.value = "";
+        tableToEdit.permissions[newUser] = {};
+        tableToEdit.permissions[newUser].adminPerms = false;
+        tableToEdit.permissions[newUser].canAdd = false;
+        tableToEdit.permissions[newUser].canRemove = false;
+        tableToEdit.permissions[newUser].canSearch = false;
+        removeEditTableForm();
+        displayEditTableWindow(tableToEdit);
+    };
+
+    let apply = document.getElementById("apply");
+    apply.onclick = function ()
+    {
+        let applyLoadingContainer = document.getElementById("applyLoadingContainer");
+        let animationHelper = new LoadAnimationHelper(applyLoadingContainer);
+        animationHelper.toggleLoading();
+        let updateTableRequest = new PostRequest("UpdateTable");
+        let updateTableCRUDRequest = new CRUDRequest();
+        updateTableCRUDRequest.object = JSON.stringify(tableToEdit);
+        updateTableCRUDRequest.tableID = tableToEdit.id;
+        updateTableRequest.setCRUDRequest(updateTableCRUDRequest);
+        let onResponse = function ()
+        {
+            removeEditTableForm();
+            refreshUsersTables();
+        };
+
+        sendPostRequest(updateTableRequest, onResponse);
+    };
+
+    displayPermissions(tableToEdit);
+
+}
+
+
+function displayPermissions(tableToDisplay)
+{
+
+    let tablePermissions = document.getElementById("tablePermissions");
+    let permissionsTable = document.getElementById("permissionsTable");
+    if (permissionsTable !== null)
+    {
+        tablePermissions.removeChild(permissionsTable);
+    }
+
+
+    tablePermissions.insertAdjacentHTML("beforeend", permissionsTableForm);
+
+    permissionsTable = document.getElementById("permissionsTable");
+
+    let editorsUsername = getUser().username;
+
+    let usersPermissions = tableToDisplay.permissions[editorsUsername];
+
+
+    for (let i = 0; i < Object.getOwnPropertyNames(tableToDisplay.permissions).length; i++)
+    {
+        let username = Object.getOwnPropertyNames(tableToDisplay.permissions)[i];
+        let currentUsersPermissions = tableToDisplay.permissions[username];
+
+        //Create header and permissions toggle buttons
+        let usernameHeader = document.createElement("h3");
+        usernameHeader.innerHTML = username;
+        permissionsTable.insertAdjacentHTML("beforeend", usernameHeader.outerHTML);
+
+
+        let canEditAdmin = tableToDisplay.creator === editorsUsername;
+        let canEditUsage = usersPermissions.adminPerms;
+
+        let canAdminIcon = document.createElement("img");
+        canAdminIcon.src = getEditPermissionsIconLink(currentUsersPermissions.adminPerms, canEditAdmin);
+        canAdminIcon.id = "canAdminIcon" + i;
+        permissionsTable.insertAdjacentHTML("beforeend", canAdminIcon.outerHTML);
+
+        canAdminIcon = document.getElementById("canAdminIcon" + i);
+        canAdminIcon.onclick = function ()
+        {
+            if (canEditAdmin)
+            {
+                tableToDisplay.permissions[username].adminPerms = !tableToDisplay.permissions[username].adminPerms;
+                removeEditTableForm();
+                displayEditTableWindow(tableToDisplay);
+            }
+        };
+
+
+        let canAddIcon = document.createElement("img");
+        canAddIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canAdd, canEditUsage);
+        canAddIcon.id = "canAddIcon" + i;
+        permissionsTable.insertAdjacentHTML("beforeend", canAddIcon.outerHTML);
+        canAddIcon = document.getElementById("canAddIcon" + i);
+        canAddIcon.onclick = function ()
+        {
+            if (canEditUsage)
+            {
+                tableToDisplay.permissions[username].canAdd = !tableToDisplay.permissions[username].canAdd;
+                removeEditTableForm();
+                displayEditTableWindow(tableToDisplay);
+            }
+        };
+
+
+        let canSearchIcon = document.createElement("img");
+        canSearchIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canSearch, canEditUsage);
+        canSearchIcon.id = "canSearchIcon" + i;
+        permissionsTable.insertAdjacentHTML("beforeend", canSearchIcon.outerHTML);
+        canSearchIcon = document.getElementById("canSearchIcon" + i);
+        canSearchIcon.onclick = function ()
+        {
+            if (canEditUsage)
+            {
+                tableToDisplay.permissions[username].canSearch = !tableToDisplay.permissions[username].canSearch;
+                removeEditTableForm();
+                displayEditTableWindow(tableToDisplay);
+            }
+        };
+
+        let canRemoveIcon = document.createElement("img");
+        canRemoveIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canRemove, canEditUsage);
+        canRemoveIcon.id = "canRemoveIcon" + i;
+        permissionsTable.insertAdjacentHTML("beforeend", canRemoveIcon.outerHTML);
+        canRemoveIcon = document.getElementById("canRemoveIcon" + i);
+        canRemoveIcon.onclick = function ()
+        {
+            if (canEditUsage)
+            {
+                tableToDisplay.permissions[username].canRemove = !tableToDisplay.permissions[username].canRemove;
+                removeEditTableForm();
+                displayEditTableWindow(tableToDisplay);
+            }
+        };
+
+
+    }
+}
+
+
+/*
+ * When editing a table you can either edit a value or not
+ * and then the value can be true or not
+ *
+ *  */
+function getEditPermissionsIconLink(canDo, canEdit)
+{
+    if (canEdit)
+    {
+        if (canDo)
+        {
+            return "/checkMark.png";
+        }
+        return "/xMark.png";
+    }
+
+
+    if (canDo)
+    {
+        return "/grayCheckMark.png";
+    }
+
+    return "/grayxMark.png";
+}
+
+
+function removeSignRequestWindow()
+{
+    let signRequestDiv = document.getElementById("signRequestDiv");
+    let signRequestForm = document.getElementById("signRequestForm");
+    signRequestDiv.removeChild(signRequestForm);
+}
+
+function displaySignRequestWindow(requestToSign, onResponse, displayDiv)
+{
+    displayDiv.insertAdjacentHTML("beforeend", signRequestForm);
+
+    let submitRequestButton = document.getElementById("submitRequestButton");
+    let passwordInput = document.getElementById("passwordInput");
+    submitRequestButton.onclick = function ()
+    {
+
+        requestToSign.password = passwordInput.value;
+        sendPostRequest(requestToSign, onResponse);
+    };
+}
 
 
 

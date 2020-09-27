@@ -272,3 +272,59 @@
     padding: 10px;
 
 }
+
+
+#editTableForm {
+    position: absolute;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove blue;
+    height: 75vh;
+    padding-bottom: 30px;
+    width: 90%;
+}
+
+#tablePermissions {
+    width: 95%;
+    height: 300px;
+}
+
+#permissionsTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    align-content: center;
+    width: auto;
+    row-gap: 25px;
+    column-gap: 25px;
+    background-color: white;
+    border: 3px groove red;
+    color: black;
+}
+
+.overflowContainer {
+    margin: auto;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+
+#permissionsTable img {
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+#tablePermissions img:hover {
+    transform: scale(1.1) rotate(0deg) translateY(1px);
+}
+
+
+#signRequestForm {
+    background-color: white;
+    border: 3px groove gold;
+    color: black;
+    padding: 10px;
+
+}

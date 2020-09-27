@@ -59,7 +59,7 @@ class PostRequest
     constructor(command, user)
     {
         this.command = command;
-        if (getUser() !== undefined)
+        if (getUser() !== null)
         {
 
             this.username = getUser().username;
@@ -90,7 +90,6 @@ class Table
     constructor(tableJson)
     {
         this.id = tableJson.id;
-        console.log(tableJson.permissions);
         this.permissions = tableJson.permissions;
         this.isPublic = tableJson.isPublic;
         this.creator = tableJson.creator;
