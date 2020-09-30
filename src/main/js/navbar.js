@@ -1,26 +1,5 @@
-/*
- *
- * Since We need the host var for most everything and the navbar is loaded on every page
- * we declare the host var here
- * We also use window values to make it compatible with multiple domains I.E. localhost -> Live Site
- *  */
-const host = window.location.protocol + "//" + window.location.hostname + "/";
-
-let navbarHTML;
-let loadNavBarFunction = function (xmlHttpRequest)
-{
-    if (xmlHttpRequest.status === 200)
-    {
-        navbarHTML = xmlHttpRequest.responseText;
-    }
-    else
-    {
-        navbarHTML = "<h1>Loading...</h1>";
-    }
-
-    let container = document.getElementById("navBarContainer");
-    container.innerHTML = navbarHTML + container.innerHTML;
-}
+let navBarFactory = new FormFactory([document.getElementById("navBarContainer")]);
+defaultFormLoader.loadForm("navbar.html", navBarFactory);
 
 /*This Function Makes the NavBar Visible*/
 function makeNavBarVisible()

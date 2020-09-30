@@ -1,6 +1,7 @@
 /* Script to help interact with backEnd
  * */
 
+
 let user;
 
 let userKey = "user";
@@ -103,48 +104,9 @@ class Table
     }
 }
 
-
-/*
- * Gets the loading animation html and stores it in a usable variable
- *  */
-let loadingAnimationHTML;
-let loadingAnimationHTMLStoreFunction = function (xmlHttpRequest)
-{
-    if (xmlHttpRequest.status === 200)
-    {
-        loadingAnimationHTML = xmlHttpRequest.responseText;
-    }
-    else
-    {
-        loadingAnimationHTML = "<h1>Loading...</h1>";
-    }
-}
-getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
-
-class LoadAnimationHelper
-{
-
-    constructor(element)
-    {
-        this.element = element;
-        this.isLoading = false;
-    }
-
-    toggleLoading()
-    {
-        if (this.isLoading)
-        {
-            this.element.innerHTML = this.preHTML;
-            this.isLoading = false;
-            return;
-        }
-        this.preHTML = this.element.innerHTML;
-        this.element.innerHTML = loadingAnimationHTML;
-        this.isLoading = true;
-    }
+let defaultFormLoader = new FormLoader(host);
 
 
-}
 
 function sendPostRequest(postRequest, onReadyFunction)
 {
@@ -162,31 +124,7 @@ function sendPostRequest(postRequest, onReadyFunction)
 }
 
 
-/* Sends a XMLHttpRequest To Get The Form Html
- *
- *
- *  */
-function getForm(pageName, onReadyFunction)
-{
-    let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.onreadystatechange = function ()
-    {
-        if (this.readyState === 4 && this.status === 200)
-        {
-            onReadyFunction(xmlHttpRequest);
-        }
-    };
-    xmlHttpRequest.open("GET", pageName, true);
-    xmlHttpRequest.send();
-}
-
-function getFormLink(formName)
-{
-    return host + formName;
-}
 
 
-//This is defined in navbar.js but requires function in postutil to work
-// we call it here
-getForm(getFormLink("navbar.html"), loadNavBarFunction);
+
 
