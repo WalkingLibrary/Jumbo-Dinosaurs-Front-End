@@ -14,11 +14,11 @@ let scriptsList = [];
 scriptsList.push(new Script("util", "/FormManager.js"));
 scriptsList.push(new Script("util", "/FormFactory.js"));
 scriptsList.push(new Script("util", "/FormLoader.js"));
-scriptsList.push(new Script("util", "/postUtil.js"));
+scriptsList.push(new Script("util", "/PostUtil.js"));
 scriptsList.push(new Script("util", "/captchaUtil.js"));
 scriptsList.push(new Script("util", "/navbar.js"));
 scriptsList.push(new Script("art.html", "/art.js"));
-scriptsList.push(new Script("userPage.html", "/userPage.js"))
+scriptsList.push(new Script("userPage.html", "/user.js"))
 scriptsList.push(new Script("aStarDemo.html", "/aStarDemo.js"));
 scriptsList.push(new Script("map.html", "/map.js"));
 scriptsList.push(new Script("discordWebHook.html", "/discordWebHook.js"));
