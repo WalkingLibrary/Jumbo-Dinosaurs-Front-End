@@ -11,14 +11,18 @@ class Script
 
 let scriptsList = [];
 
-scriptsList.push(new Script("util", "/FormManager.js"));
-scriptsList.push(new Script("util", "/FormFactory.js"));
-scriptsList.push(new Script("util", "/FormLoader.js"));
-scriptsList.push(new Script("util", "/PostUtil.js"));
-scriptsList.push(new Script("util", "/CaptchaUtil.js"));
-scriptsList.push(new Script("util", "/NavBar.js"));
+scriptsList.push(new Script("util", "util/FormManager.js"));
+scriptsList.push(new Script("util", "util/FormFactory.js"));
+scriptsList.push(new Script("util", "util/FormLoader.js"));
+scriptsList.push(new Script("util", "util/User.js"));
+scriptsList.push(new Script("util", "util/UserUtil.js"));
+scriptsList.push(new Script("util", "util/PostRequest.js"));
+scriptsList.push(new Script("util", "util/Table.js"));
+scriptsList.push(new Script("util", "util/PostUtil.js"));
+scriptsList.push(new Script("util", "util/CaptchaUtil.js"));
+scriptsList.push(new Script("util", "util/NavBar.js"));
 scriptsList.push(new Script("art.html", "/Art.js"));
-scriptsList.push(new Script("userPage.html", "/User.js"))
+scriptsList.push(new Script("userPage.html", "user/User.js"))
 scriptsList.push(new Script("aStarDemo.html", "/AStarDemo.js"));
 scriptsList.push(new Script("map.html", "/Map.js"));
 scriptsList.push(new Script("discordWebHook.html", "/DiscordWebHook.js"));

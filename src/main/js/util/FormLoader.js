@@ -1,3 +1,4 @@
+
 class FormLoader
 {
     constructor(host)
@@ -75,3 +76,4 @@ class FormLoader
 }
 
 
+let defaultFormLoader = new FormLoader(host);
