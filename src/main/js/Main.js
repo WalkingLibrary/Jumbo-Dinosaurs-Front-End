@@ -15,14 +15,14 @@ scriptsList.push(new Script("util", "/FormManager.js"));
 scriptsList.push(new Script("util", "/FormFactory.js"));
 scriptsList.push(new Script("util", "/FormLoader.js"));
 scriptsList.push(new Script("util", "/PostUtil.js"));
-scriptsList.push(new Script("util", "/captchaUtil.js"));
-scriptsList.push(new Script("util", "/navbar.js"));
-scriptsList.push(new Script("art.html", "/art.js"));
-scriptsList.push(new Script("userPage.html", "/user.js"))
-scriptsList.push(new Script("aStarDemo.html", "/aStarDemo.js"));
-scriptsList.push(new Script("map.html", "/map.js"));
-scriptsList.push(new Script("discordWebHook.html", "/discordWebHook.js"));
-scriptsList.push(new Script("sandbox.html", "/sandbox.js"));
+scriptsList.push(new Script("util", "/CaptchaUtil.js"));
+scriptsList.push(new Script("util", "/NavBar.js"));
+scriptsList.push(new Script("art.html", "/Art.js"));
+scriptsList.push(new Script("userPage.html", "/User.js"))
+scriptsList.push(new Script("aStarDemo.html", "/AStarDemo.js"));
+scriptsList.push(new Script("map.html", "/Map.js"));
+scriptsList.push(new Script("discordWebHook.html", "/DiscordWebHook.js"));
+scriptsList.push(new Script("sandbox.html", "/SandBox.js"));
 
 
 let index = 0;
