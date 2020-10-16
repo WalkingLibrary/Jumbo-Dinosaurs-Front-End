@@ -19,6 +19,7 @@ scriptsList.push(new Script("util", "util/UserUtil.js"));
 scriptsList.push(new Script("util", "util/PostRequest.js"));
 scriptsList.push(new Script("util", "util/Table.js"));
 scriptsList.push(new Script("util", "util/PostUtil.js"));
+scriptsList.push(new Script("util", "util/AnimationForm.js"));
 scriptsList.push(new Script("util", "util/Animation.js"));
 scriptsList.push(new Script("util", "general/CaptchaUtil.js"));
 scriptsList.push(new Script("util", "general/NavBar.js"));

@@ -23,6 +23,13 @@ class FormManager
     displayForm()
     {
         this.isVisible = true;
+
+        if (this.shouldSwap)
+        {
+            this.preChildern = this.parentElement.children;
+            this.parentElement.innerHTML = "";
+        }
+
         this.parentElement.appendChild(this.form);
     }
 
@@ -31,6 +38,16 @@ class FormManager
     {
         this.isVisible = false;
         this.form.remove();
+
+        if (this.shouldSwap)
+        {
+            this.parentElement.appendChild(this.preChildern);
+        }
+    }
+
+    setShouldSwap(shouldSwap)
+    {
+        this.shouldSwap = shouldSwap;
     }
 
 }

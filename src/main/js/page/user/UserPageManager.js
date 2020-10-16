@@ -401,7 +401,8 @@ function displayUsersTables()
 //"permissions":{"Jums":{"adminPerms":true,"canAdd":true,"canRemove":true,"canSearch":true}}
 function displayEditTableWindow(tableToEdit)
 {
-    defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).displayForm();
+    let editTableFormManager = defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock);
+    editTableFormManager.displayForm();
 
     //Set Up Table Name Display
     let tableNameHeader = document.getElementById("tableNameHeader");
@@ -423,7 +424,7 @@ function displayEditTableWindow(tableToEdit)
 
         let onResponse = function (xmlHttpRequest)
         {
-            removeEditTableForm();
+            editTableFormManager.removeForm();
             refreshUsersTables();
             removeSignRequestWindow();
         };
@@ -443,17 +444,18 @@ function displayEditTableWindow(tableToEdit)
         tableToEdit.permissions[newUser].canAdd = false;
         tableToEdit.permissions[newUser].canRemove = false;
         tableToEdit.permissions[newUser].canSearch = false;
-        removeEditTableForm();
+        editTableFormManager.removeForm();
         displayEditTableWindow(tableToEdit);
     };
 
-    //Setu pApply/Save Button
+    //Setup Apply/Save Button
     let apply = document.getElementById("apply");
     apply.onclick = function ()
     {
         let applyLoadingContainer = document.getElementById("applyLoadingContainer");
-        let animationHelper = new LoadAnimationHelper(applyLoadingContainer);
-        animationHelper.toggleLoading();
+        let animationManager = defaultLoadingAnimation.produceFormManager(applyLoadingContainer);
+        animationManager.displayForm();
+
         let updateTableRequest = new PostRequest("UpdateTable");
         let updateTableCRUDRequest = new CRUDRequest();
         updateTableCRUDRequest.object = JSON.stringify(tableToEdit);
@@ -461,7 +463,7 @@ function displayEditTableWindow(tableToEdit)
         updateTableRequest.setCRUDRequest(updateTableCRUDRequest);
         let onResponse = function ()
         {
-            removeEditTableForm();
+            editTableFormManager.removeForm();
             refreshUsersTables();
         };
 
@@ -499,7 +501,7 @@ function displayPermissions(tableToDisplay)
         if (usersPermissions.adminPerms)
         {
             tableToDisplay.isPublic = !tableToDisplay.isPublic;
-            removeEditTableForm();
+            defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
             displayEditTableWindow(tableToDisplay);
         }
     }
@@ -526,7 +528,7 @@ function displayPermissions(tableToDisplay)
             if (canEditAdmin)
             {
                 tableToDisplay.permissions[username].adminPerms = !tableToDisplay.permissions[username].adminPerms;
-                removeEditTableForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
@@ -542,7 +544,7 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canAdd = !tableToDisplay.permissions[username].canAdd;
-                removeEditTableForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
@@ -558,7 +560,7 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canSearch = !tableToDisplay.permissions[username].canSearch;
-                removeEditTableForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
@@ -573,7 +575,7 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canRemove = !tableToDisplay.permissions[username].canRemove;
-                removeEditTableForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };

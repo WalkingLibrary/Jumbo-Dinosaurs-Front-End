@@ -1,2 +1,2 @@
-let defaultLoadingAnimation = new Form("loadingAnimation.html");
+let defaultLoadingAnimation = new AnimationForm("loadingAnimation.html");
 defaultFormLoader.loadForm(defaultLoadingAnimation);
