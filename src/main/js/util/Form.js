@@ -7,12 +7,20 @@ class Form
         this.setUpFunction = setUpFunction;
     }
 
-    produceFormManager(elementToDisplayOn)
+    produceFormManager(elementToDisplayOn, forceNewManager)
     {
-        if (this[elementToDisplayOn.id] === undefined)
+        if (this[elementToDisplayOn.id] === undefined || forceNewManager)
         {
-            this[elementToDisplayOn.id] = new FormManager(this.getFrom(), elementToDisplayOn);
+            if (forceNewManager)
+            {
+                if (this[elementToDisplayOn.id] !== undefined)
+                {
+                    this[elementToDisplayOn.id].removeForm();
+                }
+            }
+            this[elementToDisplayOn.id] = new FormManager(this.form.cloneNode(true), elementToDisplayOn);
         }
+
         return this[elementToDisplayOn.id];
     }
 

@@ -371,7 +371,6 @@ function displayUsersTables()
                 editImage.id = currentTable.name + currentTable.id;
                 editImage.onclick = function ()
                 {
-                    console.log("Clicked");
                     displayEditTableWindow(currentTable);
                 };
                 //Create the tables Tag
@@ -404,12 +403,13 @@ function displayEditTableWindow(tableToEdit)
 {
     defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).displayForm();
 
-
+    //Set Up Table Name Display
     let tableNameHeader = document.getElementById("tableNameHeader");
     tableNameHeader.innerHTML = "";
     tableNameHeader.insertAdjacentHTML("beforeend", tableToEdit.name);
 
 
+    //Setup Delete Button
     let deleteTable = document.getElementById("deleteTable");
     deleteTable.onclick = function ()
     {
@@ -431,6 +431,7 @@ function displayEditTableWindow(tableToEdit)
         displaySignRequestWindow(deleteTableRequest, onResponse, signRequestDiv);
     };
 
+    //Setup Add User Button
     let addUserButton = document.getElementById("addUserInputButton");
     addUserButton.onclick = function ()
     {
@@ -446,6 +447,7 @@ function displayEditTableWindow(tableToEdit)
         displayEditTableWindow(tableToEdit);
     };
 
+    //Setu pApply/Save Button
     let apply = document.getElementById("apply");
     apply.onclick = function ()
     {
@@ -466,6 +468,7 @@ function displayEditTableWindow(tableToEdit)
         sendPostRequest(updateTableRequest, onResponse);
     };
 
+    //Dispaly Permissions
     displayPermissions(tableToEdit);
 
 }
@@ -475,16 +478,12 @@ function displayPermissions(tableToDisplay)
 {
 
     let tablePermissions = document.getElementById("tablePermissions");
-    let permissionsTable = document.getElementById("permissionsTable");
-    if (permissionsTable !== null)
-    {
-        tablePermissions.removeChild(permissionsTable);
-    }
 
 
-    tablePermissions.insertAdjacentHTML("beforeend", defaultFormLoader["permissionsTableForm.html"].getFrom());
+    let permissionsForm = defaultFormLoader["permissionsTableForm.html"];
+    let permissionsFormManager = permissionsForm.produceFormManager(tablePermissions, true);
+    permissionsFormManager.displayForm();
 
-    permissionsTable = document.getElementById("permissionsTable");
 
     let editorsUsername = getUser().username;
 
