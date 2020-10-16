@@ -1,4 +1,6 @@
 const userContentBlock = document.getElementById("userContent");
+let signRequestForm = new Form("signRequestForm.html");
+defaultFormLoader.loadForm(signRequestForm);
 let user;
 let userKey = "user";
 readUser();
@@ -89,4 +91,21 @@ function getUsersTables(onResponse)
     getTablesRequest.setCRUDRequest(getTablesCRUDRequest);
     sendPostRequest(getTablesRequest, onResponse);
 
+}
+
+function displaySignRequestWindow(requestToSign, onResponse, displayDiv)
+{
+    let signRequestFormManager = defaultFormLoader["signRequestForm.html"].produceFormManager(displayDiv, true);
+    signRequestFormManager.displayForm();
+
+    let submitRequestButton = document.getElementById("submitRequestButton");
+    let passwordInput = document.getElementById("passwordInput");
+    submitRequestButton.onclick = function ()
+    {
+
+        requestToSign.password = passwordInput.value;
+        sendPostRequest(requestToSign, onResponse);
+        signRequestFormManager.removeForm();
+        signRequestFormManager = undefined;
+    };
 }

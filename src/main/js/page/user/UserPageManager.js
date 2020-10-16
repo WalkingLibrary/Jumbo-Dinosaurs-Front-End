@@ -10,7 +10,6 @@ let userPageForms = [
     new Form("permissionsTableForm.html"),
     new Form("tablePermissionsForm.html"),
     new Form("editTableForm.html"),
-    new Form("signRequestForm.html"),
     new Form("createTableForm.html"),
     new Form("activateAccountForm.html")
 ];
@@ -279,8 +278,8 @@ function createTable()
 
     //display Loading Animation
     //Note: The button animation helper is needed in the callback function
-    let loadingAnimationToggler = defaultLoadingAnimation.produceFormManager(document.getElementById("createTableButton"));
-    loadingAnimationToggler.toggleDisplay();
+    let loadingAnimationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("createTableButton"));
+    loadingAnimationManager.displayForm();
 
     //Call Back Method
     let onResponse = function (xmlHttpRequest)
@@ -288,7 +287,7 @@ function createTable()
         if (xmlHttpRequest.status === 200)
         {
             defaultFormLoader["createTableForm.html"].produceFormManager(userContentBlock).removeForm();
-            loadingAnimationToggler.toggleDisplay();
+            loadingAnimationManager.removeForm();
             refreshUsersTables();
         }
     }
@@ -401,7 +400,7 @@ function displayUsersTables()
 //"permissions":{"Jums":{"adminPerms":true,"canAdd":true,"canRemove":true,"canSearch":true}}
 function displayEditTableWindow(tableToEdit)
 {
-    let editTableFormManager = defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock);
+    let editTableFormManager = defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock, true);
     editTableFormManager.displayForm();
 
     //Set Up Table Name Display
@@ -414,9 +413,9 @@ function displayEditTableWindow(tableToEdit)
     let deleteTable = document.getElementById("deleteTable");
     deleteTable.onclick = function ()
     {
-        let deleteTableLoadingContainer = document.getElementById("deleteTableLoadingContainer");
-        let animationHelper = new LoadAnimationHelper(deleteTableLoadingContainer);
-        animationHelper.toggleLoading();
+        let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("deleteTableLoadingContainer"), true);
+        animationManager.displayForm();
+
         let deleteTableRequest = new PostRequest("DeleteTable");
         let deleteTableCRUDRequest = new CRUDRequest();
         deleteTableCRUDRequest.tableID = tableToEdit.id;
@@ -426,7 +425,6 @@ function displayEditTableWindow(tableToEdit)
         {
             editTableFormManager.removeForm();
             refreshUsersTables();
-            removeSignRequestWindow();
         };
         let signRequestDiv = document.getElementById("signRequestDiv");
         displaySignRequestWindow(deleteTableRequest, onResponse, signRequestDiv);
@@ -452,8 +450,7 @@ function displayEditTableWindow(tableToEdit)
     let apply = document.getElementById("apply");
     apply.onclick = function ()
     {
-        let applyLoadingContainer = document.getElementById("applyLoadingContainer");
-        let animationManager = defaultLoadingAnimation.produceFormManager(applyLoadingContainer);
+        let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("applyLoadingContainer"), true);
         animationManager.displayForm();
 
         let updateTableRequest = new PostRequest("UpdateTable");
@@ -611,26 +608,8 @@ function getEditPermissionsIconLink(canDo, canEdit)
 }
 
 
-function removeSignRequestWindow()
-{
-    let signRequestDiv = document.getElementById("signRequestDiv");
-    let signRequestForm = document.getElementById("signRequestForm");
-    signRequestDiv.removeChild(signRequestForm);
-}
 
-function displaySignRequestWindow(requestToSign, onResponse, displayDiv)
-{
-    displayDiv.insertAdjacentHTML("beforeend", signRequestForm);
 
-    let submitRequestButton = document.getElementById("submitRequestButton");
-    let passwordInput = document.getElementById("passwordInput");
-    submitRequestButton.onclick = function ()
-    {
-
-        requestToSign.password = passwordInput.value;
-        sendPostRequest(requestToSign, onResponse);
-    };
-}
 
 
 

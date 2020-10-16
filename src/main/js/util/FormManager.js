@@ -41,7 +41,10 @@ class FormManager
 
         if (this.shouldSwap)
         {
-            this.parentElement.appendChild(this.preChildern);
+            for (let i = 0; i < this.preChildern.length; i++)
+            {
+                this.parentElement.appendChild(this.preChildern.item(i));
+            }
         }
     }
 
