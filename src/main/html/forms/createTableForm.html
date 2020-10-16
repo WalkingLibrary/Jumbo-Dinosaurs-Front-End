@@ -13,18 +13,17 @@
         <h1 id="tableNameError"></h1>
     </div>
 
-    <div class="flexRowSpaceAround widthOneHundred">
-        <div>
-            <label for="objectTypeInput">Select an Object Type:</label>
-            <select id="objectTypeInput" name="objectTypes">
-            </select>
-        </div>
-    </div>
 
     <div class="flexRowSpaceAround widthOneHundred">
-        <input onclick="removeCreateTableForm()" type="button" value="Back">
+
+        <input onclick="defaultFormLoader['createTableForm.html'].produceFormManager(userContentBlock).removeForm();"
+               type="button"
+               value="Back">
+
         <div class="loadAnimationContainer" id="createTableButton">
+
             <input onclick="onCaptchaButtonClick(createTable)" type="button" value="Create">
+
         </div>
     </div>
 </div>

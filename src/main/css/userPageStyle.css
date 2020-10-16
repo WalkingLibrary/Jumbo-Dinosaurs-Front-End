@@ -2,6 +2,7 @@
 
 /*Style reused for each form*/
 #userContent {
+    position: relative;
     align-items: flex-start;
     margin-left: 120px;
     min-height: 100%;
@@ -118,7 +119,7 @@
 
 /* USER FROM STYLE */
 #userContentForm {
-    position: relative;
+
     background-color: darkolivegreen;
     min-height: 100vh;
     width: 100%;
@@ -282,6 +283,7 @@
     height: 75vh;
     padding-bottom: 30px;
     width: 90%;
+    overflow-y: scroll;
 }
 
 #tablePermissions {

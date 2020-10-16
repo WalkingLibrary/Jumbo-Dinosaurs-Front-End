@@ -7,7 +7,7 @@ class FormLoader
 
     }
 
-    loadForm(formName, formFactory)
+    loadForm(form)
     {
         /*
          * Process for Loading a Form
@@ -16,7 +16,9 @@ class FormLoader
          * Create a xmlRequest to Get/Load the form
          * Send the xmlRequest
          *  */
+
         //Get the Form Link
+        let formName = form.getFormName();
         let formLink = this.getFormLink(formName);
 
 
@@ -26,6 +28,7 @@ class FormLoader
 
         // Create a xmlRequest to Get/Load the form
         let xmlHttpRequest = new XMLHttpRequest();
+        let thisPasser = this;
         xmlHttpRequest.onreadystatechange = function ()
         {
             if (this.readyState === 4)
@@ -33,11 +36,14 @@ class FormLoader
                 if (this.status === 200)
                 {
                     let formHTML = xmlHttpRequest.responseText;
-                    if (formFactory instanceof FormFactory)
+                    if (form instanceof Form)
                     {
-                        formFactory.setForm(formHTML);
-                        formFactory.onFormLoad();
+                        thisPasser[formName] = form;
+                        let htmlElement = thisPasser.convertFormStringToHTMLElement(formHTML);
+                        form.setForm(htmlElement);
+                        form.onFormLoad();
                     }
+
                     return;
                 }
                 console.log("Error Loading " + formName + " from " + host + ".\n" + "Status: " + xmlHttpRequest.status);
@@ -72,6 +78,15 @@ class FormLoader
          *
          *  */
         return this.host + formName;
+    }
+
+    //https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
+    convertFormStringToHTMLElement(htmlString)
+    {
+        let template = document.createElement("template");
+        template.innerHTML = htmlString.trim();
+        return template.content.firstChild;
+
     }
 }
 

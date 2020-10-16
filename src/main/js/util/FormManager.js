@@ -1,35 +1,36 @@
 class FormManager
 {
 
-    constructor(form, parentElement, persistentToggle)
+    constructor(form, parentElement)
     {
         this.form = form;
         this.parentElement = parentElement;
         this.isVisible = false;
-        this.persistentToggle = true;
-        this.persistentToggle = persistentToggle === undefined ? true : persistentToggle;
-
     }
 
 
     toggleDisplay()
     {
-        let currentVisibility = this.isVisible;
-        this.isVisible = !this.isVisible;
-
-        if (currentVisibility)
+        if (this.isVisible)
         {
-            this.parentElement.innerHTML = "";
-            if (this.persistentToggle)
-            {
-                this.parentElement.insertAdjacentHTML("beforeend", this.preHTML)
-            }
+            this.removeForm();
             return;
         }
 
-        this.preHTML = this.parentElement.innerHTML;
-        this.parentElement.insertAdjacentHTML("beforeend", this.form);
+        this.displayForm();
+    }
 
+    displayForm()
+    {
+        this.isVisible = true;
+        this.parentElement.appendChild(this.form);
+    }
+
+
+    removeForm()
+    {
+        this.isVisible = false;
+        this.form.remove();
     }
 
 }

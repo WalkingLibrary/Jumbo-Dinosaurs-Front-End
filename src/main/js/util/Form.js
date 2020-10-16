@@ -1,15 +1,17 @@
-class FormFactory
+class Form
 {
-    constructor(elementList)
+    constructor(formName, elementList, setUpFunction)
     {
+        this.formName = formName;
         this.elementList = elementList === undefined ? [] : elementList;
+        this.setUpFunction = setUpFunction;
     }
 
-    produceFormManager(elementToDisplayOn, persistentToggle)
+    produceFormManager(elementToDisplayOn)
     {
         if (this[elementToDisplayOn.id] === undefined)
         {
-            this[elementToDisplayOn.id] = new FormManager(this.getFrom(), elementToDisplayOn, persistentToggle);
+            this[elementToDisplayOn.id] = new FormManager(this.getFrom(), elementToDisplayOn);
         }
         return this[elementToDisplayOn.id];
     }
@@ -20,9 +22,18 @@ class FormFactory
         {
             let currentElement = this.elementList[i];
             this[currentElement.id] = new FormManager(this.getFrom(), currentElement);
-            this[currentElement.id].toggleDisplay();
+            this[currentElement.id].displayForm();
         }
+        if (this.setUpFunction !== undefined)
+        {
+            this.setUpFunction();
+        }
+    }
 
+
+    getFormName()
+    {
+        return this.formName;
     }
 
     setForm(form)

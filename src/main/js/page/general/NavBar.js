@@ -1,5 +1,5 @@
-let navBarFactory = new FormFactory([document.getElementById("navBarContainer")]);
-defaultFormLoader.loadForm("navbar.html", navBarFactory);
+let navBarForm = new Form("navbar.html", [document.getElementById("navBarContainer")]);
+defaultFormLoader.loadForm(navBarForm);
 
 /*This Function Makes the NavBar Visible*/
 function makeNavBarVisible()
