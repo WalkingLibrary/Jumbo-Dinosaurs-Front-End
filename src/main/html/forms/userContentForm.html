@@ -1,23 +1,28 @@
 <div class="flexColumnSpaceAround" id="userContentForm">
     <h1 id="usernameHeader"></h1>
 
-    <div class="flexRowSpaceAround" id="tableControls">
-        <div class="flexColumnSpaceAround">
-            <img alt="Table Icon Here" class="tableIcon" id="tableIcon" src="tableicon.png">
-            <h1>Tables</h1>
-        </div>
-        <div class="flexColumnSpaceAround" id="createDiv">
-            <img alt="Plus Symbol"
-                 onclick="defaultFormLoader['createTableForm.html'].produceFormManager(userContentBlock, true).displayForm();"
-                 src="/100x100PlusCircle.png">
-            <h4>Create Table</h4>
-        </div>
-    </div>
-    <input onclick="refreshUsersTables()" type="button" value="Refresh Tables">
+
     <div id="tablesDiv">
 
-        <img alt="Table Icon Here" class="tableIcon" id="tablesDivIcon" src="tableicon.png">
+        <div class="flexRowSpaceAround" id="tableControls">
+            <div class="flexColumnSpaceAround">
+                <img alt="Table Icon Here" class="tableIcon" id="tableIcon" src="tableicon.png">
+                <h1>Tables</h1>
+            </div>
 
+            <div class="flexColumnSpaceAround parentHider">
+                <img alt="Plus Symbol"
+                     class="imageButton"
+                     onclick="defaultFormLoader['createTableForm.html'].produceFormManager(userContentBlock, true).displayForm();"
+                     src="/100x100PlusCircle.png">
+                <h4 class="standardOutline hiddenLabel">Create Table</h4>
+            </div>
+
+            <div class="flexColumnSpaceAround parentHider">
+                <img alt="Refresh Tables" class="imageButton" onclick="refreshUsersTables()" src="/refreshIcon.png">
+                <h4 class="standardOutline hiddenLabel">Refresh</h4>
+            </div>
+        </div>
     </div>
 
 

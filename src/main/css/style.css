@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
 /*Remove Padding from h1, h2, h3, h4, h5*/
 
@@ -15,6 +19,19 @@ h4,
 h5 {
     padding: 0;
     margin: 0;
+}
+
+
+#navbar {
+    width: 103px;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+    border-left: 3px solid darkblue;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* The Container That Holds Every Thing
@@ -356,4 +373,31 @@ img {
 
 .widthOneHundred {
     width: 100%;
+}
+
+.imageButton {
+    width: auto;
+    height: auto;
+}
+
+.imageButton:hover {
+    transform: scale(1.1) rotate(3deg) translateY(1px);
+}
+
+
+/*Easy hidden Label System*/
+
+.hiddenLabel {
+    visibility: hidden;
+}
+
+.parentHider:hover .hiddenLabel {
+    visibility: visible;
+}
+
+.standardOutline {
+    z-index: 1;
+    background-color: black;
+    border-radius: 10px;
+    border: 3px groove red;
 }

@@ -2,9 +2,6 @@
  * */
 
 
-
-
-
 let userPageForms = [
     new Form("userContentForm.html", [userContentBlock], setUpUserContent),
     new Form("permissionsTableForm.html"),
@@ -191,7 +188,6 @@ function resendActivationCode()
 }
 
 
-
 function setObjectTypes(selectElement)
 {
     /*
@@ -300,7 +296,6 @@ function createTable()
 }
 
 
-
 function refreshUsersTables()
 {
     /*
@@ -313,11 +308,11 @@ function refreshUsersTables()
 
     let tablesDiv = document.getElementById("tablesDiv");
     //Grab the Image Element
-    let tablesDivIcon = document.getElementById("tablesDivIcon");
+    let tableControlDiv = document.getElementById("tableControls");
     //Clear the tablesDiv
     tablesDiv.innerHTML = "";
     //Add the Image Element back to The Tables Div
-    tablesDiv.appendChild(tablesDivIcon);
+    tablesDiv.appendChild(tableControlDiv);
     //Display The Users Tables
     displayUsersTables();
 
@@ -390,12 +385,6 @@ function displayUsersTables()
 }
 
 
-
-
-
-
-
-
 //<img src="/xMark.png" alt="CheckMark">
 //"permissions":{"Jums":{"adminPerms":true,"canAdd":true,"canRemove":true,"canSearch":true}}
 function displayEditTableWindow(tableToEdit)
@@ -455,6 +444,7 @@ function displayEditTableWindow(tableToEdit)
 
         let updateTableRequest = new PostRequest("UpdateTable");
         let updateTableCRUDRequest = new CRUDRequest();
+
         updateTableCRUDRequest.object = JSON.stringify(tableToEdit);
         updateTableCRUDRequest.tableID = tableToEdit.id;
         updateTableRequest.setCRUDRequest(updateTableCRUDRequest);
@@ -465,6 +455,8 @@ function displayEditTableWindow(tableToEdit)
         };
 
         sendPostRequest(updateTableRequest, onResponse);
+
+
     };
 
     //Dispaly Permissions
