@@ -8,9 +8,9 @@ The Home Page of Jumbo Dinosaurs
 
 ### Todos
 
-- change project over to standard outline (What I'm Working on)
 - add delete user functionality to edit table form
 - add password change page
+- added art page functionality
 - test login and create account forms
 
 
