@@ -1,4 +1,4 @@
-<div class="flexColumnSpaceAround" id="signUpForm">
+<div class="flexColumnSpaceAround formHolder" id="signUpForm">
 
     <h1>Create An Account</h1>
     <div class="form">
@@ -9,19 +9,25 @@
         <div class="inputDiv">
 
 
-            <div id="usernameRestraintsDiv">
+            <div class="parentHider" id="usernameRestraintsDiv">
 
                 <input id="usernameInput" onclick="onUsernameInputChange()" type="text">
+
+                <!-- -->
                 <div class="loadAnimationContainer" id="checkAvailabilityLoadingButton">
-                    <input onclick="checkAvailability(usernameInput.value)" type="button"
+
+                    <input onclick="checkAvailability(usernameInput.value);" type="button"
                            value="Check Availability">
+
                 </div>
 
-                <h5>Username can contain A-Z, a-z, 0-9, and _ with a max length of 15 Characters</h5>
+                <h5 class="standardOutline paddingTen hiddenLabel">
+                    Usernames can be 15 Characters long and contain A-Z, 0-9, and underscores.
+                </h5>
             </div>
 
 
-            <h3 id="usernameError"></h3>
+            <h3 class="error" id="usernameError"></h3>
             <h3 id="usernameTakenStatus"></h3>
 
 
@@ -59,8 +65,10 @@
         </div>
     </div>
 
-    <div id="formNavigationDiv" onclick="
-           let form = loginForm.produceFormManager(userContentBlock).displayForm();">
+    <div class="standardOutline backgroundButton paddingTen" onclick="
+           signUpForm.produceFormManager(contentContainer).removeForm();
+           loginForm.produceFormManager(contentContainer, true).displayForm();">
+
         <h4>Have an account? <br> Click Here to Login</h4>
     </div>
 

@@ -1,42 +1,62 @@
-<div class="flexColumnSpaceAround" id="userContentForm">
-    <h1 id="usernameHeader"></h1>
+<div class="flexColumnSpaceAround formHolder">
+    <h1 class="standardOutline widthOneHundred" id="usernameHeader"></h1>
 
 
-    <div id="tablesDiv">
-
+    <div class="standardOutline widthOneHundred">
         <div class="flexRowSpaceAround" id="tableControls">
             <div class="flexColumnSpaceAround">
-                <img alt="Table Icon Here" class="tableIcon" id="tableIcon" src="tableicon.png">
+                <img alt="Table Icon Here" class="standardOutlineWhiteBackGround widthHeightOneHundredPixels"
+                     src="tableicon.png">
                 <h1>Tables</h1>
             </div>
 
             <div class="flexColumnSpaceAround parentHider">
                 <img alt="Plus Symbol"
-                     class="imageButton"
-                     onclick="defaultFormLoader['createTableForm.html'].produceFormManager(userContentBlock, true).displayForm();"
+                     class="imageButton widthHeightOneHundredPixels"
+                     onclick="defaultFormLoader['createTableForm.html'].produceFormManager(contentContainer, true).displayForm();"
                      src="/100x100PlusCircle.png">
                 <h4 class="standardOutline hiddenLabel">Create Table</h4>
             </div>
 
             <div class="flexColumnSpaceAround parentHider">
-                <img alt="Refresh Tables" class="imageButton" onclick="refreshUsersTables()" src="/refreshIcon.png">
+                <img alt="Refresh Tables" class="imageButton widthHeightOneHundredPixels" onclick="refreshUsersTables()"
+                     src="/refreshIcon.png">
                 <h4 class="standardOutline hiddenLabel">Refresh</h4>
             </div>
         </div>
+
+        <div id="tablesDiv">
+
+        </div>
+
     </div>
 
 
-    <div id="logOutDiv" onclick="logOut()">
+    <div class="logOutDiv standardOutline" onclick="logOut()">
         <h4>Log Out</h4>
     </div>
 
+    <div class="standardOutline absolute paddingTen"
 
+         id="activationStatus"
+
+         onclick="
+         defaultFormLoader['userContentForm.html'].produceFormManager(contentContainer).removeForm();
+         defaultFormLoader['activateAccountForm.html'].produceFormManager(contentContainer).displayForm();
+         "
+
+         style="
+         right: 5px;
+         top: 5px;
+         visibility: hidden;">
+
+        <h4>Your account has not been activated yet<br>
+            Click here to activate it.
+        </h4>
+
+    </div>
 </div>
 
-<div id="activationStatus" onclick="displayActivationForm()">
-    <h4>Your account has not been activated yet<br>
-        Click here to activate it.
-    </h4>
-</div>
+
 
 

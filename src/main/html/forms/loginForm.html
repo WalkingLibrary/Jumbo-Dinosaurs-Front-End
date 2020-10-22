@@ -1,4 +1,4 @@
-<div class="flexColumnSpaceAround" id="loginForm">
+<div class="flexColumnSpaceAround formHolder" id="loginForm">
     <h1>Login</h1>
     <div class="form">
 
@@ -25,7 +25,10 @@
         </div>
 
     </div>
-    <div id="formNavigationDiv" onclick="signUpForm.produceFormManager(userContentBlock).displayForm();">
+    <div class="backgroundButton standardOutline paddingTen"
+         onclick="
+         loginForm.produceFormManager(contentContainer).removeForm();
+         signUpForm.produceFormManager(contentContainer, true).displayForm();">
         <h4>Don't Have an account? <br> Click Here to create one</h4>
     </div>
 

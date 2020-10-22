@@ -3,7 +3,7 @@
 
 
 let userPageForms = [
-    new Form("userContentForm.html", [userContentBlock], setUpUserContent),
+    new Form("userContentForm.html", [contentContainer], setUpUserContent),
     new Form("permissionsTableForm.html"),
     new Form("tablePermissionsForm.html"),
     new Form("editTableForm.html"),
@@ -282,7 +282,7 @@ function createTable()
     {
         if (xmlHttpRequest.status === 200)
         {
-            defaultFormLoader["createTableForm.html"].produceFormManager(userContentBlock).removeForm();
+            defaultFormLoader["createTableForm.html"].produceFormManager(contentContainer).removeForm();
             loadingAnimationManager.removeForm();
             refreshUsersTables();
         }
@@ -308,11 +308,9 @@ function refreshUsersTables()
 
     let tablesDiv = document.getElementById("tablesDiv");
     //Grab the Image Element
-    let tableControlDiv = document.getElementById("tableControls");
     //Clear the tablesDiv
     tablesDiv.innerHTML = "";
     //Add the Image Element back to The Tables Div
-    tablesDiv.appendChild(tableControlDiv);
     //Display The Users Tables
     displayUsersTables();
 
@@ -370,6 +368,7 @@ function displayUsersTables()
                 //Create the tables Tag
                 let newTablesDiv = document.createElement("div");
                 newTablesDiv.className = "tableDiv";
+                newTablesDiv.className += " standardOutlineWhiteBackGround";
 
                 //append Name, Creator, Edit tags to the Table Tag
                 newTablesDiv.appendChild(nameTag);
@@ -389,7 +388,7 @@ function displayUsersTables()
 //"permissions":{"Jums":{"adminPerms":true,"canAdd":true,"canRemove":true,"canSearch":true}}
 function displayEditTableWindow(tableToEdit)
 {
-    let editTableFormManager = defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock, true);
+    let editTableFormManager = defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer, true);
     editTableFormManager.displayForm();
 
     //Set Up Table Name Display
@@ -490,10 +489,15 @@ function displayPermissions(tableToDisplay)
         if (usersPermissions.adminPerms)
         {
             tableToDisplay.isPublic = !tableToDisplay.isPublic;
-            defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
+            defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
             displayEditTableWindow(tableToDisplay);
         }
     }
+
+    /*Setting the style for all the images */
+    let defaultImageElement = document.createElement("img");
+    defaultImageElement.className = "widthHeightFiftyPixels";
+    defaultImageElement.className += " imageButton";
 
     for (let i = 0; i < Object.getOwnPropertyNames(tableToDisplay.permissions).length; i++)
     {
@@ -506,7 +510,7 @@ function displayPermissions(tableToDisplay)
         permissionsTable.insertAdjacentHTML("beforeend", usernameHeader.outerHTML);
 
 
-        let canAdminIcon = document.createElement("img");
+        let canAdminIcon = defaultImageElement.cloneNode(true);
         canAdminIcon.src = getEditPermissionsIconLink(currentUsersPermissions.adminPerms, canEditAdmin);
         canAdminIcon.id = "canAdminIcon" + i;
         permissionsTable.insertAdjacentHTML("beforeend", canAdminIcon.outerHTML);
@@ -517,13 +521,13 @@ function displayPermissions(tableToDisplay)
             if (canEditAdmin)
             {
                 tableToDisplay.permissions[username].adminPerms = !tableToDisplay.permissions[username].adminPerms;
-                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
 
 
-        let canAddIcon = document.createElement("img");
+        let canAddIcon = defaultImageElement.cloneNode(true);
         canAddIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canAdd, canEditUsage);
         canAddIcon.id = "canAddIcon" + i;
         permissionsTable.insertAdjacentHTML("beforeend", canAddIcon.outerHTML);
@@ -533,13 +537,13 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canAdd = !tableToDisplay.permissions[username].canAdd;
-                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
 
 
-        let canSearchIcon = document.createElement("img");
+        let canSearchIcon = defaultImageElement.cloneNode(true);
         canSearchIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canSearch, canEditUsage);
         canSearchIcon.id = "canSearchIcon" + i;
         permissionsTable.insertAdjacentHTML("beforeend", canSearchIcon.outerHTML);
@@ -549,12 +553,12 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canSearch = !tableToDisplay.permissions[username].canSearch;
-                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };
 
-        let canRemoveIcon = document.createElement("img");
+        let canRemoveIcon = defaultImageElement.cloneNode(true);
         canRemoveIcon.src = getEditPermissionsIconLink(currentUsersPermissions.canRemove, canEditUsage);
         canRemoveIcon.id = "canRemoveIcon" + i;
         permissionsTable.insertAdjacentHTML("beforeend", canRemoveIcon.outerHTML);
@@ -564,7 +568,7 @@ function displayPermissions(tableToDisplay)
             if (canEditUsage)
             {
                 tableToDisplay.permissions[username].canRemove = !tableToDisplay.permissions[username].canRemove;
-                defaultFormLoader["editTableForm.html"].produceFormManager(userContentBlock).removeForm();
+                defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
                 displayEditTableWindow(tableToDisplay);
             }
         };

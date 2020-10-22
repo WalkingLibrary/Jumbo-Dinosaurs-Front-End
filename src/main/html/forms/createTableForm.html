@@ -1,4 +1,6 @@
-<div class="flexColumnSpaceAround" id="createTableDiv">
+<div ;
+     class="flexColumnSpaceAround standardOutline absolute widthFifty halfViewHeight" id="createTableDiv"
+     style="top:25vh">
 
     <div class="flexColumnSpaceAround widthOneHundred">
         <div class="flexColumnSpaceAround widthOneHundred">
@@ -6,17 +8,18 @@
                 <label for="tableName">Table Name:</label>
                 <input id="tableName" type="text">
             </div>
-            <h5 id="tableNameConstraints">Table Name can contain A-Z, a-z, 0-9, and _ with a max length of 15
-                Characters</h5>
+            <h5 class="standardOutline paddingTen">
+                Table Names can be 15 Characters long and contain A-Z, 0-9, and underscores.
+            </h5>
         </div>
 
-        <h1 id="tableNameError"></h1>
+        <h1 class="error" id="tableNameError"></h1>
     </div>
 
 
     <div class="flexRowSpaceAround widthOneHundred">
 
-        <input onclick="defaultFormLoader['createTableForm.html'].produceFormManager(userContentBlock).removeForm();"
+        <input onclick="defaultFormLoader['createTableForm.html'].produceFormManager(contentContainer).removeForm();"
                type="button"
                value="Back">
 

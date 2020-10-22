@@ -26,7 +26,7 @@ class FormManager
 
         if (this.shouldSwap)
         {
-            this.preChildern = this.parentElement.children;
+            this.preChildern = this.parentElement.cloneNode(true).children;
             this.parentElement.innerHTML = "";
         }
 

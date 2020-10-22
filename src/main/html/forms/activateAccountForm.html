@@ -1,4 +1,4 @@
-<div class="flexColumnSpaceAround" id="accountActivationFrom">
+<div class="flexColumnSpaceAround formHolder" id="accountActivationFrom">
     <h1>Activate Your Account</h1>
     <div class="form">
 
@@ -13,16 +13,23 @@
 
     </div>
 
-    <div id="sendActivationCodeDiv" onclick="resendActivationCode()">
+    <div class="standardOutline backgroundButton paddingTen" onclick="resendActivationCode()">
         <h4>Didn't receive an email? <br> Click Here to resend</h4>
     </div>
+
+
     <h3 id="activationError"></h3>
-    <div id="formNavigationDiv" onclick="displayUserContent()">
-        <h4>To the User Form</h4>
-    </div>
-    <div class="loadAnimationContainer" id="activationLoadingButton">
-        <input id="activateAccount" onclick="onCaptchaButtonClick(activateAccount)" type="button"
-               value="Activate Account">
+
+    <div class="flexRowSpaceAround widthOneHundred">
+        <input onclick="
+           defaultFormLoader['activateAccountForm.html'].produceFormManager(contentContainer).removeForm();
+         defaultFormLoader['userContentForm.html'].produceFormManager(contentContainer).displayForm();" type="button"
+               value="Back">
+
+        <div class="loadAnimationContainer" id="activationLoadingButton">
+            <input id="activateAccount" onclick="onCaptchaButtonClick(activateAccount)" type="button"
+                   value="Activate Account">
+        </div>
     </div>
 
 

@@ -8,7 +8,7 @@ if (getUser() !== null)
     redirectToUserPage();
 }
 
-let loginForm = new Form("loginForm.html", [userContentBlock]);
+let loginForm = new Form("loginForm.html", [contentContainer]);
 let signUpForm = new Form("signupForm.html");
 
 defaultFormLoader.loadForm(loginForm);
@@ -32,8 +32,8 @@ function login()
     let loginError = document.getElementById("loginError");
     loginError.innerHTML = "";
 
-    let loadingAnimationToggler = defaultLoadingAnimation.produceFormManager(document.getElementById("loginLoadingButton"));
-    loadingAnimationToggler.toggleDisplay();
+    let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("loginLoadingButton"), true);
+    animationManager.displayForm();
 
 
     //Validate Form Inputs and Display Errors
@@ -43,7 +43,7 @@ function login()
     if (!isAValidUsername(username))
     {
         loginError.innerHTML = "Invalid Username";
-        loadingAnimationToggler.toggleDisplay();
+        animationManager.removeForm();
         return;
     }
 
@@ -74,7 +74,7 @@ function login()
         else
         {
             loginError.innerHTML = "The Username or password given was invalid";
-            loadingAnimationToggler.toggleDisplay();
+            animationManager.removeForm();
         }
     }
 
@@ -102,8 +102,8 @@ function signUp()
 
 
     //Display Loading Animation
-    let loadingAnimationToggler = defaultLoadingAnimation.produceFormManager(document.getElementById("signUpLoadingButton"));
-    loadingAnimationToggler.toggleDisplay();
+    let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("signUpLoadingButton"), true);
+    animationManager.displayForm();
 
     //Clear old Errors
     let usernameError = document.getElementById("usernameError");
@@ -200,7 +200,7 @@ function signUp()
 
     if (!isInputValid)
     {
-        loadingAnimationToggler.toggleDisplay();
+        animationManager.removeForm();
         return;
     }
 
@@ -231,11 +231,11 @@ function signUp()
     {
         if (xmlHttpRequest.status === 200)
         {
-            loginForm.produceFormManager(userContentBlock).displayForm();
+            loginForm.produceFormManager(contentContainer).displayForm();
             return;
         }
 
-        loadingAnimationToggler.toggleDisplay();
+        animationManager.removeForm();
 
         if (xmlHttpRequest.status === 400)
         {
@@ -276,15 +276,15 @@ function checkAvailability(username)
      *  */
 
     //Display Loading Animation
-    let loadingAnimationToggler = defaultLoadingAnimation.produceFormManager(document.getElementById("checkAvailabilityLoadingButton"));
-    loadingAnimationToggler.toggleDisplay();
+    let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("checkAvailabilityLoadingButton"), true);
+    animationManager.displayForm();
 
     //Check if the username is valid. Update display accordingly
     let usernameError = document.getElementById("usernameError");
     if (!isAValidUsername(username))
     {
+        animationManager.removeForm();
         usernameError.innerHTML = "Enter a Valid Username";
-        loadingAnimationToggler.toggleDisplay();
         return;
     }
     else
@@ -307,7 +307,7 @@ function checkAvailability(username)
      * */
     let onResponse = function (xmlRequest)
     {
-        loadingAnimationToggler.toggleDisplay();
+        animationManager.removeForm();
         //Check to make sure the username has not changed since the check
         let usernameInput = document.getElementById("usernameInput");
         if (usernameInput.value !== username)
@@ -328,12 +328,12 @@ function checkAvailability(username)
             let usernameTakenStatus = document.getElementById("usernameTakenStatus");
             if (isUsernameAvailable === true)
             {
-                usernameTakenStatus.style.color = "Red";
+                usernameTakenStatus.className = "error";
                 usernameTakenStatus.innerHTML = "Username is Taken";
             }
             else
             {
-                usernameTakenStatus.style.color = "lawngreen";
+                usernameTakenStatus.className = "success";
                 usernameTakenStatus.innerHTML = "Username is Available";
             }
         } catch (error)

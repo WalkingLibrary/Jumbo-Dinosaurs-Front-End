@@ -1,4 +1,4 @@
-<div class="overflowContainer" id="editTableForm">
+<div class="overflowContainer standardOutline absolute" id="editTableForm">
     <div class="flexColumnSpaceAround widthOneHundred">
         <h1 id="tableNameHeader"></h1>
 
@@ -17,14 +17,14 @@
 
     <div class="flexRowSpaceAround">
         <input id="togglePublic" type="button" value="Public Status">
-        <img alt="Status" class="statusIcon" id="publicStatus" src="/xMark.png">
+        <img alt="Status" class="imageButton widthHeightFiftyPixels " id="publicStatus" src="/xMark.png">
     </div>
 
     <div id="signRequestDiv"></div>
 
         <div class="flexRowSpaceAround widthOneHundred">
             <input id="back" onclick="
-          defaultFormLoader['editTableForm.html'].produceFormManager(userContentBlock).removeForm();" type="button"
+          defaultFormLoader['editTableForm.html'].produceFormManager(contentContainer).removeForm();" type="button"
                    value="Back">
             <div class="loadAnimationContainer" id="deleteTableLoadingContainer">
                 <input id="deleteTable" type="button" value="Delete Table">

@@ -1,4 +1,4 @@
-const userContentBlock = document.getElementById("userContent");
+const contentContainer = document.getElementById("userContent");
 let signRequestForm = new Form("signRequestForm.html");
 defaultFormLoader.loadForm(signRequestForm);
 let user;

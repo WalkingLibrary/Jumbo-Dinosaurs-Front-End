@@ -1,4 +1,4 @@
-let navBarForm = new Form("navbar.html", [document.getElementById("navBarContainer")]);
+let navBarForm = new Form("navbar.html", [document.getElementById("navBarContainer")], hideNavBar);
 defaultFormLoader.loadForm(navBarForm);
 
 /*This Function Makes the NavBar Visible*/

@@ -10,61 +10,6 @@ a {
     color: inherit;
 }
 
-/*Remove Padding from h1, h2, h3, h4, h5*/
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-    padding: 0;
-    margin: 0;
-}
-
-
-#navbar {
-    width: 103px;
-    position: fixed;
-    height: 100vh;
-    z-index: 10;
-    border-left: 3px solid darkblue;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-/* The Container That Holds Every Thing
- * Max Width is 1080px
- * Displays Flex in Direction Column
- */
-
-
-#contentContainer {
-    background-color: olivedrab;
-    max-width: 1080px;
-    color: whitesmoke;
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    text-align: center;
-    min-height: 100vh;
-}
-
-#navBarContainer {
-    background-color: olivedrab;
-    max-width: 1080px;
-    color: whitesmoke;
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    text-align: center;
-}
-
 img {
     max-width: 1080px;
     display: flex;
@@ -164,84 +109,6 @@ img {
 #footer a {
     color: inherit;
 }
-
-
-
-/*Load Animation */
-
-.loadAnimationContainer {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-flow: column;
-}
-
-.twoCircles {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    row-gap: 2px;
-    align-items: center;
-}
-
-.redCircle {
-    border: 5px solid red;
-    background-color: red;
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
-}
-
-.blueCircle {
-    border: 5px solid blue;
-    background-color: blue;
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
-}
-
-.yellowCircle {
-    border: 5px solid yellow;
-    background-color: yellow;
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
-}
-
-.loadAnimation {
-    position: absolute;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    -webkit-animation: spin 10s linear infinite;
-    animation: spin 1s linear infinite;
-}
-
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-
 
 
 /*Style For Map Page*/
@@ -345,11 +212,65 @@ img {
     height: 50px;
 }
 
+
+/*New Style Please comment*/
+
+
+/* Header Styles*/
+
+h1, h2, h3, h4, h5 {
+    padding: 0;
+    margin: 0;
+}
+
+
+.error {
+    color: red;
+}
+
+.success {
+    color: lawngreen;
+}
+
+
+/*General Purpose Style Outlines*/
+
+.overflowContainer {
+    margin: auto;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+
+.form {
+    background-color: darkslategray;
+    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-content: space-evenly;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-items: center;
+    min-height: 50vh;
+    padding-bottom: 10%;
+    width: 100%;
+}
+
+.navigationBar {
+    width: 103px;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+    border-left: 3px solid rebeccapurple;
+    padding: 0;
+    margin: 0;
+}
+
+
 /*
  * Flex Outlines
  *
  */
-
 .flexColumnSpaceAround {
     display: flex;
     flex-direction: column;
@@ -366,22 +287,48 @@ img {
     justify-content: space-around;
 }
 
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
+}
+
+
 /*
  * Space Outlines
  *
  */
 
+.allViewHeight {
+    height: 100vh;
+}
+
+.halfViewHeight {
+    height: 50vh;
+}
+
+
+.widthFifty {
+    width: 50%;
+}
+
 .widthOneHundred {
     width: 100%;
 }
 
-.imageButton {
-    width: auto;
-    height: auto;
+.widthHeightOneHundredPixels {
+    width: 100px;
+    height: 100px;
 }
 
-.imageButton:hover {
-    transform: scale(1.1) rotate(3deg) translateY(1px);
+.widthHeightFiftyPixels {
+    width: 50px;
+    height: 50px;
+}
+
+.paddingTen {
+    padding: 10px;
 }
 
 
@@ -389,15 +336,278 @@ img {
 
 .hiddenLabel {
     visibility: hidden;
+    z-index: 1;
 }
 
 .parentHider:hover .hiddenLabel {
     visibility: visible;
 }
 
+/* Button Functionalitys / Styles*/
+
+.imageButton:hover {
+    transform: scale(1.1) rotate(0deg) translateY(1px);
+}
+
+.backgroundButton:hover {
+    background-color: grey;
+}
+
+
+/* Standard Outlines */
 .standardOutline {
-    z-index: 1;
+
     background-color: black;
     border-radius: 10px;
-    border: 3px groove red;
+    border: 3px groove blue;
 }
+
+.standardOutlineWhiteBackGround {
+
+    background-color: white;
+    border-radius: 10px;
+    border: 3px groove blue;
+}
+
+.differentialOutLine {
+    background-color: white;
+    border: 3px groove gold;
+    color: black;
+    padding: 10px;
+}
+
+
+.formHolder {
+    background-color: #5a6358;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/*User Page Specific Styles*/
+
+
+.logOutDiv {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 10px;
+}
+
+.logOutDiv:hover {
+    background-color: grey;
+}
+
+
+/*Load Animation */
+
+.loadAnimationContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.twoCircles {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 2px;
+    align-items: center;
+}
+
+.redCircle {
+    border: 5px solid red;
+    background-color: red;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.blueCircle {
+    border: 5px solid blue;
+    background-color: blue;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.yellowCircle {
+    border: 5px solid yellow;
+    background-color: yellow;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+}
+
+.loadAnimation {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    -webkit-animation: spin 10s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*Positioning Outlines*/
+
+/*Absolute Outlines*/
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+
+    position: absolute;
+}
+
+
+/*
+ * The Container That Holds Every Thing
+ * Max Width is 1080px
+ * Displays Flex in Direction Column
+ */
+
+
+#contentContainer {
+    background-color: #40473f;
+    max-width: 1080px;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    min-height: 100vh;
+}
+
+#navBarContainer {
+    max-width: 1080px;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#userContent {
+    position: relative;
+    align-items: flex-start;
+    margin-left: 120px;
+    min-height: 100%;
+}
+
+
+/*Style for the USER PAGE*/
+
+
+#usernameRestraintsDiv {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    grid-template-columns: 2fr 1fr 1fr;
+
+}
+
+
+#tablesDiv {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 20px;
+    width: 100%;
+    min-height: 200px;
+}
+
+.tableDiv {
+    width: 200px;
+    height: 100px;
+    position: relative;
+}
+
+.tableDiv .editImg {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    width: 30px;
+    height: 30px;
+
+}
+
+.tableDiv .editImg:hover {
+    transform: scale(1.1) rotate(0deg) translateY(1px);
+}
+
+.tableDiv .nameTag {
+    position: absolute;
+    color: black;
+    left: 3px;
+    top: 3px;
+}
+
+.tableDiv .creatorTag {
+    position: absolute;
+    color: black;
+    left: 3px;
+    bottom: 3px;
+}
+
+
+#editTableForm {
+    height: 75vh;
+    padding-bottom: 30px;
+    width: 90%;
+    overflow-y: scroll;
+}
+
+#tablePermissions {
+    width: 95%;
+    height: 300px;
+}
+
+#permissionsTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    align-content: center;
+    width: auto;
+    row-gap: 25px;
+    column-gap: 25px;
+    color: black;
+}
+
+
+
+
