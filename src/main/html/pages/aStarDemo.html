@@ -28,20 +28,31 @@
 </div>
 
 <div id="contentContainer">
-    <div id="aStarCanvasDiv">
-        <canvas id="aStarCanvas"></canvas>
-        <h1 id="errorDisplay"></h1>
-        <div id="controlBox">
-            <div id="howTo">
-                <h3>Left Click to place the Start Node</h3>
+    <div class="flexColumnSpaceAround allViewHeight">
 
-                <h3>Right Click to place the Goal Node</h3>
+        <canvas class="standardOutlineWhiteBackGround widthHeightFiftyPercent autoMargin"
+                id="aStarCanvas">
 
-                <h3>Middle Click to place obstacles</h3>
+        </canvas>
+
+        <h1 class="error" id="errorDisplay"></h1>
+
+
+        <div class="autoMargin  paddingTen flexColumnSpaceAround">
+
+            <div class="standardOutline paddingTen autoMargin">
+                <h3 class="paddingTen">Left Click to place the Start Node</h3>
+
+                <h3 class="paddingTen">Right Click to place the Goal Node</h3>
+
+                <h3 class="paddingTen">Middle Click to place obstacles</h3>
             </div>
-            <div id="solveButtonDiv">
+
+
+            <div id="solveButtonDiv" style="margin: 50px;">
                 <input id="solveButton" onclick="solvePath()" type="button" value="Solve">
             </div>
+
         </div>
     </div>
 </div>
