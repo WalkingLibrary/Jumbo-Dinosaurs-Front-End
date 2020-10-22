@@ -13,16 +13,6 @@ let maxSquareGridSize = 15;
 
 
 
-function getFormLink(formName)
-{
-    return host + formName;
-}
-
-
-
-getForm(getFormLink("loadingAnimation.html"), loadingAnimationHTMLStoreFunction);
-
-
 aStarCanvas.addEventListener("contextmenu", function (e)
 {
     e.preventDefault();
@@ -242,9 +232,10 @@ function solvePath()
      *  */
     let solveButtonDiv = document.getElementById("solveButtonDiv");
     //Display Loading Animation
-    let animationHelper = new LoadAnimationHelper(solveButtonDiv);
-    animationHelper.toggleLoading();
+    let animationManager = defaultLoadingAnimation.produceFormManager(solveButtonDiv, true);
+    animationManager.displayForm();
 
+    let errorDisplay = document.getElementById("errorDisplay");
 
     errorDisplay.innerHTML = "";
 
@@ -365,7 +356,7 @@ function solvePath()
             errorDisplay.innerHTML = "There was an error finding the solution refresh and try again later."
         }
 
-        animationHelper.toggleLoading();
+        animationManager.removeForm();
     }
 
     sendPostRequest(solveRequest, onResponse);
