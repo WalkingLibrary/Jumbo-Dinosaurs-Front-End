@@ -9,7 +9,7 @@ function sendPostRequest(postRequest, onReadyFunction)
     {
         if (this.readyState === 4)
         {
-            onReadyFunction(xmlHttpRequest);
+            filterRequest(xmlHttpRequest, onReadyFunction(xmlHttpRequest));
         }
     };
     xmlHttpRequest.open("POST", host, true);
@@ -18,7 +18,11 @@ function sendPostRequest(postRequest, onReadyFunction)
 }
 
 
-
-
-
-
+function filterRequest(xmlHttpRequest, onReadyFunction)
+{
+    if (xmlHttpRequest.status === 403 && getUser() === null)
+    {
+        clearUserInfo();
+        location.reload();
+    }
+}
