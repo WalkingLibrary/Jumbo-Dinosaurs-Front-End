@@ -23,8 +23,10 @@
     <div id="signRequestDiv"></div>
 
         <div class="flexRowSpaceAround widthOneHundred">
-            <input id="back" onclick="
-          defaultFormLoader['editTableForm.html'].produceFormManager(contentContainer).removeForm();" type="button"
+            <input id="back"
+                   onclick="defaultFormLoader['editTableForm.html'].produceFormManager(contentContainer).removeForm();
+                            refreshUsersTables();"
+                   type="button"
                    value="Back">
             <div class="loadAnimationContainer" id="deleteTableLoadingContainer">
                 <input id="deleteTable" type="button" value="Delete Table">

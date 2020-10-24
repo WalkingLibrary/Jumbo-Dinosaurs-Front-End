@@ -254,6 +254,10 @@ h1, h2, h3, h4, h5 {
 
 /* Button Functionality / Styles */
 
+.hoverButton:hover {
+    transform: scale(1.1) rotate(0deg) translateY(1px);
+}
+
 .imageButton:hover {
     transform: scale(1.1) rotate(0deg) translateY(1px);
 }

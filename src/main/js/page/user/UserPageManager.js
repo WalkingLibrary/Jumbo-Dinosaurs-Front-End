@@ -506,8 +506,24 @@ function displayPermissions(tableToDisplay)
 
         //Create header and permissions toggle buttons
         let usernameHeader = document.createElement("h3");
+        usernameHeader.id = username;
         usernameHeader.innerHTML = username;
+        if (canEditUsage)
+        {
+            usernameHeader.className += "hoverButton";
+        }
+
         permissionsTable.insertAdjacentHTML("beforeend", usernameHeader.outerHTML);
+        usernameHeader = document.getElementById(username);
+        usernameHeader.onclick = function ()
+        {
+            if (canEditUsage)
+            {
+                delete tableToDisplay.permissions[username];
+                defaultFormLoader["editTableForm.html"].produceFormManager(contentContainer).removeForm();
+                displayEditTableWindow(tableToDisplay);
+            }
+        };
 
 
         let canAdminIcon = defaultImageElement.cloneNode(true);
