@@ -1,7 +1,7 @@
 <div class="flexColumnSpaceAround formHolder" id="signUpForm">
 
     <h1>Create An Account</h1>
-    <div class="form">
+    <div class="form fill">
 
 
         <!--Username Input-->
@@ -38,7 +38,7 @@
         <div class="inputDiv">
             <input id="passwordInput" type="password"><br>
             <input id="passwordCheckInput" type="password">
-            <h3 id="passwordError"></h3>
+            <h3 class="error" id="passwordError"></h3>
         </div>
 
         <!--Email Input-->
@@ -46,7 +46,7 @@
         <div class="inputDiv">
             <input id="emailInput" type="email"><br>
             <input id="emailCheckInput" type="email">
-            <h3 id="emailError"></h3>
+            <h3 class="error" id="emailError"></h3>
         </div>
 
         <!--TOS and PP Input-->
@@ -60,14 +60,12 @@
 
         <div class="inputDiv">
             <input id="acceptTOSPPInput" type="checkbox">
-            <h3 id="tosppError"></h3>
-            <h3 id="generalError"></h3>
+            <h3 class="error" id="tosppError"></h3>
+            <h3 class="error" id="generalError"></h3>
         </div>
     </div>
 
-    <div class="standardOutline backgroundButton paddingTen" onclick="
-           signUpForm.produceFormManager(contentContainer).removeForm();
-           loginForm.produceFormManager(contentContainer, true).displayForm();">
+    <div class="standardOutline backgroundButton paddingTen" onclick="rotateLoginPageForms(loginForm);">
 
         <h4>Have an account? <br> Click Here to Login</h4>
     </div>

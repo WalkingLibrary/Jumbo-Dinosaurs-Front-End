@@ -2,14 +2,24 @@
  * */
 
 
-function sendPostRequest(postRequest, onReadyFunction)
+function sendPostRequest(postRequest, onReadyFunction, filterResponse)
 {
     let xmlHttpRequest = new XMLHttpRequest();
+
+    let shouldFilterResponse = filterResponse === undefined ? true : filterResponse;
+
     xmlHttpRequest.onreadystatechange = function ()
     {
         if (this.readyState === 4)
         {
-            filterRequest(xmlHttpRequest, onReadyFunction(xmlHttpRequest));
+            if (shouldFilterResponse)
+            {
+                filterRequestResponse(xmlHttpRequest, onReadyFunction(xmlHttpRequest));
+            }
+            else
+            {
+                onReadyFunction(xmlHttpRequest);
+            }
         }
     };
     xmlHttpRequest.open("POST", host, true);
@@ -18,9 +28,9 @@ function sendPostRequest(postRequest, onReadyFunction)
 }
 
 
-function filterRequest(xmlHttpRequest, onReadyFunction)
+function filterRequestResponse(xmlHttpRequest, onReadyFunction)
 {
-    if (xmlHttpRequest.status === 403 && getUser() === null)
+    if (xmlHttpRequest.status === 403 && getUser() !== null)
     {
         clearUserInfo();
         location.reload();

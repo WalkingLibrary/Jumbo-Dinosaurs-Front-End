@@ -1,6 +1,6 @@
 <div class="flexColumnSpaceAround formHolder" id="loginForm">
     <h1>Login</h1>
-    <div class="form">
+    <div class="form fill">
 
 
         <!--Username Input-->
@@ -21,16 +21,21 @@
         <label for="rememberMe">Remember Me</label>
         <div class="inputDiv">
             <input id="rememberMe" type="checkbox">
-            <h3 id="loginError"></h3>
+            <h3 class="error" id="loginError"></h3>
         </div>
 
     </div>
+
     <div class="backgroundButton standardOutline paddingTen"
-         onclick="
-         loginForm.produceFormManager(contentContainer).removeForm();
-         signUpForm.produceFormManager(contentContainer, true).displayForm();">
+         onclick="rotateLoginPageForms(signUpForm);">
         <h4>Don't Have an account? <br> Click Here to create one</h4>
     </div>
+
+    <div class="backgroundButton standardOutline paddingTen"
+         onclick="rotateLoginPageForms(requestChangePasswordTokenForm);">
+        <h4>Forgot Password?</h4>
+    </div>
+
 
     <div class="loadAnimationContainer" id="loginLoadingButton">
         <input id="loginButton" onclick="onCaptchaButtonClick(login)" type="button" value="Login">

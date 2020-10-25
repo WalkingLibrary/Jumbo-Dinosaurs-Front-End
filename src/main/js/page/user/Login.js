@@ -10,10 +10,13 @@ if (getUser() !== null)
 
 let loginForm = new Form("loginForm.html", [contentContainer]);
 let signUpForm = new Form("signupForm.html");
+let changePasswordWithTokenForm = new Form("changePasswordWithTokenForm.html");
+let requestChangePasswordTokenForm = new Form("requestChangePasswordTokenForm.html")
 
 defaultFormLoader.loadForm(loginForm);
 defaultFormLoader.loadForm(signUpForm);
-
+defaultFormLoader.loadForm(changePasswordWithTokenForm);
+defaultFormLoader.loadForm(requestChangePasswordTokenForm);
 
 /*
  * */
@@ -28,9 +31,7 @@ function login()
      * Store Users Token/Info Locally for Later Usage
      * Display User Page
      * */
-
-    let loginError = document.getElementById("loginError");
-    loginError.innerHTML = "";
+    clearErrors();
 
     let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("loginLoadingButton"), true);
     animationManager.displayForm();
@@ -78,7 +79,7 @@ function login()
         }
     }
 
-    sendPostRequest(tokenRequest, onResponse);
+    sendPostRequest(tokenRequest, onResponse, false);
 
 }
 
@@ -106,14 +107,7 @@ function signUp()
     animationManager.displayForm();
 
     //Clear old Errors
-    let usernameError = document.getElementById("usernameError");
-    usernameError.innerHTML = "";
-    let passwordError = document.getElementById("passwordError");
-    passwordError.innerHTML = "";
-    let emailError = document.getElementById("emailError");
-    emailError.innerHTML = "";
-    let tosppError = document.getElementById("tosppError");
-    tosppError.innerHTML = "";
+    clearErrors();
 
 
     /*
@@ -145,25 +139,9 @@ function signUp()
 
 
     /*Password*/
-    //Check That The Passwords Entered Match
+    isInputValid = isValidPasswordInput();
     let passwordInput = document.getElementById("passwordInput");
     let password = passwordInput.value;
-    let passwordCheckInput = document.getElementById("passwordCheckInput");
-    let passwordCheck = passwordCheckInput.value;
-
-    //* Check/Validate length of Text inputs
-    if (password.length === 0)
-    {
-        passwordError.innerHTML = "Enter a Password";
-        isInputValid = false;
-    }
-
-
-    if (password !== passwordCheck)
-    {
-        passwordError.innerHTML = "Passwords Do not Match";
-        isInputValid = false;
-    }
 
 
     /*Email*/
@@ -349,5 +327,139 @@ function checkAvailability(username)
 
     //send a post request with the Created Request and Function
     sendPostRequest(usernameCheckRequest, onResponse);
+}
+
+
+let passwordChangeUsername;
+
+function sendPasswordChangeRequest()
+{
+    let submitButton = document.getElementById("submitPasswordChangeButton");
+    let animationManager = defaultLoadingAnimation.produceFormManager(submitButton, true);
+    animationManager.displayForm();
+
+    clearErrors();
+
+    let emailInput = document.getElementById("emailInput");
+
+
+    let isValidInput = true;
+
+
+    if (emailInput.value === "")
+    {
+        let emailInputError = document.getElementById("emailInputError");
+        emailInputError.innerHTML = "Enter a Email";
+        animationManager.removeForm();
+        isValidInput = false;
+    }
+
+    /* Check/Validate Username
+     *  */
+
+    let usernameInput = document.getElementById("usernameInput");
+    let usernameError = document.getElementById("usernameError");
+    let username = usernameInput.value;
+    if (!isAValidUsername(username))
+    {
+        usernameError.innerHTML = "Enter a Valid Username";
+        isValidInput = false;
+    }
+
+    if (!isValidInput)
+    {
+        return;
+    }
+
+    let submitPasswordChangeRequest = new PostRequest("ChangePasswordSendCode");
+    passwordChangeUsername = usernameInput.value;
+    submitPasswordChangeRequest.username = usernameInput.value;
+    submitPasswordChangeRequest.email = emailInput.value;
+    submitPasswordChangeRequest.captchaCode = captchaCode;
+
+    let onResponse = function (xmlHttpRequest)
+    {
+        rotateLoginPageForms(changePasswordWithTokenForm);
+    };
+
+    sendPostRequest(submitPasswordChangeRequest, onResponse);
+
+}
+
+function submitPasswordChange()
+{
+    let submitButton = document.getElementById("submitPasswordChangeButton");
+    let animationManager = defaultLoadingAnimation.produceFormManager(submitButton, true);
+    animationManager.displayForm();
+
+
+    if (isValidPasswordInput())
+    {
+
+        let tokenInput = document.getElementById("tokenInput");
+        let passwordInput = document.getElementById("passwordInput");
+
+        let password = passwordInput.value;
+        let token = tokenInput.value;
+
+        let changePasswordRequest = new PostRequest("ChangePasswordForgot");
+        changePasswordRequest.tokenUse = "changePassword";
+        changePasswordRequest.username = passwordChangeUsername;
+        changePasswordRequest.token = token;
+        changePasswordRequest.content = password;
+
+        let onResponse = function (xmlHttpRequest)
+        {
+            rotateLoginPageForms(loginForm);
+        }
+
+        sendPostRequest(changePasswordRequest, onResponse);
+        return;
+
+    }
+
+    animationManager.removeForm();
+
+
+}
+
+
+function isValidPasswordInput()
+{
+    clearErrors();
+    /*Password*/
+    //Check That The Passwords Entered Match
+    let passwordInput = document.getElementById("passwordInput");
+    let password = passwordInput.value;
+    let passwordCheckInput = document.getElementById("passwordCheckInput");
+    let passwordCheck = passwordCheckInput.value;
+
+    //* Check/Validate length of Text inputs
+    if (password.length === 0)
+    {
+        passwordError.innerHTML = "Enter a Password";
+        return false;
+    }
+
+
+    if (password !== passwordCheck)
+    {
+        passwordError.innerHTML = "Passwords Do not Match";
+        return false;
+    }
+
+    return true;
+
+}
+
+function rotateLoginPageForms(formToDisplay)
+{
+    loginForm.produceFormManager(contentContainer).removeForm();
+    signUpForm.produceFormManager(contentContainer).removeForm();
+    changePasswordWithTokenForm.produceFormManager(contentContainer).removeForm();
+    requestChangePasswordTokenForm.produceFormManager(contentContainer).removeForm();
+
+    formToDisplay.produceFormManager(contentContainer, true).displayForm();
+
 }
 

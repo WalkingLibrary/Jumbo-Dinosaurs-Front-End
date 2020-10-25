@@ -23,6 +23,7 @@ scriptsList.push(new Script("util", "util/AnimationForm.js"));
 scriptsList.push(new Script("util", "util/Animation.js"));
 scriptsList.push(new Script("util", "general/CaptchaUtil.js"));
 scriptsList.push(new Script("util", "general/NavBar.js"));
+scriptsList.push(new Script("util", "general/InputUtil.js"));
 scriptsList.push(new Script("login.html", "user/Login.js"));
 scriptsList.push(new Script("art.html", "art/Art.js"));
 scriptsList.push(new Script("userPage.html", "user/UserPageManager.js"));

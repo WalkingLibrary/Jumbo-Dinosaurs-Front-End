@@ -46,6 +46,11 @@ function setUpUserContent()
      * check accounts activity and display activation message
      * */
 
+    if (getUser() === null)
+    {
+        redirectToLoginPage();
+    }
+
     //display welcome message
     let usernameHeader = document.getElementById("usernameHeader");
     usernameHeader.innerHTML = "Welcome " + getUser().username;

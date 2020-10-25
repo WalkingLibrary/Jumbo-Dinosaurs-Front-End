@@ -9,7 +9,7 @@ The Home Page of Jumbo Dinosaurs
 ### Todos
 
 
-- add password change page
+
 - added art page functionality
 - test login and create account forms
 
