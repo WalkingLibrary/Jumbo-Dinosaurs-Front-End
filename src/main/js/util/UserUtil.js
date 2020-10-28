@@ -109,3 +109,78 @@ function displaySignRequestWindow(requestToSign, onResponse, displayDiv)
         signRequestFormManager = undefined;
     };
 }
+
+let selectedTable;
+
+function refreshTableSelector(elementToDisplayOn)
+{
+
+
+    function displayTablesFunction(xmlHttpRequest)
+    {
+        elementToDisplayOn.innerHTML = "";
+        if (xmlHttpRequest.status === 200)
+        {
+            /*
+             * Process for Displaying the Users Tables
+             * Create the Name Tag
+             * Create the Creator Tag
+             * Create the tables Tag
+             * append Name, Creator, Edit tags to the Table Tag
+             * append the Table Tag to the tables div
+             *
+             *  */
+
+            let tablesArray = JSON.parse(xmlHttpRequest.responseText);
+
+            let tableList = [];
+
+            for (let i = 0; i < tablesArray.length; i++)
+            {
+                let currentTableJson = tablesArray[i];
+                tableList[i] = new Table(currentTableJson);
+                let currentTable = tableList[i];
+
+                //Create the Name Tag
+                let nameTag = document.createElement("h5");
+                nameTag.className = "nameTag";
+                nameTag.innerHTML = currentTable.name;
+
+                // Create the Creator Tag
+                let creatorTag = document.createElement("h5");
+                creatorTag.className = "creatorTag";
+                creatorTag.innerHTML = "Creator: " + currentTable.creator;
+
+                //Create the tables Tag
+                let newTablesDiv = document.createElement("div");
+                newTablesDiv.className = "tableDiv";
+                newTablesDiv.className += " standardOutlineWhiteBackGround";
+
+                //append Name, Creator, Edit tags to the Table Tag
+                newTablesDiv.appendChild(nameTag);
+                newTablesDiv.appendChild(creatorTag);
+                if (selectedTable !== undefined)
+                {
+
+                    if (currentTable.id === selectedTable.id)
+                    {
+                        newTablesDiv.className += " selected";
+                    }
+                }
+
+                //append the Table Tag to the tables div
+                elementToDisplayOn.appendChild(newTablesDiv);
+
+                newTablesDiv.onclick = function ()
+                {
+                    selectedTable = currentTable;
+                    displayTablesFunction(xmlHttpRequest);
+                };
+            }
+        }
+
+
+    }
+
+    getUsersTables(displayTablesFunction);
+}

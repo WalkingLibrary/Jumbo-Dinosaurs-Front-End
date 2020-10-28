@@ -5,7 +5,6 @@
 function sendPostRequest(postRequest, onReadyFunction, filterResponse)
 {
     let xmlHttpRequest = new XMLHttpRequest();
-
     let shouldFilterResponse = filterResponse === undefined ? true : filterResponse;
 
     xmlHttpRequest.onreadystatechange = function ()
@@ -14,7 +13,7 @@ function sendPostRequest(postRequest, onReadyFunction, filterResponse)
         {
             if (shouldFilterResponse)
             {
-                filterRequestResponse(xmlHttpRequest, onReadyFunction(xmlHttpRequest));
+                filterRequestResponse(xmlHttpRequest, onReadyFunction);
             }
             else
             {
@@ -24,6 +23,7 @@ function sendPostRequest(postRequest, onReadyFunction, filterResponse)
     };
     xmlHttpRequest.open("POST", host, true);
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+    console.log(JSON.stringify(postRequest));
     xmlHttpRequest.send(JSON.stringify(postRequest));
 }
 
@@ -34,5 +34,8 @@ function filterRequestResponse(xmlHttpRequest, onReadyFunction)
     {
         clearUserInfo();
         location.reload();
+        return;
     }
+
+    onReadyFunction(xmlHttpRequest);
 }

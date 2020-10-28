@@ -20,10 +20,29 @@
 <body>
 <div id="navBarContainer"></div>
 <div id="contentContainer">
-    <input onclick="getPhotos();" type="button" value="Get Photos">
-    <h1 class="standardOutline paddingTen">Photos Draw by yours Truly</h1>
-    <div class="widthOneHundred flexRowSpaceEvenly wrap" id="photoHolderDiv">
 
+    <div class="formHolder paddingTen flexColumnSpaceAround widthOneHundred">
+
+        <h1>Post an Image</h1>
+        <div class="flexColumnSpaceAround widthOneHundred ">
+
+            <div class="flexColumnSpaceAround fill standardOutline">
+                <input accept=".jpg, .jpeg, .png"
+                       id="fileSelector"
+                       onchange="readImage(this, true);"
+                       type="file">
+
+                <img class="">
+            </div>
+
+            <div class="alternativeOutline" id="tablesDiv">
+
+            </div>
+            <h1 class="error" id="errorDisplay"></h1>
+            <div class="loadAnimationContainer" id="postButtonDiv">
+                <input onclick="postImage();" type="button" value="Post">
+            </div>
+        </div>
     </div>
 </div>
 </body>

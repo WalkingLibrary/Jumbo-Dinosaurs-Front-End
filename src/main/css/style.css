@@ -269,6 +269,7 @@ h1, h2, h3, h4, h5 {
 /* Standard Outlines */
 
 
+
 .alternativeOutline {
     background-color: rgba(135, 135, 135, 0.7);
     border-radius: 10px;
@@ -303,6 +304,9 @@ h1, h2, h3, h4, h5 {
     min-height: 100vh;
 }
 
+.selected {
+    background-color: lawngreen;
+}
 
 /*User Page Specific Styles*/
 
