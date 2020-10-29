@@ -78,9 +78,8 @@ function readImage(inputElement, displaySelectedImage)
             photoDisplayElement.className = "alternativeOutline widthHeightOneHundredPixels";
             photoDisplayElement.src = imageSource;
         }
-
+        console
         inputElement.postImage = new PostImage(base64ImageContents, fileType);
-        console.log(inputElement.postImage);
     }
     readByteFile(file, onFinishRead);
 }

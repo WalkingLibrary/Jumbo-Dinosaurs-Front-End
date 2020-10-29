@@ -23,7 +23,6 @@ function sendPostRequest(postRequest, onReadyFunction, filterResponse)
     };
     xmlHttpRequest.open("POST", host, true);
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
-    console.log(JSON.stringify(postRequest));
     xmlHttpRequest.send(JSON.stringify(postRequest));
 }
 

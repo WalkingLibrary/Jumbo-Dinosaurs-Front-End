@@ -42,7 +42,6 @@ function postImage()
 
     let onResponse = function (xmlHttpRequest)
     {
-        console.log(xmlHttpRequest.responseText);
         animationManager.removeForm();
     };
 
