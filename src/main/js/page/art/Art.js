@@ -1,14 +1,12 @@
 
+getArtPhotos();
 
-
-/*
- *
- * Work In Progress
- *
- *
- *  */
-function getPhotos()
+function getArtPhotos()
 {
+    let photoHolderDiv = document.getElementById("photoHolderDiv")
+    let animationManager = defaultLoadingAnimation.produceFormManager(photoHolderDiv, true);
+    animationManager.displayForm();
+
     let getPhotosPostRequest = new PostRequest("GetObjects");
     let getPhotosCRUDRequest = new CRUDRequest();
 
@@ -24,16 +22,18 @@ function getPhotos()
 
     let onResponse = function (xmlHttpRequest)
     {
+        animationManager.removeForm();
         let photos = JSON.parse(xmlHttpRequest.responseText);
         for (let i = 0; i < photos.length; i++)
         {
             let currentPhoto = photos[i];
             let imageHolder = document.createElement("div");
+            imageHolder.className += "widthThirtyThreePercent marginOnePercent";
             let imgElement = document.createElement("img");
             imgElement.src = "data:image/png;base64," + currentPhoto.base64ImageContents;
             imgElement.className += "fill alternativeOutline";
             imageHolder.appendChild(imgElement);
-            document.getElementById("photoHolderDiv").appendChild(imageHolder);
+            photoHolderDiv.appendChild(imageHolder);
         }
     };
     sendPostRequest(getPhotosPostRequest, onResponse);

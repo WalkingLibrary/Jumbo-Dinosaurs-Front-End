@@ -185,6 +185,13 @@ h1, h2, h3, h4, h5 {
  *
  */
 
+.maxWidth {
+    max-width: 1080px;
+}
+
+.marginOnePercent {
+    margin: 1%;
+}
 
 .autoMargin {
     margin: auto;
@@ -206,6 +213,10 @@ h1, h2, h3, h4, h5 {
 
 .widthFifty {
     width: 50%;
+}
+
+.widthThirtyThreePercent {
+    width: 33%;
 }
 
 .widthHeightFiftyPercent {
