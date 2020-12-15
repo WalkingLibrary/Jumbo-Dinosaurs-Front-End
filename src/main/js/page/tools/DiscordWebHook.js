@@ -1,33 +1,25 @@
-function sleep(milliseconds)
-{
-    let timeStart = new Date().getTime();
-    while (true)
-    {
-        let elapsedTime = new Date().getTime() - timeStart;
-        if (elapsedTime > milliseconds)
-        {
-            break;
-        }
-    }
-}
+let shouldStop = false;
 
 
-function sendMessage()
+function spamMessage()
 {
 
+    let animationManager = defaultLoadingAnimation.produceFormManager(document.getElementById("discordRipAndTearButton"), true);
+    animationManager.displayForm();
 
     let discordUrl = document.getElementById("discordWebHookLink").value;
     let message = document.getElementById("message").value;
     let username = document.getElementById("username").value;
     let iconUrl = document.getElementById("iconUrl").value;
-    let times = document.getElementById("times").value;
-    times = parseInt(times)
+    let timesToSend = document.getElementById("times").value;
+    let delay = document.getElementById("delay").value;
+    timeToSleepMiliSeconds = parseInt(delay);
+    timesToSend = parseInt(timesToSend)
+    let timesSent = 0;
 
-    timeToSleep = 120000;
 
-    for (let i = 0; i < times || times < 0; i++)
+    let sendMessageToDiscord = function ()
     {
-
         let request = new XMLHttpRequest();
         request.open("POST", discordUrl);
 
@@ -39,8 +31,39 @@ function sendMessage()
             content: message
         }
 
+        request.onreadystatechange = function ()
+        {
+            if (this.readyState === 4)
+            {
+                if (request.status !== 200)
+                {
+                    console.log("Victory");
+                    shouldStop = true;
+                }
+            }
+        };
         request.send(JSON.stringify(params));
-        sleep(timeToSleep);
+    };
 
+    let recFunction = function ()
+    {
+        sendMessageToDiscord();
+        timesSent += 1;
+        if (timesSent < timesToSend && !shouldStop)
+        {
+            setTimeout(() =>
+            {
+                recFunction();
+            }, timeToSleepMiliSeconds);
+        }
+        else
+        {
+            shouldStop = false;
+            animationManager.removeForm();
+        }
     }
+
+    recFunction();
+
+
 }
