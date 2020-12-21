@@ -75,7 +75,7 @@ function readImage(inputElement, displaySelectedImage)
         {
             let imageSource = dataImgHeader.replace("%s", fileType) + base64ImageContents;
             let photoDisplayElement = inputElement.parentElement.querySelector("img");
-            photoDisplayElement.className = "alternativeOutline widthHeightOneHundredPixels";
+            photoDisplayElement.className = "alternativeOutline maxHeightFiftyPercentWidthAuto";
             photoDisplayElement.src = imageSource;
         }
         console

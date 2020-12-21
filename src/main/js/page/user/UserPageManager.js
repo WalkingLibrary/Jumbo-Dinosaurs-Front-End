@@ -11,10 +11,7 @@ let userPageForms = [
     new Form("activateAccountForm.html")
 ];
 
-for (let i = 0; i < userPageForms.length; i++)
-{
-    defaultFormLoader.loadForm(userPageForms[i]);
-}
+defaultFormLoader.loadForms(userPageForms);
 
 
 function redirectToLoginPage()

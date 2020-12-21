@@ -189,6 +189,21 @@ h1, h2, h3, h4, h5 {
     max-width: 1080px;
 }
 
+
+.maxWidthFiftyPercentHeightAuto {
+    max-width: 50%;
+    width: auto;
+}
+
+.maxHeightFiftyPercentWidthAuto {
+    max-height: 50%;
+    width: auto;
+}
+
+.margin10Pixels {
+    margin: 10px;
+}
+
 .marginOnePercent {
     margin: 1%;
 }
@@ -208,6 +223,18 @@ h1, h2, h3, h4, h5 {
 
 .halfViewHeight {
     height: 50vh;
+}
+
+.maxHeight40PercentViewHeight {
+    height: 40vh;
+}
+
+.maxHeightHalfViewHeight {
+    height: 50vh;
+}
+
+.hundredPixelHeight {
+    height: 100px;
 }
 
 
@@ -248,6 +275,10 @@ h1, h2, h3, h4, h5 {
 
 .paddingFifty {
     padding: 50px;
+}
+
+.paddingTopTenPixels {
+    padding-top: 10px;
 }
 
 
@@ -563,5 +594,20 @@ h1, h2, h3, h4, h5 {
 }
 
 
+/*Folder Tab Styles*/
+
+.folderDiv {
+    z-index: 1;
+}
+
+
+.folderTab {
+    z-index: 0;
+}
+
+.opened {
+    border-bottom: none;
+    z-index: 2;
+}
 
 

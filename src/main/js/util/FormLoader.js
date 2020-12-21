@@ -92,3 +92,11 @@ class FormLoader
 
 
 let defaultFormLoader = new FormLoader(host);
+
+defaultFormLoader.loadForms = function (formList)
+{
+    for (let i = 0; i < formList.length; i++)
+    {
+        this.loadForm(formList[i]);
+    }
+}
