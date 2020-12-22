@@ -1,3 +1,10 @@
+:root {
+    --navBarWidth: 103px;
+    --maxContentWidth: 1080px;
+    --standardOutlineColor: rgba(0, 72, 229, 0.7);
+}
+
+
 body {
     font-family: 'ZCOOL KuaiLe';
     background-color: grey;
@@ -17,13 +24,6 @@ img {
     width: 100vw;
 
 }
-
-:root {
-    --standardOutlineColor: rgba(0, 72, 229, 0.7);
-}
-
-
-
 
 
 /*Style For Map Page*/
@@ -120,7 +120,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .navigationBar {
-    width: 103px;
+    background-color: #5a6358;
+    width: var(--navBarWidth);
     position: fixed;
     height: 100vh;
     z-index: 10;
@@ -341,7 +342,7 @@ h1, h2, h3, h4, h5 {
 
 
 .formHolder {
-    background-color: #5a6358;
+    background-color: #5a6310;
     width: 100%;
     min-height: 100vh;
 }
@@ -463,32 +464,23 @@ h1, h2, h3, h4, h5 {
 
 #contentContainer {
     background-color: #40473f;
-    max-width: 1080px;
+    max-width: var(--maxContentWidth);
     color: whitesmoke;
     display: flex;
     flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: var(--navBarWidth);
     text-align: center;
     min-height: 100vh;
 }
 
 #navBarContainer {
-    max-width: 1080px;
+    max-width: var(--maxContentWidth);
     color: whitesmoke;
     display: flex;
     flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
 }
 
-#userContent {
-    position: relative;
-    align-items: flex-start;
-    margin-left: 120px;
-    min-height: 100%;
-}
 
 
 /*Style for the USER PAGE*/

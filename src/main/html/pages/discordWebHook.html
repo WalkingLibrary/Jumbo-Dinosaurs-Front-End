@@ -13,44 +13,48 @@
 </head>
 <body>
 
-<div id="navBarContainer"></div>
-<div class="flexColumnSpaceAround standardOutlineWhiteBackGround autoMargin widthFifty halfViewHeight">
-    <div>
-        <img alt="Discord Icon Here"
-             class="widthHeightOneHundredPixels"
-             src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/91_Discord_logo_logos-512.png">
-    </div>
-    <div class="flexRowSpaceEvenly">
-        <label for="discordWebHookLink">Discord Web Hook Link: </label>
-        <input id="discordWebHookLink" type="text">
-    </div>
-    <div class="flexRowSpaceEvenly">
-        <label for="username">Username:</label>
-        <input id="username" type="text">
-    </div>
-    <div class="flexRowSpaceEvenly">
-        <label for="iconUrl">Icon Url:</label>
-        <input id="iconUrl" type="text">
-    </div>
-    <div class="inputDiv">
-        <label for="message">Message:</label>
-        <input id="message" type="text">
-    </div>
-    <div class="flexRowSpaceEvenly">
-        <label for="times">Times:</label>
-        <input id="times" type="text">
-    </div>
+<div class="autoMargin" id="navBarContainer">
 
-    <div class="flexRowSpaceEvenly">
-        <label for="delay">Delay:</label>
-        <input id="delay" type="text" value="120000">
-    </div>
-
-    <div class="flexRowSpaceEvenly">
-        <div class="loadAnimationContainer flexRowSpaceEvenly" id="discordRipAndTearButton">
-            <input onclick="spamMessage();" type="button" value="Rip and Tear">
+</div>
+<div class="autoMargin maxWidth">
+    <div class="flexColumnSpaceAround standardOutlineWhiteBackGround autoMargin widthFifty halfViewHeight">
+        <div>
+            <img alt="Discord Icon Here"
+                 class="widthHeightOneHundredPixels"
+                 src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/91_Discord_logo_logos-512.png">
         </div>
-        <input onclick="shouldStop = true;" type="button" value="Stop">
+        <div class="flexRowSpaceEvenly">
+            <label for="discordWebHookLink">Discord Web Hook Link: </label>
+            <input id="discordWebHookLink" type="text">
+        </div>
+        <div class="flexRowSpaceEvenly">
+            <label for="username">Username:</label>
+            <input id="username" type="text">
+        </div>
+        <div class="flexRowSpaceEvenly">
+            <label for="iconUrl">Icon Url:</label>
+            <input id="iconUrl" type="text">
+        </div>
+        <div class="inputDiv">
+            <label for="message">Message:</label>
+            <input id="message" type="text">
+        </div>
+        <div class="flexRowSpaceEvenly">
+            <label for="times">Times:</label>
+            <input id="times" type="text">
+        </div>
+
+        <div class="flexRowSpaceEvenly">
+            <label for="delay">Delay:</label>
+            <input id="delay" type="text" value="120000">
+        </div>
+
+        <div class="flexRowSpaceEvenly">
+            <div class="loadAnimationContainer flexRowSpaceEvenly" id="discordRipAndTearButton">
+                <input onclick="spamMessage();" type="button" value="Rip and Tear">
+            </div>
+            <input onclick="shouldStop = true;" type="button" value="Stop">
+        </div>
     </div>
 </div>
 <script src="/Main.js"></script>

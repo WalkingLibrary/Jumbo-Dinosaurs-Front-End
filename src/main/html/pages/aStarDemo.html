@@ -22,36 +22,37 @@
 </head>
 <body>
 
-<div id="navBarContainer">
+<div class="autoMargin" id="navBarContainer">
 
 </div>
+<div class="autoMargin maxWidth">
+    <div id="contentContainer">
+        <div class="flexColumnSpaceAround allViewHeight">
 
-<div id="contentContainer">
-    <div class="flexColumnSpaceAround allViewHeight">
+            <canvas class="standardOutlineWhiteBackGround widthHeightFiftyPercent autoMargin"
+                    id="aStarCanvas">
 
-        <canvas class="standardOutlineWhiteBackGround widthHeightFiftyPercent autoMargin"
-                id="aStarCanvas">
+            </canvas>
 
-        </canvas>
-
-        <h1 class="error" id="errorDisplay"></h1>
+            <h1 class="error" id="errorDisplay"></h1>
 
 
-        <div class="autoMargin  paddingTen flexColumnSpaceAround">
+            <div class="autoMargin  paddingTen flexColumnSpaceAround">
 
-            <div class="standardOutline paddingTen autoMargin">
-                <h3 class="paddingTen">Left Click to place the Start Node</h3>
+                <div class="standardOutline paddingTen autoMargin">
+                    <h3 class="paddingTen">Left Click to place the Start Node</h3>
 
-                <h3 class="paddingTen">Right Click to place the Goal Node</h3>
+                    <h3 class="paddingTen">Right Click to place the Goal Node</h3>
 
-                <h3 class="paddingTen">Middle Click to place obstacles</h3>
+                    <h3 class="paddingTen">Middle Click to place obstacles</h3>
+                </div>
+
+
+                <div id="solveButtonDiv" style="margin: 50px;">
+                    <input id="solveButton" onclick="solvePath()" type="button" value="Solve">
+                </div>
+
             </div>
-
-
-            <div id="solveButtonDiv" style="margin: 50px;">
-                <input id="solveButton" onclick="solvePath()" type="button" value="Solve">
-            </div>
-
         </div>
     </div>
 </div>

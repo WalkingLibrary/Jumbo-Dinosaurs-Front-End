@@ -21,45 +21,47 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="navBarContainer">
+<div class="autoMargin" id="navBarContainer">
 
 </div>
 
-<div id="contentContainer">
-    <div class="flexRowSpaceEvenly wrap fill">
-        <div class="standardOutline  paddingTen fill">
-            <h1>Demos &amp Games</h1>
-        </div>
-
-        <!--AStar Demo Link-->
-        <div class="tab flexRowSpaceEvenly">
-            <div class="alternativeOutline fill flexRowSpaceEvenly">
-                <h1>A* Demo</h1>
-                <a href="/aStarDemo.html">
-                    <img alt="2D Graph"
-                         class="widthOneHundredPixels imageButton paddingTen"
-                         src="/aStar100x100.png">
-                </a>
+<div class="autoMargin maxWidth">
+    <div id="contentContainer">
+        <div class="flexRowSpaceEvenly wrap fill">
+            <div class="standardOutline  paddingTen fill">
+                <h1>Demos &amp Games</h1>
             </div>
-        </div>
 
-        <!--Map Demo Link-->
-        <div class="tab flexRowSpaceEvenly">
-            <div class="alternativeOutline fill flexRowSpaceEvenly">
-                <h1>Map Demo</h1>
-                <a href="/map.html">
-                    <img alt="2D Graph"
-                         class="widthOneHundredPixels imageButton paddingTen"
-                         src="https://vignette.wikia.nocookie.net/minecraft/images/3/30/MapOld.png/revision/latest?cb=20190928063128">
-                </a>
+            <!--AStar Demo Link-->
+            <div class="tab flexRowSpaceEvenly">
+                <div class="alternativeOutline fill flexRowSpaceEvenly">
+                    <h1>A* Demo</h1>
+                    <a href="/aStarDemo.html">
+                        <img alt="2D Graph"
+                             class="widthOneHundredPixels imageButton paddingTen"
+                             src="/aStar100x100.png">
+                    </a>
+                </div>
             </div>
+
+            <!--Map Demo Link-->
+            <div class="tab flexRowSpaceEvenly">
+                <div class="alternativeOutline fill flexRowSpaceEvenly">
+                    <h1>Map Demo</h1>
+                    <a href="/map.html">
+                        <img alt="2D Graph"
+                             class="widthOneHundredPixels imageButton paddingTen"
+                             src="https://vignette.wikia.nocookie.net/minecraft/images/3/30/MapOld.png/revision/latest?cb=20190928063128">
+                    </a>
+                </div>
+            </div>
+
+            <div id="tabsFooter">
+
+            </div>
+
+
         </div>
-
-        <div id="tabsFooter">
-
-        </div>
-
-
     </div>
 </div>
 <script src="/Main.js"></script>

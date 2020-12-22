@@ -18,69 +18,73 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="navBarContainer"></div>
-<div id="contentContainer">
+<div class="autoMargin" id="navBarContainer">
 
-    <div class="formHolder paddingTen flexColumnSpaceAround widthOneHundred">
+</div>
+<div class="autoMargin maxWidth">
+    <div id="contentContainer">
 
-        <h1>Post Map Feature</h1>
-        <div class="flexRowSpaceEvenly standardOutline widthFifty">
-            <div class="flexColumnSpaceEvenly">
-                <h4>Coordinates:</h4>
-                <div class="flexRowSpaceEvenly paddingTen">
-                    <label for="x">X:</label>
-                    <input id="x" type="text">
+        <div class="formHolder paddingTen flexColumnSpaceAround widthOneHundred">
+
+            <h1>Post Map Feature</h1>
+            <div class="flexRowSpaceEvenly standardOutline widthFifty">
+                <div class="flexColumnSpaceEvenly">
+                    <h4>Coordinates:</h4>
+                    <div class="flexRowSpaceEvenly paddingTen">
+                        <label for="x">X:</label>
+                        <input id="x" type="text">
+                    </div>
+                    <div class="flexRowSpaceEvenly paddingTen">
+                        <label for="y">Y:</label>
+                        <input id="y" type="text">
+                    </div>
+                    <div class="flexRowSpaceEvenly paddingTen">
+                        <label for="z">Z:</label>
+                        <input id="z" type="text">
+                    </div>
                 </div>
-                <div class="flexRowSpaceEvenly paddingTen">
-                    <label for="y">Y:</label>
-                    <input id="y" type="text">
-                </div>
-                <div class="flexRowSpaceEvenly paddingTen">
-                    <label for="z">Z:</label>
-                    <input id="z" type="text">
+                <div>
+                    <label for="serverInput">Server:</label>
+                    <input id="serverInput" type="text">
                 </div>
             </div>
-            <div>
-                <label for="serverInput">Server:</label>
-                <input id="serverInput" type="text">
-            </div>
-        </div>
 
 
-        <div class="folderDiv flexColumn relative halfViewHeight widthFifty ">
-            <div class="flexRowSpaceEvenly widthOneHundred">
-                <div class="folderTab opened standardOutline backgroundButton"
-                     onclick="
+            <div class="folderDiv flexColumn relative halfViewHeight widthFifty ">
+                <div class="flexRowSpaceEvenly widthOneHundred">
+                    <div class="folderTab opened standardOutline backgroundButton"
+                         onclick="
                  swapOpenFolder(this);
                  rotatePostMapDetailForms(descriptionUploadForm);">
-                    <h1 class="paddingTen">Detail</h1>
-                </div>
-                <div class="folderTab standardOutline backgroundButton"
-                     onclick="
+                        <h1 class="paddingTen">Detail</h1>
+                    </div>
+                    <div class="folderTab standardOutline backgroundButton"
+                         onclick="
                  swapOpenFolder(this);
                  rotatePostMapDetailForms(imageUploadForm);">
-                    <h1 class="paddingTen">Image</h1>
+                        <h1 class="paddingTen">Image</h1>
+                    </div>
+                </div>
+
+                <div class="absolute standardOutline widthOneHundred maxHeight40PercentViewHeight" id="folder"
+                     style="top:45px;">
+
+                </div>
+
+            </div>
+
+
+            <div class="flexColumnSpaceAround alternativeOutline widthFifty">
+                <h5>Table:</h5>
+                <div class="widthOneHundred  flexRowSpaceEvenly" id="tableSelectorDiv">
+
                 </div>
             </div>
 
-            <div class="absolute standardOutline widthOneHundred maxHeight40PercentViewHeight" id="folder"
-                 style="top:45px;">
-
+            <h1 class="error" id="errorDisplay"></h1>
+            <div class="loadAnimationContainer" id="postButtonDiv">
+                <input onclick="postMapDetail();" type="button" value="Post">
             </div>
-
-        </div>
-
-
-        <div class="flexColumnSpaceAround alternativeOutline widthFifty">
-            <h5>Table:</h5>
-            <div class="widthOneHundred  flexRowSpaceEvenly" id="tableSelectorDiv">
-
-            </div>
-        </div>
-
-        <h1 class="error" id="errorDisplay"></h1>
-        <div class="loadAnimationContainer" id="postButtonDiv">
-            <input onclick="postMapDetail();" type="button" value="Post">
         </div>
     </div>
 </div>
