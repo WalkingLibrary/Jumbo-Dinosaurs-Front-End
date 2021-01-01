@@ -38,16 +38,26 @@ goButton.onclick = function ()
  */
 let view = 0;
 
+
+let squareCount = 8;
+
+mapCanvas.addEventListener('wheel', function (mouseWheelEvent)
+{
+    mouseWheelEvent.preventDefault();
+    squareCount += mouseWheelEvent.deltaY * -.01;
+});
+
 /* Function To To Help Toggle the View */
 function getSquareCount()
 {
-    /*Chunk View*/
+    /*
+    Chunk View
     if (view === 0)
     {
         return 8;
     }
 
-    /*Region View*/
+    Region View
     if (view === 1)
     {
         return 2;
@@ -57,6 +67,9 @@ function getSquareCount()
     {
         return 2;
     }
+
+     */
+    return squareCount;
 
 }
 
