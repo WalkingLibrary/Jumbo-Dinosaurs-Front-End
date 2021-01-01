@@ -36,15 +36,45 @@ goButton.onclick = function ()
  * 
  * 
  */
-let view = 0;
 
 
 let squareCount = 8;
+let chunkViewValue = 0;
+let regionViewValue = 1;
+let sectorViewValue = 2;
+const maxSquareCount = 16;
+const minSquareCount = 2;
+
+
+let view = chunkViewValue;
 
 mapCanvas.addEventListener('wheel', function (mouseWheelEvent)
 {
     mouseWheelEvent.preventDefault();
-    squareCount += mouseWheelEvent.deltaY * -.01;
+    squareCount += mouseWheelEvent.deltaY * -.025;
+
+    if (squareCount > maxSquareCount)
+    {
+        view++;
+        squareCount = minSquareCount;
+        //Max out
+        if (view - 1 === sectorViewValue)
+        {
+            view = sectorViewValue;
+            squareCount = maxSquareCount;
+        }
+    }
+    else if (squareCount < minSquareCount)
+    {
+        view--;
+        squareCount = maxSquareCount;
+        //min out
+        if (view + 1 === chunkViewValue)
+        {
+            view = chunkViewValue;
+            squareCount = minSquareCount;
+        }
+    }
 });
 
 /* Function To To Help Toggle the View */
