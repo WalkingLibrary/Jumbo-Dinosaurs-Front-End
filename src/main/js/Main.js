@@ -27,6 +27,7 @@ scriptsList.push(new Script("util", "general/CaptchaUtil.js"));
 scriptsList.push(new Script("util", "general/NavBar.js"));
 scriptsList.push(new Script("util", "general/InputUtil.js"));
 scriptsList.push(new Script("util", "objects/PostImage.js"));
+scriptsList.push(new Script("imageToText.html", "tools/ImageToText.js"));
 scriptsList.push(new Script("postImage.html", "tools/PostImage.js"));
 scriptsList.push(new Script(/*"postMapFeature.html"*/ "util", "tools/PostMapDetail.js"));
 scriptsList.push(new Script("login.html", "user/Login.js"));
