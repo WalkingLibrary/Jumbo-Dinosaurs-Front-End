@@ -29,8 +29,12 @@ class Form
         for (let i = 0; i < this.elementList.length; i++)
         {
             let currentElement = this.elementList[i];
-            this[currentElement.id] = new FormManager(this.getFrom(), currentElement);
-            this[currentElement.id].displayForm();
+            if (currentElement != null)
+            {
+
+                this[currentElement.id] = new FormManager(this.getFrom(), currentElement);
+                this[currentElement.id].displayForm();
+            }
         }
         if (this.setUpFunction !== undefined)
         {

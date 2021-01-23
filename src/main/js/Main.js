@@ -26,10 +26,10 @@ scriptsList.push(new Script("util", "util/CSSUtil.js"));
 scriptsList.push(new Script("util", "general/CaptchaUtil.js"));
 scriptsList.push(new Script("util", "general/NavBar.js"));
 scriptsList.push(new Script("util", "general/InputUtil.js"));
-scriptsList.push(new Script("util", "objects/PostImage.js"));
+scriptsList.push(new Script("postImage.html", "objects/PostImage.js"));
 scriptsList.push(new Script("imageToText.html", "tools/ImageToText.js"));
 scriptsList.push(new Script("postImage.html", "tools/PostImage.js"));
-scriptsList.push(new Script(/*"postMapFeature.html"*/ "util", "tools/PostMapDetail.js"));
+scriptsList.push(new Script(/*""*/ "postMapFeature.html", "tools/PostMapDetail.js"));
 scriptsList.push(new Script("login.html", "user/Login.js"));
 scriptsList.push(new Script("art.html", "art/Art.js"));
 scriptsList.push(new Script("userPage.html", "user/UserPageManager.js"));
@@ -85,4 +85,12 @@ function shouldLoadScript(script)
     }
 
     return false;
+}
+
+function loadScript(source)
+{
+    let currentScriptElement = document.createElement("script");
+    currentScriptElement.setAttribute("src", source);
+
+    document.body.appendChild(currentScriptElement);
 }
