@@ -15,11 +15,102 @@ let defaultChunkImage;
 let scene;
 let engine = new BABYLON.Engine(mapCanvas, true);
 
+
+let getPyramidLength = function (height)
+{
+    return height * Math.sqrt(2);
+}
+
+let camera;
+
+
+let clearOldChunks = function ()
+{
+    while (scene.meshes.length > 0)
+    {
+        scene.meshes[0].dispose();
+    }
+}
+
+let lastDrawY = 0;
+let lastDrawX = 0;
+let lastDrawZ = 0;
+let heightRedrawThreshold = 10;
+let axisRedrawThreshold = 32;
+let renderDistance = 16;
+
+let updateChunks = function ()
+{
+    let shouldUpdate = false;
+    let currentY = camera.position.y;
+    if (Math.abs(currentY - lastDrawY) > heightRedrawThreshold)
+    {
+        lastDrawY = currentY;
+        shouldUpdate = true;
+    }
+
+    if (Math.abs(cameraX - lastDrawX) > axisRedrawThreshold)
+    {
+        lastDrawX = cameraX;
+        shouldUpdate = true;
+    }
+
+    if (Math.abs(cameraZ - lastDrawZ) > axisRedrawThreshold)
+    {
+        lastDrawZ = cameraZ;
+        shouldUpdate = true;
+    }
+
+
+    if (shouldUpdate)
+    {
+        let pyramidYTranslation = 80;
+        let length = Math.abs(getPyramidLength(currentY + pyramidYTranslation));
+        let amountOfChunks = Math.floor(length / 16);
+        clearOldChunks();
+        drawChunks(amountOfChunks);
+    }
+}
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+let regionHashMap = new Map();
+
+
+let drawChunks = function ()
+{
+    //If it's odd make it even
+
+    /**/
+    let mat = new BABYLON.StandardMaterial("");
+    let texture = new BABYLON.Texture(defaultChunkImage);
+    mat.diffuseTexture = texture;
+    mat.specularColor = new BABYLON.Color3(0, 0, 0);
+    mat.backFaceCulling = false;//Allways show the front and the back of an element
+    let half = renderDistance / 2;
+    let xTranslation = ((Math.floor(cameraX)) - (Math.floor(cameraX) % 16)) * (1 / 16);
+    let zTranslation = ((Math.floor(cameraZ)) - (Math.floor(cameraZ) % 16)) * (1 / 16);
+
+    for (let i = -half + xTranslation; i < half + xTranslation; i++)
+    {
+        for (let c = -half + zTranslation; c < half + zTranslation; c++)
+        {
+            let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
+            newPlane.material = mat;
+            newPlane.rotation.x = Math.PI / 2;
+            newPlane.rotation.y = Math.PI * 1.5;
+            newPlane.position.x = (i * 16) + 8;
+            newPlane.position.y = 0;
+            newPlane.position.z = (c * 16) + 8;
+        }
+    }
+}
+
+
 let createScene = function ()
 {
-    let scene = new BABYLON.Scene(engine);
+    scene = new BABYLON.Scene(engine);
 
-    let camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(0, -250, 0), scene);
+    camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(0, -250, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
 
     camera.inputs.clear();
@@ -37,27 +128,9 @@ let createScene = function ()
     camera.rotation.y = Math.PI * 1.5;
     camera.rotation.z = Math.PI * .5;
     camera.rotation.x = Math.PI * 1.5;
-    const mat = new BABYLON.StandardMaterial("");
-
-    let texture = new BABYLON.Texture(defaultChunkImage);
-    mat.diffuseTexture = texture;
-    mat.specularColor = new BABYLON.Color3(0, 0, 0);
-    mat.backFaceCulling = false;//Allways show the front and the back of an element
 
 
-    for (let i = 0; i < 16; i++)
-    {
-        for (let c = 0; c < 16; c++)
-        {
-            let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
-            newPlane.material = mat;
-            newPlane.rotation.x = Math.PI / 2;
-            newPlane.rotation.y = Math.PI * 1.5;
-            newPlane.position.x = (i * 16) + 8;
-            newPlane.position.y = 0;
-            newPlane.position.z = (c * 16) + 8;
-        }
-    }
+    updateChunks();
 
 
     scene.createDefaultLight();
@@ -99,6 +172,7 @@ function onDragStart(event)
      */
 }
 
+
 function updateCoordinateInput()
 {
 
@@ -106,6 +180,7 @@ function updateCoordinateInput()
     let zInput = document.getElementById("z");
     xInput.value = Math.trunc(cameraX);
     zInput.value = Math.trunc(cameraZ);
+
 }
 
 
@@ -130,8 +205,12 @@ function onDragOver(event)
         cameraZ = newCameraPosition.z;
         updateCoordinateInput();
         scene.activeCamera.position = newCameraPosition;
+        updateChunks();
     }
 }
+
+let maxY = -10;
+let minY = -230;
 
 let responseFunction = function ()
 {
@@ -154,8 +233,20 @@ let responseFunction = function ()
                 break;
             case BABYLON.PointerEventTypes.POINTERWHEEL:
                 let previousPosition = scene.activeCamera.position;
-                let newCameraPosition = new BABYLON.Vector3(previousPosition.x, previousPosition.y - event.deltaY, previousPosition.z);
+                let newY = previousPosition.y - event.deltaY;
+                if (newY > maxY)
+                {
+                    newY = maxY;
+                }
+
+                if (newY < minY)
+                {
+                    newY = minY;
+                }
+                let newCameraPosition = new BABYLON.Vector3(previousPosition.x, newY, previousPosition.z);
+
                 scene.activeCamera.position = newCameraPosition;
+                updateChunks();
                 break;
         }
     });
