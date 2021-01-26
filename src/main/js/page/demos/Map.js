@@ -10,21 +10,63 @@ mapCanvas.width = canvasWidth;
 mapCanvas.height = canvasHeight;
 
 let defaultChunkImage;
-
-
 let scene;
 let engine = new BABYLON.Engine(mapCanvas, true);
-
-
-let getPyramidLength = function (height)
-{
-    return height * Math.sqrt(2);
-}
-
 let camera;
 
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+let regionHashMap = new Map();
+let lastDrawY = 0;
+let lastDrawX = 0;
+let lastDrawZ = 0;
+let heightRedrawThreshold = 10;
+let axisRedrawThreshold = 32;
+let renderDistance = 16;
+let maxY = -10;
+let minY = -230;
 
-let clearOldChunks = function ()
+
+let asyncUpdate = async function ()
+{
+    await clearMeshes();
+    await drawDefaultChunks();
+}
+
+let updateMapView = function (forceUpdate)
+{
+
+    let shouldUpdate = false;
+    if (!forceUpdate)
+    {
+        let currentY = camera.position.y;
+        if (Math.abs(currentY - lastDrawY) > heightRedrawThreshold)
+        {
+            lastDrawY = currentY;
+            shouldUpdate = true;
+        }
+
+        if (Math.abs(cameraX - lastDrawX) > axisRedrawThreshold)
+        {
+            lastDrawX = cameraX;
+            shouldUpdate = true;
+        }
+
+        if (Math.abs(cameraZ - lastDrawZ) > axisRedrawThreshold)
+        {
+            lastDrawZ = cameraZ;
+            shouldUpdate = true;
+        }
+    }
+
+
+    if (shouldUpdate || forceUpdate)
+    {
+        asyncUpdate();
+    }
+}
+
+
+let clearMeshes = function ()
 {
     while (scene.meshes.length > 0)
     {
@@ -32,54 +74,8 @@ let clearOldChunks = function ()
     }
 }
 
-let lastDrawY = 0;
-let lastDrawX = 0;
-let lastDrawZ = 0;
-let heightRedrawThreshold = 10;
-let axisRedrawThreshold = 32;
-let renderDistance = 16;
-
-let updateChunks = function ()
+let drawDefaultChunks = function ()
 {
-    let shouldUpdate = false;
-    let currentY = camera.position.y;
-    if (Math.abs(currentY - lastDrawY) > heightRedrawThreshold)
-    {
-        lastDrawY = currentY;
-        shouldUpdate = true;
-    }
-
-    if (Math.abs(cameraX - lastDrawX) > axisRedrawThreshold)
-    {
-        lastDrawX = cameraX;
-        shouldUpdate = true;
-    }
-
-    if (Math.abs(cameraZ - lastDrawZ) > axisRedrawThreshold)
-    {
-        lastDrawZ = cameraZ;
-        shouldUpdate = true;
-    }
-
-
-    if (shouldUpdate)
-    {
-        let pyramidYTranslation = 80;
-        let length = Math.abs(getPyramidLength(currentY + pyramidYTranslation));
-        let amountOfChunks = Math.floor(length / 16);
-        clearOldChunks();
-        drawChunks(amountOfChunks);
-    }
-}
-
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-let regionHashMap = new Map();
-
-
-let drawChunks = function ()
-{
-    //If it's odd make it even
-
     /**/
     let mat = new BABYLON.StandardMaterial("");
     let texture = new BABYLON.Texture(defaultChunkImage);
@@ -109,30 +105,18 @@ let drawChunks = function ()
 let createScene = function ()
 {
     scene = new BABYLON.Scene(engine);
-
-    camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(0, -250, 0), scene);
+    camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(0, minY, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
+
 
     camera.inputs.clear();
     camera.inputs.addMouse();
-
-    /* Skull mesh
-    let dinoSkullMesh = BABYLON.SceneLoader.ImportMeshAsync("", "/localhost/", "skull (2).json", scene);
-    dinoSkullMesh.then(function (result)
-    {
-        dinoSkullMesh = result.meshes[0];
-        dinoSkullMesh.position = new BABYLON.Vector3(0, -20, 0);
-    });
-
-     */
     camera.rotation.y = Math.PI * 1.5;
     camera.rotation.z = Math.PI * .5;
     camera.rotation.x = Math.PI * 1.5;
 
-
-    updateChunks();
-
-
+    updateCamVariables();
+    updateMapView(true);
     scene.createDefaultLight();
     return scene;
 
@@ -145,10 +129,24 @@ window.addEventListener('resize', function ()
     engine.resize();
 });
 
+function updateCamVariables()
+{
+    cameraX = camera.position.x;
+    cameraZ = camera.position.z;
+}
 
 /*Event Listener Set up for the map Canvas */
 
 let dragStartX, dragStartY, dragStartCameraX, dragStartCameraY, isDown;
+
+
+function updateCoordinateInput()
+{
+    let xInput = document.getElementById("x");
+    let zInput = document.getElementById("z");
+    xInput.value = Math.trunc(cameraX);
+    zInput.value = Math.trunc(cameraZ);
+}
 
 function onDragStart(event)
 {
@@ -165,22 +163,6 @@ function onDragStart(event)
     dragStartCameraX = position.x;
     dragStartCameraY = position.z;
     isDown = true;
-    /*
-     new BABYLON.AssetsManager(scene)
-     scene.meshes.push(box);
-
-     */
-}
-
-
-function updateCoordinateInput()
-{
-
-    let xInput = document.getElementById("x");
-    let zInput = document.getElementById("z");
-    xInput.value = Math.trunc(cameraX);
-    zInput.value = Math.trunc(cameraZ);
-
 }
 
 
@@ -195,8 +177,8 @@ function onDragOver(event)
         /*Get the difference between where you started draging and your mouses current position */
         let xDifference = dragStartX - currentPageX;
         let yDifference = dragStartY - currentPageY;
-        xDifference *= .1;
-        yDifference *= .1;
+        xDifference *= .3;
+        yDifference *= .3;
 
         /*change the camera according to where your camera started to how much your mouse's position has changed */
         let previousPosition = scene.activeCamera.position;
@@ -205,14 +187,30 @@ function onDragOver(event)
         cameraZ = newCameraPosition.z;
         updateCoordinateInput();
         scene.activeCamera.position = newCameraPosition;
-        updateChunks();
+        updateMapView();
     }
 }
 
-let maxY = -10;
-let minY = -230;
+/* Function that handles changing the camera x and camera z
+ * when the go button is clicked
+ *  */
+let goButton = document.getElementById("goButton");
+goButton.onclick = function ()
+{
+    let newX, newZ;
+    let xInput = document.getElementById("x");
+    let zInput = document.getElementById("z");
+    newX = parseInt(xInput.value, 10);
+    newZ = parseInt(zInput.value, 10);
+    let newCameraPosition = new BABYLON.Vector3(newX, minY, newZ);
+    scene.activeCamera.position = newCameraPosition;
+    updateCamVariables();
+    updateMapView();
 
-let responseFunction = function ()
+}
+
+
+let initBabylonFunction = function ()
 {
     scene = createScene();
 
@@ -246,7 +244,7 @@ let responseFunction = function ()
                 let newCameraPosition = new BABYLON.Vector3(previousPosition.x, newY, previousPosition.z);
 
                 scene.activeCamera.position = newCameraPosition;
-                updateChunks();
+                updateMapView();
                 break;
         }
     });
@@ -259,6 +257,7 @@ let responseFunction = function ()
 
 }
 
+
 let xmlHttpRequest = new XMLHttpRequest();
 
 xmlHttpRequest.onload = function ()
@@ -268,7 +267,7 @@ xmlHttpRequest.onload = function ()
     {
         defaultChunkImage = reader.result;
         console.log(defaultChunkImage);
-        responseFunction();
+        initBabylonFunction();
     }
     reader.readAsDataURL(xmlHttpRequest.response);
 };
@@ -276,5 +275,4 @@ xmlHttpRequest.onload = function ()
 xmlHttpRequest.open("GET", host + "defaultChunk.png", true);
 xmlHttpRequest.responseType = "blob";
 xmlHttpRequest.send();
-
 
