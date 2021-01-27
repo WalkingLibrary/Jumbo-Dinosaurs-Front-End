@@ -140,6 +140,12 @@ h1, h2, h3, h4, h5 {
     flex-wrap: wrap;
 }
 
+.gridCenter {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
 .flexRowSpaceEvenly {
     display: flex;
     flex-direction: row;
@@ -497,9 +503,6 @@ h1, h2, h3, h4, h5 {
 
 
 #tablesDiv {
-    display: grid;
-    align-items: center;
-    justify-items: center;
 
     padding-top: 10px;
     padding-bottom: 10px;

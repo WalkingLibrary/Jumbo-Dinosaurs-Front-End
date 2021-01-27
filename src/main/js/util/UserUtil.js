@@ -110,6 +110,18 @@ function displaySignRequestWindow(requestToSign, onResponse, displayDiv)
     };
 }
 
+let tableSelectedEventSubscribers = [];
+let onTableSelected = function (table)
+{
+    for (let i = 0; i < tableSelectedEventSubscribers.length; i++)
+    {
+        let shouldContinue = tableSelectedEventSubscribers[i](table);
+        if (!shouldContinue)
+        {
+            break;
+        }
+    }
+}
 let selectedTable;
 
 function refreshTableSelector(elementToDisplayOn)
@@ -174,6 +186,7 @@ function refreshTableSelector(elementToDisplayOn)
                 newTablesDiv.onclick = function ()
                 {
                     selectedTable = currentTable;
+                    onTableSelected(currentTable);
                     displayTablesFunction(xmlHttpRequest);
                 };
             }

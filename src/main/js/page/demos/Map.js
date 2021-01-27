@@ -9,7 +9,7 @@ let cameraX, cameraZ;
 mapCanvas.width = canvasWidth;
 mapCanvas.height = canvasHeight;
 
-let defaultChunkImage;
+let defaultChunkImage, loadedChunkImage;
 let scene;
 let engine = new BABYLON.Engine(mapCanvas, true);
 let camera;
@@ -25,6 +25,9 @@ let renderDistance = 16;
 let maxY = -10;
 let minY = -230;
 
+let tableDiv = document.getElementById("tablesDiv");
+
+refreshTableSelector(tableDiv);
 
 let asyncUpdate = async function ()
 {
@@ -74,6 +77,7 @@ let clearMeshes = function ()
     }
 }
 
+
 let drawDefaultChunks = function ()
 {
     /**/
@@ -86,6 +90,12 @@ let drawDefaultChunks = function ()
     let xTranslation = ((Math.floor(cameraX)) - (Math.floor(cameraX) % 16)) * (1 / 16);
     let zTranslation = ((Math.floor(cameraZ)) - (Math.floor(cameraZ) % 16)) * (1 / 16);
 
+    /*Drawing text*/
+    let myDynamicTexture = new BABYLON.DynamicTexture("coordinateDisplay", {width: 16, height: 16}, scene);
+    // mat.diffuseTexture = myDynamicTexture;
+    myDynamicTexture.invertZ = true;
+    let font = "bold 6px monospace";
+
     for (let i = -half + xTranslation; i < half + xTranslation; i++)
     {
         for (let c = -half + zTranslation; c < half + zTranslation; c++)
@@ -97,6 +107,8 @@ let drawDefaultChunks = function ()
             newPlane.position.x = (i * 16) + 8;
             newPlane.position.y = 0;
             newPlane.position.z = (c * 16) + 8;
+            myDynamicTexture.drawText(i + ":" + c, 0, 15, font, "green", "white", false, true);
+
         }
     }
 }
@@ -122,6 +134,18 @@ let createScene = function ()
 
 }
 
+let showGridCoordinates = true;
+let loadedChunks = document.getElementById("loadedChunks");
+
+loadedChunks.checked = true;
+/* Function that handles toggling the coordinates on the grid
+ * when the Grid coordinate check box is clicked
+ *  */
+loadedChunks.onclick = function ()
+{
+    loadedChunks = !loadedChunks;
+    updateMapView(true);
+}
 
 // the canvas/window resize event handler
 window.addEventListener('resize', function ()

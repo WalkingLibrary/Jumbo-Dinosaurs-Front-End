@@ -20,8 +20,18 @@
 
         <div id="mapDiv">
 
-            <canvas id="mapCanvas"></canvas>
+            <div class="flexRowSpaceAround autoMargin">
+                <canvas id="mapCanvas">
 
+                </canvas>
+                <div class="">
+                    <div class="overflowContainer">
+                        <div class="flexColumnSpaceEvenly alternativeOutline maxHeightHalfViewHeight " id="tablesDiv">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="mapControls">
                 <div id="mapCoordinateInput">
                     <form action="">
@@ -37,21 +47,13 @@
                     <form action="">
                         <h5>View</h5><br>
 
-                        <!--View Mode Input-->
-                        <label for="chunkView">Chunk View:</label>
-                        <input id="chunkView" type="checkbox"><br>
-                        <label for="regionView">Region View:</label>
-                        <input id="regionView" type="checkbox"><br>
-                        <label for="sectorView">Sector View:</label>
-                        <input id="sectorView" type="checkbox"><br><br>
                         <!--Coordinate Mode Input-->
-                        <label for="gridCoordinatesToggle">Grid Coordinates:</label>
-                        <input id="gridCoordinatesToggle" type="checkbox"><br>
+                        <label for="loadedChunks">Loaded Chunks:</label>
+                        <input id="loadedChunks" type="checkbox"><br>
 
                     </form>
                 </div>
             </div>
-
         </div>
 
 
