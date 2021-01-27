@@ -29,6 +29,8 @@ let tableDiv = document.getElementById("tablesDiv");
 
 refreshTableSelector(tableDiv);
 
+let savedObjects = [];
+
 let asyncUpdate = async function ()
 {
     await clearMeshes();
@@ -68,6 +70,34 @@ let updateMapView = function (forceUpdate)
     }
 }
 
+let onTableSelection = function (table)
+{
+    let getMapObjectsRequest = new PostRequest("GetObjects");
+
+    let crudRequest = new CRUDRequest();
+    crudRequest.tableID = table.id;
+    crudRequest.tableName = table.name;
+    let objectType = "MinecraftMapImage"
+    crudRequest.objectType = objectType;
+    getMapObjectsRequest.setCRUDRequest(crudRequest);
+
+    let onResponse = function (xmlHttpRequest)
+    {
+        console.log(xmlHttpRequest.responseText);
+        savedObjects = [];
+        let mapObjects = JSON.parse(xmlHttpRequest.responseText);
+        for (let i = 0; i < mapObjects.length; i++)
+        {
+            let currentMapObject = mapObjects[i];
+            savedObjects.push(currentMapObject);
+            console.log(currentMapObject);
+        }
+        updateMapView(true);
+    };
+    sendPostRequest(getMapObjectsRequest, onResponse);
+}
+
+tableSelectedEventSubscribers.push(onTableSelection);
 
 let clearMeshes = function ()
 {
@@ -110,6 +140,26 @@ let drawDefaultChunks = function ()
             myDynamicTexture.drawText(i + ":" + c, 0, 15, font, "green", "white", false, true);
 
         }
+    }
+
+    for (let i = 0; i < savedObjects.length; i++)
+    {
+        let mapObjectTexture = new BABYLON.StandardMaterial("");
+        let image = savedObjects[i].image;
+        let imageURL = "data:image/png;base64," + image.base64ImageContents;
+        console.log(imageURL);
+        let texture = new BABYLON.Texture(imageURL);
+        mapObjectTexture.diffuseTexture = texture;
+        mapObjectTexture.specularColor = new BABYLON.Color3(0, 0, 0);
+        mapObjectTexture.backFaceCulling = false;//Allways show the front and the back of an element
+        let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
+        newPlane.material = mapObjectTexture;
+        newPlane.rotation.x = Math.PI / 2;
+        newPlane.rotation.y = Math.PI * 1.5;
+        newPlane.position.x = savedObjects[i].location.x + 8;
+        newPlane.position.y = -1;
+        newPlane.position.z = savedObjects[i].location.z + 8;
+
     }
 }
 
