@@ -9,7 +9,6 @@ let cameraX, cameraZ;
 mapCanvas.width = canvasWidth;
 mapCanvas.height = canvasHeight;
 
-let defaultChunkImage, loadedChunkImage;
 let scene;
 let engine = new BABYLON.Engine(mapCanvas, true);
 let camera;
@@ -27,9 +26,44 @@ let minY = -230;
 
 let tableDiv = document.getElementById("tablesDiv");
 
-refreshTableSelector(tableDiv);
 
+/*Table Selection and Information Loading*/
+
+refreshTableSelector(tableDiv);
 let savedObjects = [];
+let objectTypes = ["MinecraftMapImage", "MinecraftMapDetail"];
+
+let onTableSelection = function (table)
+{
+    let getMapObjectsRequest = new PostRequest("GetObjects");
+
+    let crudRequest = new CRUDRequest();
+    crudRequest.tableID = table.id;
+    crudRequest.tableName = table.name;
+    let objectType = "MinecraftMapImage"
+    crudRequest.objectType = objectType;
+    getMapObjectsRequest.setCRUDRequest(crudRequest);
+
+    let onResponse = function (xmlHttpRequest)
+    {
+        console.log(xmlHttpRequest.responseText);
+        savedObjects = [];
+        let mapObjects = JSON.parse(xmlHttpRequest.responseText);
+        for (let i = 0; i < mapObjects.length; i++)
+        {
+            let currentMapObject = mapObjects[i];
+            savedObjects.push(currentMapObject);
+            console.log(currentMapObject);
+        }
+        updateMapView(true);
+    };
+    sendPostRequest(getMapObjectsRequest, onResponse);
+}
+
+tableSelectedEventSubscribers.push(onTableSelection);
+
+
+/*Map Updating and Draw Changing*/
 
 let asyncUpdate = async function ()
 {
@@ -70,34 +104,6 @@ let updateMapView = function (forceUpdate)
     }
 }
 
-let onTableSelection = function (table)
-{
-    let getMapObjectsRequest = new PostRequest("GetObjects");
-
-    let crudRequest = new CRUDRequest();
-    crudRequest.tableID = table.id;
-    crudRequest.tableName = table.name;
-    let objectType = "MinecraftMapImage"
-    crudRequest.objectType = objectType;
-    getMapObjectsRequest.setCRUDRequest(crudRequest);
-
-    let onResponse = function (xmlHttpRequest)
-    {
-        console.log(xmlHttpRequest.responseText);
-        savedObjects = [];
-        let mapObjects = JSON.parse(xmlHttpRequest.responseText);
-        for (let i = 0; i < mapObjects.length; i++)
-        {
-            let currentMapObject = mapObjects[i];
-            savedObjects.push(currentMapObject);
-            console.log(currentMapObject);
-        }
-        updateMapView(true);
-    };
-    sendPostRequest(getMapObjectsRequest, onResponse);
-}
-
-tableSelectedEventSubscribers.push(onTableSelection);
 
 let clearMeshes = function ()
 {
@@ -107,37 +113,46 @@ let clearMeshes = function ()
     }
 }
 
+/**/
+let textures = {};
+
+let initTextures = function ()
+{
+    let defaultChunkMaterial = new BABYLON.StandardMaterial("");
+    let defaultChunkTexture = new BABYLON.Texture(resourceLoader["defaultChunk.png"]);
+    defaultChunkMaterial.diffuseTexture = defaultChunkTexture;
+    defaultChunkMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    defaultChunkMaterial.backFaceCulling = false;
+    textures["defaultChunk.png"] = defaultChunkMaterial;
+
+    let loadedChunkMaterial = new BABYLON.StandardMaterial("");
+    let loadedChunkTexture = new BABYLON.Texture(resourceLoader["loadedChunk.png"]);
+    defaultChunkMaterial.diffuseTexture = defaultChunkTexture;
+    defaultChunkMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    defaultChunkMaterial.backFaceCulling = false;
+    textures["loadedChunk.png"] = loadedChunkMaterial;
+
+
+}
 
 let drawDefaultChunks = function ()
 {
-    /**/
-    let mat = new BABYLON.StandardMaterial("");
-    let texture = new BABYLON.Texture(defaultChunkImage);
-    mat.diffuseTexture = texture;
-    mat.specularColor = new BABYLON.Color3(0, 0, 0);
-    mat.backFaceCulling = false;//Allways show the front and the back of an element
+
     let half = renderDistance / 2;
     let xTranslation = ((Math.floor(cameraX)) - (Math.floor(cameraX) % 16)) * (1 / 16);
     let zTranslation = ((Math.floor(cameraZ)) - (Math.floor(cameraZ) % 16)) * (1 / 16);
-
-    /*Drawing text*/
-    let myDynamicTexture = new BABYLON.DynamicTexture("coordinateDisplay", {width: 16, height: 16}, scene);
-    // mat.diffuseTexture = myDynamicTexture;
-    myDynamicTexture.invertZ = true;
-    let font = "bold 6px monospace";
 
     for (let i = -half + xTranslation; i < half + xTranslation; i++)
     {
         for (let c = -half + zTranslation; c < half + zTranslation; c++)
         {
             let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
-            newPlane.material = mat;
+            newPlane.material = textures["defaultChunk.png"];
             newPlane.rotation.x = Math.PI / 2;
             newPlane.rotation.y = Math.PI * 1.5;
             newPlane.position.x = (i * 16) + 8;
             newPlane.position.y = 0;
             newPlane.position.z = (c * 16) + 8;
-            myDynamicTexture.drawText(i + ":" + c, 0, 15, font, "green", "white", false, true);
 
         }
     }
@@ -148,8 +163,8 @@ let drawDefaultChunks = function ()
         let image = savedObjects[i].image;
         let imageURL = "data:image/png;base64," + image.base64ImageContents;
         console.log(imageURL);
-        let texture = new BABYLON.Texture(imageURL);
-        mapObjectTexture.diffuseTexture = texture;
+        let loadedObjectTexture = new BABYLON.Texture(imageURL);
+        mapObjectTexture.diffuseTexture = loadedObjectTexture;
         mapObjectTexture.specularColor = new BABYLON.Color3(0, 0, 0);
         mapObjectTexture.backFaceCulling = false;//Allways show the front and the back of an element
         let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
@@ -164,6 +179,8 @@ let drawDefaultChunks = function ()
 }
 
 
+/*Babylon Setup*/
+
 let createScene = function ()
 {
     scene = new BABYLON.Scene(engine);
@@ -176,7 +193,7 @@ let createScene = function ()
     camera.rotation.y = Math.PI * 1.5;
     camera.rotation.z = Math.PI * .5;
     camera.rotation.x = Math.PI * 1.5;
-
+    initTextures();
     updateCamVariables();
     updateMapView(true);
     scene.createDefaultLight();
@@ -332,21 +349,30 @@ let initBabylonFunction = function ()
 }
 
 
-let xmlHttpRequest = new XMLHttpRequest();
+/*Resource Loader*/
+let resourceLoader = {};
+let resourcesToLoad = ["defaultChunk.png", "loadedChunk.png"];
 
-xmlHttpRequest.onload = function ()
+for (let i = 0; i < resourcesToLoad.length; i++)
 {
-    let reader = new FileReader();
-    reader.onloadend = function ()
+    let currentResource = resourcesToLoad[i];
+    console.log(currentResource);
+    let onResourceLoad = function (xmlHttpRequest)
     {
-        defaultChunkImage = reader.result;
-        console.log(defaultChunkImage);
-        initBabylonFunction();
-    }
-    reader.readAsDataURL(xmlHttpRequest.response);
-};
+        let reader = new FileReader();
+        reader.onloadend = function ()
+        {
 
-xmlHttpRequest.open("GET", host + "defaultChunk.png", true);
-xmlHttpRequest.responseType = "blob";
-xmlHttpRequest.send();
+            resourceLoader[currentResource] = reader.result;
+            if (i + 1 === resourcesToLoad.length)
+            {
+                initBabylonFunction();
+            }
+        }
+        reader.readAsDataURL(xmlHttpRequest.response);
+    }
+
+    getFile(currentResource, onResourceLoad);
+}
+
 
