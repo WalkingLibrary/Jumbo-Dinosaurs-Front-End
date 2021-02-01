@@ -2,6 +2,7 @@
     --navBarWidth: 103px;
     --maxContentWidth: 1080px;
     --standardOutlineColor: rgba(0, 72, 229, 0.7);
+    --maptabWidth: 60px;
 }
 
 
@@ -221,6 +222,10 @@ h1, h2, h3, h4, h5 {
 
 .fill {
     width: 100%;
+    height: 100%;
+}
+
+.maxHeight {
     height: 100%;
 }
 
@@ -447,6 +452,31 @@ h1, h2, h3, h4, h5 {
 }
 
 
+/*Style Specifically for The Map Page*/
+
+.mapMenuTab:hover {
+    background-color: darkolivegreen;
+}
+
+.mapMenuTabSelected {
+    border-bottom: none;
+    background-color: darkolivegreen;
+}
+
+.mapMenuTab {
+    font-family: "imes New Roman", Times, Serif;
+    padding: 5px;
+    transform: translate(calc((-100% / 2))) rotate(90deg);
+    left: 0px;
+    bottom: 0px;
+    max-height: var(--maptabWidth);
+}
+
+.mapMenuTabWidth {
+    width: var(--maptabWidth);
+}
+
+
 /*Positioning Outlines*/
 
 /*Absolute Outlines*/
@@ -532,8 +562,10 @@ h1, h2, h3, h4, h5 {
 
 
 .tableDiv {
-    width: 200px;
-    height: 100px;
+    width: 100%;
+    max-width: 200px;
+    height: 20%;
+    max-height: 100px;
     position: relative;
 }
 
@@ -570,6 +602,7 @@ h1, h2, h3, h4, h5 {
     padding-bottom: 30px;
     width: 90%;
     overflow-y: scroll;
+
 }
 
 #tablePermissions {

@@ -20,18 +20,45 @@
 
         <div id="mapDiv">
 
-            <div class="flexRowSpaceAround autoMargin">
-                <canvas id="mapCanvas">
+
+            <div class="flexRowSpaceAround">
+
+
+                <canvas id="mapCanvas" style="width: 600px; height: 600px;">
 
                 </canvas>
-                <div class="">
-                    <div class="overflowContainer">
-                        <div class="flexColumnSpaceEvenly alternativeOutline maxHeightHalfViewHeight " id="tablesDiv">
+
+
+                <div class="flexRowSpaceAround widthOneHundred maxHeight">
+                    <div class="overflowContainer alternativeOutline maxHeight maxWidth widthOneHundred ">
+                        <div class="flexColumnSpaceEvenly  maxWidth maxHeight" id="tablesDiv">
 
                         </div>
                     </div>
+
+
+                    <div class="flexColumnSpaceEvenly maxHeight maxWidth mapMenuTabWidth">
+
+                        <div class="relative">
+                            <h1 class="mapMenuTab mapMenuTabSelected alternativeOutline absolute">
+                                Tables
+                            </h1>
+                        </div>
+
+                        <div class="relative ">
+                            <h1 class="mapMenuTab alternativeOutline absolute">Details</h1>
+                        </div>
+
+                        <div class="relative ">
+                            <h1 class="mapMenuTab alternativeOutline absolute">Bot</h1>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
+
+
             <div id="mapControls">
                 <div id="mapCoordinateInput">
                     <form action="">
@@ -50,6 +77,10 @@
                         <!--Coordinate Mode Input-->
                         <label for="loadedChunks">Loaded Chunks:</label>
                         <input id="loadedChunks" type="checkbox"><br>
+
+                        <!--Toggle Map Info-->
+                        <label for="mapInfo">Map Info:</label>
+                        <input id="mapInfo" type="checkbox"><br>
 
                     </form>
                 </div>

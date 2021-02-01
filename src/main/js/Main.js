@@ -35,7 +35,8 @@ scriptsList.push(new Script("login.html", "user/Login.js"));
 scriptsList.push(new Script("art.html", "art/Art.js"));
 scriptsList.push(new Script("userPage.html", "user/UserPageManager.js"));
 scriptsList.push(new Script("aStarDemo.html", "demos/AStarDemo.js"));
-scriptsList.push(new Script("map.html", "demos/Map.js"));
+scriptsList.push(new Script("map.html", "map/AnimationUtil.js"));
+scriptsList.push(new Script("map.html", "map/Map.js"));
 scriptsList.push(new Script("discordWebHook.html", "tools/DiscordWebHook.js"));
 scriptsList.push(new Script("sandbox.html", "sandbox/SandBox.js"));
 
