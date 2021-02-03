@@ -18,18 +18,45 @@ let regionHashMap = new Map();
 let lastDrawY = 0;
 let lastDrawX = 0;
 let lastDrawZ = 0;
-let axisRedrawThreshold = 64;
+let axisRedrawThreshold = 200;
 let renderDistance = 32;
 let maxY = -10;
-let minY = -400;//-400
+let minY = -800;//-400
+let dimension = 0;
 
 let tableDiv = document.getElementById("tablesDiv");
 
 
 /*Table Selection and Information Loading*/
 
+let updateRenderDistance = function ()
+{
+    let renderDistanceSlider = document.getElementById("renderDistanceSlider");
+
+    let renderDistanceValueDisplay = document.getElementById("renderDistanceSliderDisplay");
+
+    let newRenderDistance = renderDistanceSlider.value;
+    console.log(newRenderDistance);
+    //Make it even as to not mess up rendering
+    if (newRenderDistance % 2 !== 0)
+    {
+        newRenderDistance = parseInt(newRenderDistance) + 1;
+    }
+
+    renderDistanceValueDisplay.innerHTML = "" + newRenderDistance;
+    renderDistance = newRenderDistance;
+    updateMapView(true);
+}
+
+let updateDimension = function ()
+{
+    let selectedDimension = document.getElementById("dimensionSelection").value;
+    dimension = selectedDimension;
+    updateMapView(true);
+}
+
 refreshTableSelector(tableDiv);
-let savedObjects = [];
+let mapDisplayItems = [];
 let objectTypes = ["MinecraftMapImage", "MinecraftMapDetail"];
 
 let onTableSelection = function (table)
@@ -45,12 +72,17 @@ let onTableSelection = function (table)
 
     let onResponse = function (xmlHttpRequest)
     {
-        savedObjects = [];
+        mapDisplayItems = [];
         let mapObjects = JSON.parse(xmlHttpRequest.responseText);
         for (let i = 0; i < mapObjects.length; i++)
         {
             let currentMapObject = mapObjects[i];
-            savedObjects.push(currentMapObject);
+            if (currentMapObject.identifiers)
+            {
+                currentMapObject.type = "journeyMapChunkImage";
+            }
+            currentMapObject.draw = getDrawFunction(currentMapObject);
+            mapDisplayItems.push(currentMapObject);
         }
         updateMapView(true);
     };
@@ -58,6 +90,90 @@ let onTableSelection = function (table)
 }
 
 tableSelectedEventSubscribers.push(onTableSelection);
+
+
+let getDrawFunction = function (tableObject)
+{
+    /*let mapObjectTexture = new BABYLON.StandardMaterial("");
+            let image = currentItem.image;
+            let imageURL = "data:image/png;base64," + image.base64ImageContents;
+            let loadedObjectTexture = new BABYLON.Texture(imageURL);
+            mapObjectTexture.diffuseTexture = loadedObjectTexture;
+            mapObjectTexture.backFaceCulling = false;//Allways show the front and the back of an element
+
+
+            let mapPin = BABYLON.MeshBuilder.CreatePlane("mapPin", {width: 4, height: 4});
+            mapPin.material = textures[mapIconOneImageName];
+            mapPin.rotation.x = Math.PI / 2;
+            mapPin.rotation.y = Math.PI * .5;
+            mapPin.position.x = currentItem.location.x;
+            mapPin.position.y = -1;
+            mapPin.position.z = currentItem.location.z;
+
+            let popUpSize = 32;
+            let mapImage = BABYLON.MeshBuilder.CreatePlane("mapImage", {width: 1, height: 1});
+            mapImage.material = mapObjectTexture;
+            mapImage.rotation.x = Math.PI / 2;
+            mapImage.rotation.y = Math.PI * 1.5;
+            mapImage.position.x = currentItem.location.x + 8;
+            mapImage.position.y = -2;
+            mapImage.position.z = currentItem.location.z + 8 - (popUpSize / 2) - 1;
+            mapImage.scaling.x = .001;
+            mapImage.scaling.z = .001;
+            addSquareXZAnimation(scene, mapPin, mapImage, popUpSize, 0);
+            */
+
+    if (tableObject.type === "journeyMapChunkImage")
+    {
+        return function ()
+        {
+            /*
+             * Process For Drawing a journeyMapChunkImage
+             *
+             * Create the Texture
+             *
+             * Create The Plane
+             *
+             * Add the Texture To The plane
+             *
+             * Correct The Planes Position
+             *
+             *
+             * */
+
+
+            // Create the Texture
+            let mapObjectTexture = new BABYLON.StandardMaterial();
+            let image = tableObject.image;
+            let imageURL = "data:image/png;base64," + image.base64ImageContents;
+            let loadedObjectTexture = new BABYLON.Texture(imageURL);
+            mapObjectTexture.diffuseTexture = loadedObjectTexture;
+            mapObjectTexture.backFaceCulling = false;
+
+            //Create The Plane
+            let planeWidth, planeHeight;
+            planeHeight = 16;
+            planeWidth = 16;
+            let journeyMapChunkPlane = BABYLON.MeshBuilder.CreatePlane(tableObject, {
+                width: planeWidth,
+                height: planeHeight
+            });
+
+            //Add the Texture To The plane
+            journeyMapChunkPlane.material = mapObjectTexture;
+
+
+            //Correct The Planes Position
+            journeyMapChunkPlane.rotation.x = Math.PI / 2;
+            journeyMapChunkPlane.rotation.y = Math.PI * .5;
+            //Note: Planes Render From the Center so we need to offset the Planes to match the true location
+            journeyMapChunkPlane.position.x = tableObject.location.x + (planeHeight / 2);
+            journeyMapChunkPlane.position.y = -1;
+            journeyMapChunkPlane.position.z = tableObject.location.z + (planeWidth / 2);
+        }
+
+    }
+}
 
 
 /*Map Updating and Draw Changing*/
@@ -74,6 +190,10 @@ let updateMapView = function (forceUpdate)
     let shouldUpdate = false;
     if (!forceUpdate)
     {
+        /*I estimated a good scale factor from taking the amount of change vs the render distance at 64*/
+        let scaleFactor = (200 / 64);
+
+        let axisRedrawThreshold = renderDistance * scaleFactor;
 
         if (Math.abs(cameraX - lastDrawX) > axisRedrawThreshold)
         {
@@ -87,7 +207,12 @@ let updateMapView = function (forceUpdate)
             shouldUpdate = true;
         }
     }
+    let updateRenderDistanceThreshold = 10;
 
+    if (renderDistance > updateRenderDistanceThreshold)
+    {
+        shouldUpdate = false;
+    }
 
     if (shouldUpdate || forceUpdate)
     {
@@ -138,41 +263,45 @@ let initTextures = function ()
 
 }
 
+
+let toChunkCoord = function (point3D)
+{
+    let xCoord, zCoord;
+    xCoord = ((point3D.x - (point3D.x % 16)) / 16);
+    zCoord = ((point3D.z - (point3D.z % 16)) / 16);
+    return new Point2D(xCoord, zCoord);
+}
+
+
+/*
+ * Given the X and Z  Coordinate
+ * this function returns if it should be rendered or not
+ *
+ *  */
+let shouldRender = function (location)
+{
+    let chunkToCheck = toChunkCoord(location);
+    let currentChunk = toChunkCoord(camera.position);
+    let distanceAway = chunkToCheck.getEuclideanDistance(currentChunk);
+    if (Math.abs(distanceAway) < renderDistance)
+    {
+        return true;
+    }
+    return false;
+}
+
+
 let renderTableObjects = function ()
 {
 
 
-    for (let i = 0; i < savedObjects.length; i++)
+    for (let i = 0; i < mapDisplayItems.length; i++)
     {
-
-        let mapObjectTexture = new BABYLON.StandardMaterial("");
-        let image = savedObjects[i].image;
-        let imageURL = "data:image/png;base64," + image.base64ImageContents;
-        let loadedObjectTexture = new BABYLON.Texture(imageURL);
-        mapObjectTexture.diffuseTexture = loadedObjectTexture;
-        mapObjectTexture.backFaceCulling = false;//Allways show the front and the back of an element
-
-
-        let mapPin = BABYLON.MeshBuilder.CreatePlane("mapPin", {width: 4, height: 4});
-        mapPin.material = textures[mapIconOneImageName];
-        mapPin.rotation.x = Math.PI / 2;
-        mapPin.rotation.y = Math.PI * .5;
-        mapPin.position.x = savedObjects[i].location.x + 13;
-        mapPin.position.y = -1;
-        mapPin.position.z = savedObjects[i].location.z + 3;
-
-        let popUpSize = 32;
-        let mapImage = BABYLON.MeshBuilder.CreatePlane("mapImage", {width: 1, height: 1});
-        mapImage.material = mapObjectTexture;
-        mapImage.rotation.x = Math.PI / 2;
-        mapImage.rotation.y = Math.PI * 1.5;
-        mapImage.position.x = savedObjects[i].location.x + 8;
-        mapImage.position.y = -2;
-        mapImage.position.z = savedObjects[i].location.z + 8 - (popUpSize / 2) - 1;
-        mapImage.scaling.x = .001;
-        mapImage.scaling.z = .001;
-        addSquareXZAnimation(scene, mapPin, mapImage, popUpSize, 0);
-
+        let currentItem = mapDisplayItems[i];
+        if (shouldRender(currentItem.location))
+        {
+            currentItem.draw();
+        }
 
     }
 }

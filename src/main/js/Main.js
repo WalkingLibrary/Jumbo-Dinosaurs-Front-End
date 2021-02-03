@@ -24,6 +24,7 @@ scriptsList.push(new Script("util", "util/Animation.js"));
 scriptsList.push(new Script("util", "util/FileUtil.js"));
 scriptsList.push(new Script("util", "util/CSSUtil.js"));
 scriptsList.push(new Script("util", "util/GetUtil.js"));
+scriptsList.push(new Script("util", "util/CartesianUtil.js"));
 scriptsList.push(new Script("util", "general/CaptchaUtil.js"));
 scriptsList.push(new Script("util", "general/NavBar.js"));
 scriptsList.push(new Script("util", "general/InputUtil.js"));
