@@ -549,6 +549,7 @@ h1, h2, h3, h4, h5 {
 
 .tableDiv {
     width: 100%;
+    min-height: 50px;
     max-width: 200px;
     height: 20%;
     max-height: 100px;
