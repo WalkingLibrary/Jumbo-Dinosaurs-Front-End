@@ -55,9 +55,13 @@ let updateDimension = function ()
     updateMapView(true);
 }
 
+let objectTypes = ["MinecraftMapImage", "MinecraftMapDetail", "MinecraftJourneyMapChunkImage", "MinecraftLoadedChunk"];
+let mapObjectsHashMap = new Map();
+
+
 refreshTableSelector(tableDiv);
 let mapDisplayItems = [];
-let objectTypes = ["MinecraftMapImage", "MinecraftMapDetail"];
+
 
 let onTableSelection = function (table)
 {
@@ -66,113 +70,80 @@ let onTableSelection = function (table)
     let crudRequest = new CRUDRequest();
     crudRequest.tableID = table.id;
     crudRequest.tableName = table.name;
-    let objectType = "MinecraftMapImage"
-    crudRequest.objectType = objectType;
-    getMapObjectsRequest.setCRUDRequest(crudRequest);
-
-    let onResponse = function (xmlHttpRequest)
+    for (let j = 0; j < objectTypes.length; j++)
     {
-        mapDisplayItems = [];
-        let mapObjects = JSON.parse(xmlHttpRequest.responseText);
-        for (let i = 0; i < mapObjects.length; i++)
+
+        let objectType = objectTypes[j];
+        crudRequest.objectType = objectType;
+        getMapObjectsRequest.setCRUDRequest(crudRequest);
+
+        let onResponse = function (xmlHttpRequest)
         {
-            let currentMapObject = mapObjects[i];
-            if (currentMapObject.identifiers)
+            let mapObjects = JSON.parse(xmlHttpRequest.responseText);
+            for (let i = 0; i < mapObjects.length; i++)
             {
-                currentMapObject.type = "journeyMapChunkImage";
+                let currentMapObject = mapObjects[i];
+                currentMapObject.type = objectTypes[j];
+                if (currentMapObject.type === "MinecraftJourneyMapChunkImage")
+                {
+                    currentMapObject.draw = journeyMapImageDrawFunction;
+                }
+                mapDisplayItems.push(currentMapObject);
             }
-            currentMapObject.draw = getDrawFunction(currentMapObject);
-            mapDisplayItems.push(currentMapObject);
-        }
-        updateMapView(true);
-    };
-    sendPostRequest(getMapObjectsRequest, onResponse);
+            updateMapView(true);
+        };
+        sendPostRequest(getMapObjectsRequest, onResponse);
+    }
 }
 
 tableSelectedEventSubscribers.push(onTableSelection);
 
 
-let getDrawFunction = function (tableObject)
+let journeyMapImageDrawFunction = function ()
 {
-    /*let mapObjectTexture = new BABYLON.StandardMaterial("");
-            let image = currentItem.image;
-            let imageURL = "data:image/png;base64," + image.base64ImageContents;
-            let loadedObjectTexture = new BABYLON.Texture(imageURL);
-            mapObjectTexture.diffuseTexture = loadedObjectTexture;
-            mapObjectTexture.backFaceCulling = false;//Allways show the front and the back of an element
+    /*
+     * Process For Drawing a journeyMapChunkImage
+     *
+     * Create the Texture
+     *
+     * Create The Plane
+     *
+     * Add the Texture To The plane
+     *
+     * Correct The Planes Position
+     *
+     *
+     * */
 
 
-            let mapPin = BABYLON.MeshBuilder.CreatePlane("mapPin", {width: 4, height: 4});
-            mapPin.material = textures[mapIconOneImageName];
-            mapPin.rotation.x = Math.PI / 2;
-            mapPin.rotation.y = Math.PI * .5;
-            mapPin.position.x = currentItem.location.x;
-            mapPin.position.y = -1;
-            mapPin.position.z = currentItem.location.z;
+    // Create the Texture
+    let mapObjectTexture = new BABYLON.StandardMaterial();
+    let image = this.image;
+    let imageURL = "data:image/png;base64," + image.base64ImageContents;
+    let loadedObjectTexture = new BABYLON.Texture(imageURL);
+    mapObjectTexture.diffuseTexture = loadedObjectTexture;
+    mapObjectTexture.backFaceCulling = false;
 
-            let popUpSize = 32;
-            let mapImage = BABYLON.MeshBuilder.CreatePlane("mapImage", {width: 1, height: 1});
-            mapImage.material = mapObjectTexture;
-            mapImage.rotation.x = Math.PI / 2;
-            mapImage.rotation.y = Math.PI * 1.5;
-            mapImage.position.x = currentItem.location.x + 8;
-            mapImage.position.y = -2;
-            mapImage.position.z = currentItem.location.z + 8 - (popUpSize / 2) - 1;
-            mapImage.scaling.x = .001;
-            mapImage.scaling.z = .001;
-            addSquareXZAnimation(scene, mapPin, mapImage, popUpSize, 0);
-            */
+    //Create The Plane
+    let planeWidth, planeHeight;
+    planeHeight = 16;
+    planeWidth = 16;
+    let journeyMapChunkPlane = BABYLON.MeshBuilder.CreatePlane(this, {
+        width: planeWidth,
+        height: planeHeight
+    });
 
-    if (tableObject.type === "journeyMapChunkImage")
-    {
-        return function ()
-        {
-            /*
-             * Process For Drawing a journeyMapChunkImage
-             *
-             * Create the Texture
-             *
-             * Create The Plane
-             *
-             * Add the Texture To The plane
-             *
-             * Correct The Planes Position
-             *
-             *
-             * */
+    //Add the Texture To The plane
+    journeyMapChunkPlane.material = mapObjectTexture;
 
 
-            // Create the Texture
-            let mapObjectTexture = new BABYLON.StandardMaterial();
-            let image = tableObject.image;
-            let imageURL = "data:image/png;base64," + image.base64ImageContents;
-            let loadedObjectTexture = new BABYLON.Texture(imageURL);
-            mapObjectTexture.diffuseTexture = loadedObjectTexture;
-            mapObjectTexture.backFaceCulling = false;
-
-            //Create The Plane
-            let planeWidth, planeHeight;
-            planeHeight = 16;
-            planeWidth = 16;
-            let journeyMapChunkPlane = BABYLON.MeshBuilder.CreatePlane(tableObject, {
-                width: planeWidth,
-                height: planeHeight
-            });
-
-            //Add the Texture To The plane
-            journeyMapChunkPlane.material = mapObjectTexture;
-
-
-            //Correct The Planes Position
-            journeyMapChunkPlane.rotation.x = Math.PI / 2;
-            journeyMapChunkPlane.rotation.y = Math.PI * .5;
-            //Note: Planes Render From the Center so we need to offset the Planes to match the true location
-            journeyMapChunkPlane.position.x = tableObject.location.x + (planeHeight / 2);
-            journeyMapChunkPlane.position.y = -1;
-            journeyMapChunkPlane.position.z = tableObject.location.z + (planeWidth / 2);
-        }
-
-    }
+    //Correct The Planes Position
+    journeyMapChunkPlane.rotation.x = Math.PI / 2;
+    journeyMapChunkPlane.rotation.y = Math.PI * .5;
+    //Note: Planes Render From the Center so we need to offset the Planes to match the true location
+    journeyMapChunkPlane.position.x = this.location.x + (planeHeight / 2);
+    journeyMapChunkPlane.position.y = -1;
+    journeyMapChunkPlane.position.z = this.location.z + (planeWidth / 2);
 }
 
 
@@ -191,7 +162,7 @@ let updateMapView = function (forceUpdate)
     if (!forceUpdate)
     {
         /*I estimated a good scale factor from taking the amount of change vs the render distance at 64*/
-        let scaleFactor = (200 / 64);
+        let scaleFactor = (200 / 100);
 
         let axisRedrawThreshold = renderDistance * scaleFactor;
 
@@ -267,8 +238,8 @@ let initTextures = function ()
 let toChunkCoord = function (point3D)
 {
     let xCoord, zCoord;
-    xCoord = ((point3D.x - (point3D.x % 16)) / 16);
-    zCoord = ((point3D.z - (point3D.z % 16)) / 16);
+    xCoord = Math.floor(point3D.x / 16);
+    zCoord = Math.floor(point3D.z / 16);
     return new Point2D(xCoord, zCoord);
 }
 
@@ -282,12 +253,19 @@ let shouldRender = function (location)
 {
     let chunkToCheck = toChunkCoord(location);
     let currentChunk = toChunkCoord(camera.position);
-    let distanceAway = chunkToCheck.getEuclideanDistance(currentChunk);
-    if (Math.abs(distanceAway) < renderDistance)
+    let radius = Math.abs(renderDistance / 2);
+
+    if (Math.abs(chunkToCheck.x - currentChunk.x) > radius)
     {
-        return true;
+        return false;
     }
-    return false;
+
+    if (Math.abs(chunkToCheck.y - currentChunk.y) > radius)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -300,7 +278,10 @@ let renderTableObjects = function ()
         let currentItem = mapDisplayItems[i];
         if (shouldRender(currentItem.location))
         {
-            currentItem.draw();
+            if (currentItem.draw !== undefined)
+            {
+                currentItem.draw();
+            }
         }
 
     }
@@ -310,8 +291,9 @@ let drawDefaultChunks = function ()
 {
 
     let half = renderDistance / 2;
-    let xTranslation = ((Math.floor(cameraX)) - (Math.floor(cameraX) % 16)) * (1 / 16);
-    let zTranslation = ((Math.floor(cameraZ)) - (Math.floor(cameraZ) % 16)) * (1 / 16);
+
+    let xTranslation = Math.floor(cameraX / 16);
+    let zTranslation = Math.floor(cameraZ / 16);
 
     for (let i = -half + xTranslation; i < half + xTranslation; i++)
     {
@@ -323,9 +305,13 @@ let drawDefaultChunks = function ()
             newPlane.material = textures[defaultChunkImageName];
             newPlane.rotation.x = Math.PI / 2;
             newPlane.rotation.y = Math.PI * 1.5;
-            newPlane.position.x = (i * 16) + 8;
+
+
+            let x = (i * 16) + 8;
+            let z = (c * 16) + 8;
+            newPlane.position.x = x;
             newPlane.position.y = 0;
-            newPlane.position.z = (c * 16) + 8;
+            newPlane.position.z = z;
 
         }
     }
@@ -452,7 +438,7 @@ goButton.onclick = function ()
     let newCameraPosition = new BABYLON.Vector3(newX, minY, newZ);
     scene.activeCamera.position = newCameraPosition;
     updateCamVariables();
-    updateMapView();
+    updateMapView(true);
 
 }
 
