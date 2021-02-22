@@ -20,8 +20,8 @@ let lastDrawX = 0;
 let lastDrawZ = 0;
 let axisRedrawThreshold = 200;
 let renderDistance = 32;
-let maxY = -10;
-let minY = -800;//-400
+let maxY = 800;
+let minY = 10;//-400
 let dimension = 0;
 
 let tableDiv = document.getElementById("tablesDiv");
@@ -121,6 +121,7 @@ let journeyMapImageDrawFunction = function ()
     let image = this.image;
     let imageURL = "data:image/png;base64," + image.base64ImageContents;
     let loadedObjectTexture = new BABYLON.Texture(imageURL);
+    loadedObjectTexture.vScale = -1;
     mapObjectTexture.diffuseTexture = loadedObjectTexture;
     mapObjectTexture.backFaceCulling = false;
 
@@ -128,21 +129,18 @@ let journeyMapImageDrawFunction = function ()
     let planeWidth, planeHeight;
     planeHeight = 16;
     planeWidth = 16;
-    let journeyMapChunkPlane = BABYLON.MeshBuilder.CreatePlane(this, {
+    let journeyMapChunkPlane = BABYLON.MeshBuilder.CreateGround(this, {
         width: planeWidth,
         height: planeHeight
     });
-
     //Add the Texture To The plane
     journeyMapChunkPlane.material = mapObjectTexture;
 
-
     //Correct The Planes Position
-    journeyMapChunkPlane.rotation.x = Math.PI / 2;
-    journeyMapChunkPlane.rotation.y = Math.PI * .5;
+    // journeyMapChunkPlane.rotation.x = Math.PI / 2;
     //Note: Planes Render From the Center so we need to offset the Planes to match the true location
     journeyMapChunkPlane.position.x = this.location.x + (planeHeight / 2);
-    journeyMapChunkPlane.position.y = -1;
+    journeyMapChunkPlane.position.y = 0;
     journeyMapChunkPlane.position.z = this.location.z + (planeWidth / 2);
 }
 
@@ -300,17 +298,16 @@ let drawDefaultChunks = function ()
         for (let c = -half + zTranslation; c < half + zTranslation; c++)
         {
 
-            let newPlane = BABYLON.MeshBuilder.CreatePlane("plane", {width: 16, height: 16});
+            let newPlane = BABYLON.MeshBuilder.CreateGround("plane", {width: 16, height: 16});
 
             newPlane.material = textures[defaultChunkImageName];
-            newPlane.rotation.x = Math.PI / 2;
-            newPlane.rotation.y = Math.PI * 1.5;
-
+            newPlane.rotation.x = 0 - Math.PI;
+            newPlane.material.vScale = -1;
 
             let x = (i * 16) + 8;
             let z = (c * 16) + 8;
             newPlane.position.x = x;
-            newPlane.position.y = 0;
+            newPlane.position.y = -1;
             newPlane.position.z = z;
 
         }
@@ -326,19 +323,20 @@ let drawDefaultChunks = function ()
 let createScene = function ()
 {
     scene = new BABYLON.Scene(engine);
+    scene.useRightHandedSystem = true;
     scene.clearColor = new BABYLON.Color3(1, 1, 1);
-    camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(23, -100, 13), scene);
+    camera = new BABYLON.FreeCamera('FlyCamera', new BABYLON.Vector3(0, maxY, 0), scene);
 
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.inputs.clear();
     camera.inputs.addMouse();
-    camera.rotation.y = Math.PI * 1.5;
-    camera.rotation.z = Math.PI * .5;
-    camera.rotation.x = Math.PI * 1.5;
     initTextures();
     updateCamVariables();
     updateMapView(true);
-    scene.createDefaultLight();
+    let hemi1 = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, -1, 0), scene);
+    hemi1.intensity = 1;
+    hemi1.groundColor = new BABYLON.Color3(1, 1, 1);
+    hemi1.specular = BABYLON.Color3.Black();
     return scene;
 
 }
@@ -464,7 +462,7 @@ let initBabylonFunction = function ()
                 break;
             case BABYLON.PointerEventTypes.POINTERWHEEL:
                 let previousPosition = scene.activeCamera.position;
-                let newY = previousPosition.y - event.deltaY;
+                let newY = previousPosition.y + event.deltaY;
                 if (newY > maxY)
                 {
                     newY = maxY;
