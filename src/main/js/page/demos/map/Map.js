@@ -84,10 +84,7 @@ let onTableSelection = function (table)
             {
                 let currentMapObject = mapObjects[i];
                 currentMapObject.type = objectTypes[j];
-                if (currentMapObject.type === "MinecraftJourneyMapChunkImage")
-                {
-                    currentMapObject.draw = journeyMapImageDrawFunction;
-                }
+                setDrawFunction(currentMapObject);
                 mapDisplayItems.push(currentMapObject);
             }
             updateMapView(true);
@@ -97,6 +94,65 @@ let onTableSelection = function (table)
 }
 
 tableSelectedEventSubscribers.push(onTableSelection);
+
+let setDrawFunction = function (mapObject)
+{
+    if (mapObject.type === "MinecraftJourneyMapChunkImage")
+    {
+        mapObject.draw = journeyMapImageDrawFunction;
+        return;
+    }
+
+
+    if (mapObject.type === "MinecraftLoadedChunk")
+    {
+        mapObject.draw = loadedChunkDrawFunction;
+    }
+}
+
+let loadedChunkDrawFunction = function ()
+{
+    /* Process for Drawing a Loaded Chunk
+     *
+     * Check if you should draw loaded chunks
+     *
+     * Create the Plane
+     *
+     * Add the Texture To The plane
+     *
+     * Correct The Planes Position
+     *
+     *  */
+
+    //Check if you should draw loaded chunks
+    if (!loadedChunks.value)
+    {
+        return;
+    }
+
+
+    //Create The Plane
+    let planeWidth, planeHeight;
+    planeHeight = 16;
+    planeWidth = 16;
+    let journeyMapChunkPlane = BABYLON.MeshBuilder.CreateGround(this, {
+        width: planeWidth,
+        height: planeHeight
+    });
+
+    console.log("Drawing Loaded Chunk at " + this.location.x + ", " + this.location.z);
+
+    //Add the Texture To The plane
+    journeyMapChunkPlane.material = textures[loadedChunkImageName];
+
+    //Correct The Planes Position
+    // journeyMapChunkPlane.rotation.x = Math.PI / 2;
+    //Note: Planes Render From the Center so we need to offset the Planes to match the true location
+    journeyMapChunkPlane.position.x = this.location.x + (planeHeight / 2);
+    journeyMapChunkPlane.position.y = 0.5;
+    journeyMapChunkPlane.position.z = this.location.z + (planeWidth / 2);
+
+}
 
 
 let journeyMapImageDrawFunction = function ()
@@ -221,6 +277,7 @@ let initTextures = function ()
     let loadedChunkMaterial = new BABYLON.StandardMaterial("");
     loadedChunkMaterial.diffuseTexture = new BABYLON.Texture(resourceLoader[loadedChunkImageName]);
     loadedChunkMaterial.backFaceCulling = false;
+    loadedChunkMaterial.diffuseTexture.hasAlpha = true;
     textures[loadedChunkImageName] = loadedChunkMaterial;
 
     let mapPinMaterial = new BABYLON.StandardMaterial("");
@@ -270,7 +327,12 @@ let shouldRender = function (location)
 let renderTableObjects = function ()
 {
 
-
+    /* Table Objects are all stored in the mapDisplayItems
+     * their Draw Functions are defined when loaded from the Webserver
+     * Their Draw Function depends on the type of object they are.
+     * Polymorphism
+     *
+     *  */
     for (let i = 0; i < mapDisplayItems.length; i++)
     {
         let currentItem = mapDisplayItems[i];

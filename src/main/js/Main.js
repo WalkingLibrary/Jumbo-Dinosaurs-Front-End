@@ -2,10 +2,11 @@ const host = window.location.protocol + "//" + window.location.hostname + "/";
 
 class Script
 {
-    constructor(page, source)
+    constructor(page, source, dependencies)
     {
         this.page = page;
         this.source = source;
+        this.dependencies = dependencies;
     }
 }
 
